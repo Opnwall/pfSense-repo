@@ -1,4 +1,9 @@
-# Opnwall pfSense Community Repository
+<div align="center">
+  <a href="README.md">中文</a> |
+  <a href="README.US.md">English</a>
+</div>
+
+# pfSense Community Repository
 
 An unofficial community plugin repository for pfSense CE and pfSense Plus on amd64.
 
