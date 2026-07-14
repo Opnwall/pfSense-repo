@@ -5,7 +5,7 @@
 
 # pfSense Community Repository
 
-**pfSense Community Repository** 是一个面向 pfSense CE 与 pfSense Plus 的社区软件仓库，提供一系列开源、高质量的第三方插件，可通过系统原生 `pkg` 包管理器安装。
+这是一个面向 pfSense CE 与 pfSense Plus 的社区软件仓库，提供一系列开源、高质量的第三方插件，可通过系统原生 `pkg` 包管理器安装。
 
 ## 支持平台
 
@@ -34,7 +34,7 @@ pkg update -f
 
 使用 `pkg search pfSense-pkg-` 查看插件，使用 `pkg install <软件包名>` 安装。
 
-### 安装补丁
+### 补丁安装
 
 pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`，并隐藏来源不是官方仓库的已安装插件。执行以下一条命令，可以让“可用软件包”和“已安装的软件包”同时显示所有已启用仓库中的插件：
 
