@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Opnwall community plugins for pfSense CE and pfSense Plus.">
-  <title>Opnwall pfSense Community Repository</title>
+  <title>pfSense Community Repository</title>
   <style>
     :root{--brand:#285d86;--dark:#173a55;--bg:#f4f7f9;--panel:#fff;--line:#d8e1e8;--text:#18232c;--muted:#60717e}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--brand)}
@@ -15,27 +15,68 @@
   </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Opnwall pfSense Community Repository</h1><p class="tag">Community plugins for pfSense CE and pfSense Plus</p><div class="switch"><button class="active" data-target="zh">简体中文</button><button data-target="en">English</button></div></div></header>
+<header><div class="wrap"><h1>pfSense Community Repository</h1><p class="tag">Community plugins for pfSense CE and pfSense Plus</p><div class="switch"><button class="active" data-target="zh">简体中文</button><button data-target="en">English</button></div></div></header>
 <main class="wrap">
 <div data-lang="zh" class="active">
-  <section class="card"><h2>支持平台</h2><p>已在 pfSense CE 2.8.1（FreeBSD 15）和 pfSense Plus 26.03.1（FreeBSD 16）的 amd64 主机上测试。</p></section>
-  <section class="card"><h2>安装</h2><h3>pfSense CE</h3><pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
-pkg update -f</pre><h3>pfSense Plus</h3><pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
-pkg update -f</pre><p>使用 <code class="inline">pkg search pfSense-pkg-</code> 查看插件。</p></section>
-  <section class="card"><h2>插件</h2><p>AdGuard Home、静态 ARP、DDNS-Go、中文汉化、Lucky、Mihomo、sing-box 和 ttyd。</p><p><a href="https://github.com/Opnwall/pfSense-repo/tree/main/src">查看完整源码</a></p></section>
+  <section class="card"><h2>支持平台</h2><p>已在 pfSense CE 2.8.1（FreeBSD 15）和 pfSense Plus 26.03.1（FreeBSD 16）的 amd64 主机上测试通过。</p></section>
+  <section class="card">
+
+    <h2>安装方法</h2>
+
+    <h3>pfSense CE</h3>
+<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
+https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
+pkg update -f</pre>
+
+    <h3>pfSense Plus</h3>
+<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
+https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+pkg update -f</pre>
+
+    <h3>补丁安装</h3>
+<pre>fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh</pre>
+
+    <p>安装完成后，刷新浏览器，即可在插件列表看到所有的社区插件。</p>
+  </section>
+  <section class="card"><h2>插件列表</h2><p>AdGuard Home、静态 ARP、DDNS-Go、中文汉化、Lucky、Mihomo、sing-box 和 ttyd。</p><p><a href="https://github.com/Opnwall/pfSense-repo/tree/main/src">查看完整源码</a></p></section>
   <section class="card"><div class="notice">这是非官方社区仓库。安装第三方软件包前请备份配置，并优先在非生产环境测试。</div></section>
 </div>
 <div data-lang="en">
-  <section class="card"><h2>Supported platforms</h2><p>Tested on pfSense CE 2.8.1 (FreeBSD 15) and pfSense Plus 26.03.1 (FreeBSD 16), amd64.</p></section>
-  <section class="card"><h2>Installation</h2><h3>pfSense CE</h3><pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
-pkg update -f</pre><h3>pfSense Plus</h3><pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
-pkg update -f</pre><p>Run <code class="inline">pkg search pfSense-pkg-</code> to list plugins.</p></section>
-  <section class="card"><h2>Plugins</h2><p>AdGuard Home, static ARP, DDNS-Go, Chinese localization, Lucky, Mihomo, sing-box and ttyd.</p><p><a href="https://github.com/Opnwall/pfSense-repo/tree/main/src">Browse complete source code</a></p></section>
-  <section class="card"><div class="notice">This is an unofficial community repository. Back up the firewall configuration and test third-party packages outside production first.</div></section>
+  <section class="card">
+    <h2>Platforms</h2>
+    <p>Verified on <strong>pfSense CE 2.8.1</strong> (FreeBSD 15, PHP 8.3) and <strong>pfSense Plus 26.03.1</strong> (FreeBSD 16, PHP 8.5) running on amd64 systems.</p>
+  </section>
+
+  <section class="card">
+    <h2>Installation</h2>
+
+    <h3>pfSense CE</h3>
+<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
+https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
+pkg update -f</pre>
+
+    <h3>pfSense Plus</h3>
+<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
+https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+pkg update -f</pre>
+
+    <h3>Patch Installation</h3>
+<pre>fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh</pre>
+
+    <p>After installation, refresh your browser to view all community plugins in the plugin list.</p>
+  </section>
+
+  <section class="card">
+    <h2>Available Packages</h2>
+    <p>Current packages include <strong>AdGuard Home</strong>, <strong>Static ARP</strong>, <strong>DDNS-Go</strong>, <strong>Chinese Localization</strong>, <strong>Lucky</strong>, <strong>Mihomo</strong>, <strong>sing-box</strong> and <strong>ttyd</strong>.</p>
+    <p><a href="https://github.com/Opnwall/pfSense-repo/tree/main/src">Browse the complete source code on GitHub</a></p>
+  </section>
+
+  <section class="card">
+    <div class="notice">
+      This is an <strong>unofficial community repository</strong> and is not affiliated with Netgate or the pfSense project. Always back up your firewall configuration and validate third-party packages in a non-production environment before deployment.
+    </div>
+  </section>
 </div>
 </main>
 <script>document.querySelectorAll('.switch button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-lang]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('active'));document.querySelector('[data-lang="'+b.dataset.target+'"]').classList.add('active');b.classList.add('active')}));</script>
