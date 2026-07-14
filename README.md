@@ -1,4 +1,10 @@
-# Opnwall pfSense Community Repository
+<div align="center">
+  <a href="README.md">中文</a> |
+  <a href="README.US.md">English</a>
+</div>
+
+
+# pfSense Community Repository
 
 面向 pfSense CE 与 pfSense Plus amd64 系统的非官方社区插件仓库。
 
