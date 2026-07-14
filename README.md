@@ -5,6 +5,12 @@
 
 # pfSense Community Repository
 
+![pfSense CE](https://img.shields.io/badge/pfSense_CE-005AA0?logo=pfsense&logoColor=white)
+![pfSense Plus](https://img.shields.io/badge/pfSense_Plus-00A86B)
+![FreeBSD](https://img.shields.io/badge/FreeBSD-15%20%7C%2016-red?logo=freebsd)
+![amd64](https://img.shields.io/badge/Architecture-amd64-success)
+![License](https://img.shields.io/badge/License-Community-blue)
+
 pfSense CE 与 pfSense Plus 社区软件仓库，提供一系列开源、高质量的第三方插件，可通过系统原生 `pkg` 包管理器安装。
 
 ## 支持平台
