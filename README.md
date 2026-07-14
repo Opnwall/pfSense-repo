@@ -29,6 +29,16 @@ pkg update -f
 
 使用 `pkg search pfSense-pkg-` 查看插件，使用 `pkg install <软件包名>` 安装。
 
+### 在 WebGUI 插件列表显示社区插件
+
+pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`。执行以下一条命令，可以让“系统 > 软件包管理器 > 可用软件包”查询所有已启用仓库：
+
+```sh
+fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
+```
+
+脚本会备份 `/etc/inc/pkg-utils.inc`、验证修改结果并刷新 WebGUI。pfSense 固件更新可能覆盖该修改，升级后可重新执行相同命令。
+
 ## 插件
 
 | 软件包 | 版本 | 说明 |

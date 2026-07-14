@@ -29,6 +29,16 @@ pkg update -f
 
 Use `pkg search pfSense-pkg-` to list plugins and `pkg install <package-name>` to install one.
 
+### Show community plugins in the WebGUI package list
+
+pfSense normally queries only its official repository for `pfSense-pkg-*`. Run this single command to make System > Package Manager > Available Packages query all enabled repositories:
+
+```sh
+fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
+```
+
+The script backs up `/etc/inc/pkg-utils.inc`, validates the result and refreshes the WebGUI. A pfSense firmware upgrade may overwrite this change; run the same command again after upgrading.
+
 ## Packages
 
 | Package | Version | Description |
