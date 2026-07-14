@@ -16,7 +16,7 @@
 
 ## 安装方法
 
-pfSense CE：
+### pfSense CE：
 
 ```sh
 fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
@@ -24,7 +24,7 @@ fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
 pkg update -f
 ```
 
-pfSense Plus：
+### pfSense Plus：
 
 ```sh
 fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
@@ -34,7 +34,7 @@ pkg update -f
 
 使用 `pkg search pfSense-pkg-` 查看插件，使用 `pkg install <软件包名>` 安装。
 
-补丁安装
+### 补丁安装
 
 pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`，并隐藏来源不是官方仓库的已安装插件。执行以下一条命令，可以让“可用软件包”和“已安装的软件包”同时显示所有已启用仓库中的插件：
 
