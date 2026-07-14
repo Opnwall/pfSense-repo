@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>adguardhome</name>
+    <descr><![CDATA[AdGuard Home DNS filtering integration for pfSense.]]></descr>
+    <version>1.0</version>
+    <configurationfile>adguardhome.xml</configurationfile>
+  </package>
+</pfsensepkgs>

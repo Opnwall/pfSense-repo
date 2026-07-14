@@ -1,0 +1,81 @@
+#!/bin/sh
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+
+case "$ABI" in
+  FreeBSD:15:amd64|FreeBSD:16:amd64)
+    echo "===> Detected supported pfSense ABI: $ABI"
+    ;;
+  *)
+    echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
+    echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.1), FreeBSD:16:amd64 (pfSense Plus 26.03)" >&2
+    exit 1
+    ;;
+esac
+
+echo "===> Enabling mihomo rc service"
+mkdir -p /etc/rc.conf.d
+printf '%s\n' 'mihomo_enable="YES"' > /etc/rc.conf.d/mihomo
+touch /var/log/mihomo.log /var/log/mihomo_sub.log 2>/dev/null || true
+if [ -f /usr/local/etc/mihomo/config.yaml ] && grep -qE "^secret:[[:space:]]*(''|\"\"|123456)?[[:space:]]*$" /usr/local/etc/mihomo/config.yaml; then
+    generated_secret="$(openssl rand -hex 32)"
+    sed -i '' "s/^secret:.*/secret: ${generated_secret}/" /usr/local/etc/mihomo/config.yaml
+fi
+chmod 0644 /usr/local/etc/mihomo/config.yaml 2>/dev/null || true
+chmod 0600 /usr/local/etc/mihomo/sub/env 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+echo "===> Registering pfSense package metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'Mihomo',
+    'section' => 'VPN',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'mihomo',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'mihomo',
+]);
+
+if (!install_package_xml('mihomo')) {
+    fwrite(STDERR, "Failed to register mihomo package XML\n");
+    exit(1);
+}
+PHP
+fi
+
+echo "===> Starting mihomo service"
+service mihomo start >/dev/null 2>&1 || true
+
+cat <<'EOF'
+
+Mihomo for pfSense has been installed!
+EOF

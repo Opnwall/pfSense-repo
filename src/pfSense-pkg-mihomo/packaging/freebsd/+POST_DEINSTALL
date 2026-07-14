@@ -1,0 +1,57 @@
+#!/bin/sh
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Removing mihomo pfSense menu and package metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'Mihomo',
+    'section' => 'VPN',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'mihomo',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'mihomo',
+]);
+
+write_config('Removed mihomo package metadata');
+PHP
+fi
+
+if [ -x /etc/rc.filter_configure ]; then
+    echo "===> Reloading firewall rules"
+    /etc/rc.filter_configure >/dev/null 2>&1 || true
+fi
+
+echo "===> Scheduling mihomo residual file cleanup"
+(
+    sleep 3
+    rm -rf /usr/local/etc/mihomo
+    rm -f /etc/rc.conf.d/mihomo
+) >/dev/null 2>&1 &

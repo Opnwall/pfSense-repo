@@ -1,0 +1,121 @@
+#!/bin/sh
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+
+case "$ABI" in
+  FreeBSD:15:amd64|FreeBSD:16:amd64)
+    echo "===> Detected supported pfSense ABI: $ABI"
+    ;;
+  *)
+    echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
+    echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.1), FreeBSD:16:amd64 (pfSense Plus 26.03)" >&2
+    exit 1
+    ;;
+esac
+
+echo "===> Configuring pfSense-pkg-adguardhome"
+
+if [ ! -x /usr/local/bin/AdGuardHome ]; then
+    echo "pkg: missing AdGuard Home binary: /usr/local/bin/AdGuardHome" >&2
+    exit 1
+fi
+
+mkdir -p /etc/rc.conf.d /usr/local/etc/adguardhome /var/db/adguardhome
+printf '%s\n' 'adguardhome_enable="YES"' > /etc/rc.conf.d/adguardhome
+touch /var/log/adguardhome.log 2>/dev/null || true
+chmod 700 /var/db/adguardhome 2>/dev/null || true
+chmod 600 /var/log/adguardhome.log 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Registering AdGuard Home startup shellcmd"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+$cmd = 'service adguardhome start';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+
+if (!is_array($shellcmds)) {
+    $shellcmds = [];
+}
+
+$shellcmds = array_values(array_filter($shellcmds, function($entry) use ($cmd) {
+    if (!is_array($entry)) {
+        return true;
+    }
+    return ($entry['cmd'] ?? '') !== $cmd;
+}));
+$shellcmds[] = [
+    'cmd' => $cmd,
+    'cmdtype' => 'shellcmd',
+    'description' => 'Start AdGuard Home on boot',
+];
+
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+    require_once('/usr/local/pkg/shellcmd.inc');
+    if (function_exists('shellcmd_sync_package')) {
+        shellcmd_sync_package();
+    }
+} else {
+    config_set_path('system/shellcmd', [$cmd]);
+}
+
+write_config('Register AdGuard Home startup shellcmd');
+PHP
+fi
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+echo "===> Registering pfSense GUI metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'AdGuard Home',
+    'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'adguardhome',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'adguardhome',
+]);
+
+if (!install_package_xml('adguardhome')) {
+    fwrite(STDERR, "Failed to register adguardhome package XML\n");
+    exit(1);
+}
+PHP
+fi
+
+cat <<'EOF'
+
+AdGuard Home for pfSense has been installed.
+Open Services > AdGuard Home or http://<pfsense-host>:3000/ to complete the first-run wizard.
+EOF

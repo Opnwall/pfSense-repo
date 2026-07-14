@@ -1,0 +1,4 @@
+AdGuard Home DNS filtering integration for pfSense.
+
+This package installs the AdGuard Home binary, rc.d service, pfSense GUI page,
+log viewer, and pfSense package GUI metadata.

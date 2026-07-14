@@ -1,0 +1,114 @@
+#!/bin/sh
+
+# PROVIDE: mihomo
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="mihomo"
+rcvar=mihomo_enable
+log_file="/var/log/mihomo.log"
+
+command=/usr/sbin/daemon
+command_args="-P /var/run/mihomo.pid -r -f -o $log_file -t mihomo:daemon /usr/local/bin/mihomo -d /usr/local/etc/mihomo/"
+
+pidfile=/var/run/${name}.pid
+
+start_precmd=mihomo_prestart
+start_cmd=mihomo_start
+stop_cmd=mihomo_stop
+status_cmd=mihomo_status
+
+
+
+: "${mihomo_enable:=NO}"
+
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> $log_file
+}
+
+mihomo_wait_for_tun()
+{
+    i=0
+    while [ "$i" -lt 20 ]; do
+        if ifconfig tun_mihomo >/dev/null 2>&1; then
+            return 0
+        fi
+        sleep 1
+        i=$((i + 1))
+    done
+    return 1
+}
+
+mihomo_reload_filter()
+{
+    if [ -x /etc/rc.filter_configure ]; then
+        /etc/rc.filter_configure >/dev/null 2>&1 || true
+    fi
+}
+
+mihomo_prestart()
+{
+    touch "$log_file"
+    rm -f "$pidfile"
+    if service sing-box status >/dev/null 2>&1; then
+        log_message "Refusing to start: sing-box is already running and owns transparent routing."
+        return 1
+    fi
+}
+
+mihomo_status()
+{
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+        echo "${name} is running as pid $(cat "$pidfile")."
+        return 0
+    else
+        echo "${name} is not running."
+        return 1
+    fi
+}
+
+mihomo_start()
+{
+    log_message "Starting ${name}..."
+    # shellcheck disable=SC2086
+    $command $command_args
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+        log_message "${name} failed to start with exit code ${rc}."
+        return "$rc"
+    fi
+    if [ -f "$pidfile" ]; then
+        log_message "${name} started with pid $(cat "$pidfile")."
+    else
+        log_message "${name} start command completed, but pid file was not created."
+        return 1
+    fi
+    if mihomo_wait_for_tun; then
+        log_message "tun_mihomo detected, reloading filter rules."
+        mihomo_reload_filter
+    else
+        log_message "tun_mihomo was not detected after startup."
+    fi
+}
+
+mihomo_stop()
+{
+    log_message "Stopping ${name}..."
+    if [ -f "$pidfile" ]; then
+        daemon_pid="$(cat "$pidfile" 2>/dev/null)"
+        if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+            pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+            kill -TERM "$daemon_pid" 2>/dev/null || return 1
+        fi
+        rm -f "$pidfile"
+        log_message "${name} stopped."
+    else
+        log_message "No ${name} pid file found."
+    fi
+    mihomo_reload_filter
+}
+
+load_rc_config mihomo
+run_rc_command "$1"

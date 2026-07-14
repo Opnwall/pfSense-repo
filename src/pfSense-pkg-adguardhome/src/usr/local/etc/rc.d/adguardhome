@@ -1,0 +1,108 @@
+#!/bin/sh
+
+# PROVIDE: adguardhome
+# REQUIRE: NETWORKING routing
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="adguardhome"
+rcvar="adguardhome_enable"
+
+adguardhome_bin="/usr/local/bin/AdGuardHome"
+adguardhome_config="/usr/local/etc/adguardhome/AdGuardHome.yaml"
+adguardhome_workdir="/var/db/adguardhome"
+adguardhome_webaddr="${adguardhome_webaddr:-0.0.0.0:3000}"
+log_file="/var/log/adguardhome.log"
+pidfile="/var/run/adguardhome.pid"
+
+command="/usr/sbin/daemon"
+command_args="-P ${pidfile} -r -f -o ${log_file} -t adguardhome:daemon ${adguardhome_bin} -c ${adguardhome_config} -w ${adguardhome_workdir} --web-addr ${adguardhome_webaddr} --pidfile ${pidfile}.app --no-check-update -l ${log_file}"
+
+start_precmd="adguardhome_prestart"
+start_cmd="adguardhome_start"
+stop_cmd="adguardhome_stop"
+status_cmd="adguardhome_status"
+restart_cmd="adguardhome_restart"
+
+: "${adguardhome_enable:=NO}"
+
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$log_file"
+}
+
+adguardhome_prestart()
+{
+    mkdir -p "$(dirname "$adguardhome_config")" "$adguardhome_workdir"
+    touch "$log_file"
+    chmod 700 "$adguardhome_workdir" 2>/dev/null || true
+    chmod 600 "$log_file" 2>/dev/null || true
+    rm -f "$pidfile" "${pidfile}.app"
+
+    if [ ! -x "$adguardhome_bin" ]; then
+        log_message "AdGuard Home binary not found or not executable: ${adguardhome_bin}"
+        return 1
+    fi
+}
+
+adguardhome_status()
+{
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+        echo "AdGuard Home is running as pid $(cat "$pidfile")."
+        return 0
+    fi
+
+    if pgrep -f "${adguardhome_bin}" >/dev/null 2>&1; then
+        echo "AdGuard Home is running."
+        return 0
+    fi
+
+    echo "AdGuard Home is not running."
+    return 1
+}
+
+adguardhome_start()
+{
+    log_message "Starting AdGuard Home..."
+    # shellcheck disable=SC2086
+    $command $command_args
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+        log_message "AdGuard Home failed to start with exit code ${rc}."
+        return "$rc"
+    fi
+
+    sleep 2
+    adguardhome_status >/dev/null
+}
+
+adguardhome_stop()
+{
+    log_message "Stopping AdGuard Home..."
+    if [ -f "$pidfile" ]; then
+        daemon_pid="$(cat "$pidfile" 2>/dev/null)"
+        if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+            pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+            kill -TERM "$daemon_pid" 2>/dev/null || true
+        fi
+        rm -f "$pidfile"
+    fi
+    if [ -f "${pidfile}.app" ]; then
+        app_pid="$(cat "${pidfile}.app" 2>/dev/null)"
+        if [ -n "$app_pid" ] && kill -0 "$app_pid" 2>/dev/null; then
+            kill -TERM "$app_pid" 2>/dev/null || true
+        fi
+        rm -f "${pidfile}.app"
+    fi
+    pkill -TERM -f "${adguardhome_bin}" 2>/dev/null || true
+}
+
+adguardhome_restart()
+{
+    adguardhome_stop
+    sleep 1
+    adguardhome_start
+}
+
+load_rc_config "$name"
+run_rc_command "$1"

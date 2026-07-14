@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <name>pfSense-pkg-ddns-go</name>
+  <version>1.0</version>
+  <title>DDNS-Go</title>
+  <descr>DDNS-Go dynamic DNS client integration for pfSense.</descr>
+  <website>https://github.com/jeessy2/ddns-go</website>
+</package>

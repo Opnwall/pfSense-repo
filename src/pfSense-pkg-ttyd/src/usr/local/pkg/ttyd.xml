@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>ttyd</name>
+  <title>Diagnostics: ttyd</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/ttyd.inc</include_file>
+  <aftersaveredirect>/diag_ttyd.php</aftersaveredirect>
+  <menu>
+    <name>ttyd</name>
+    <section>Diagnostics</section>
+    <url>/diag_ttyd.php</url>
+  </menu>
+  <service>
+    <name>ttyd</name>
+    <rcfile>ttyd</rcfile>
+    <executable>ttyd</executable>
+    <description>ttyd browser terminal</description>
+  </service>
+  <fields>
+    <field>
+      <fielddescr>Listen address</fielddescr>
+      <fieldname>interface</fieldname>
+      <description>Address used by ttyd. Use a trusted management or LAN address when possible.</description>
+      <type>input</type>
+      <default_value>0.0.0.0</default_value>
+    </field>
+    <field>
+      <fielddescr>Listen port</fielddescr>
+      <fieldname>port</fieldname>
+      <description>Browser terminal HTTPS/WebSocket port. The service uses the pfSense WebGUI certificate.</description>
+      <type>input</type>
+      <default_value>7681</default_value>
+    </field>
+  </fields>
+  <custom_php_install_command>ttyd_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>ttyd_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>ttyd_resync_config();</custom_php_resync_config_command>
+  <start_command>ttyd_start();</start_command>
+</packagegui>

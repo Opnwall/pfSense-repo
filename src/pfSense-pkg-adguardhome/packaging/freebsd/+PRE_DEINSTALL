@@ -1,0 +1,72 @@
+#!/bin/sh
+
+echo "===> Stopping AdGuard Home"
+service adguardhome stop >/dev/null 2>&1 || true
+pkill -TERM -f '/usr/local/bin/AdGuardHome' 2>/dev/null || true
+rm -f /var/run/adguardhome.pid
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Removing AdGuard Home pfSense menu and package metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'AdGuard Home',
+    'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'adguardhome',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'adguardhome',
+]);
+
+$shellcmd = 'service adguardhome start';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+
+if (!is_array($shellcmds)) {
+    $shellcmds = [];
+}
+
+$shellcmds = array_values(array_filter($shellcmds, function($entry) use ($shellcmd) {
+    if (!is_array($entry)) {
+        return true;
+    }
+    return ($entry['cmd'] ?? '') !== $shellcmd;
+}));
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+    require_once('/usr/local/pkg/shellcmd.inc');
+    if (function_exists('shellcmd_sync_package')) {
+        shellcmd_sync_package();
+    }
+}
+
+write_config('Removed AdGuard Home package metadata');
+PHP
+fi

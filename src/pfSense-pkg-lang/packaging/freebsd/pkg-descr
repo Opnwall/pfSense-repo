@@ -1,0 +1,4 @@
+Localization Patch for pfSense adds a WebGUI page for downloading and applying
+the pfchina.org Chinese localization package. It installs the page, menu entry
+and default language-package list; localization files are applied explicitly by
+the administrator after version validation.

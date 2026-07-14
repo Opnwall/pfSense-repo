@@ -1,0 +1,132 @@
+#!/bin/sh
+
+# PROVIDE: sing_box
+# REQUIRE: NETWORKING routing
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="sing_box"
+rcvar="sing_box_enable"
+
+sing_box_bin="/usr/local/bin/sing-box"
+sing_box_config="/usr/local/etc/sing-box/config.json"
+log_file="/var/log/sing-box.log"
+
+command="/usr/sbin/daemon"
+command_args="-P /var/run/sing-box.pid -r -f -o ${log_file} -t sing-box:daemon ${sing_box_bin} run -c ${sing_box_config}"
+pidfile="/var/run/sing-box.pid"
+
+start_precmd="sing_box_prestart"
+start_cmd="sing_box_start"
+stop_cmd="sing_box_stop"
+status_cmd="sing_box_status"
+
+: "${sing_box_enable:=NO}"
+
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$log_file"
+}
+
+sing_box_wait_for_tun()
+{
+    i=0
+    while [ "$i" -lt 20 ]; do
+        if ifconfig tun_singbox >/dev/null 2>&1; then
+            return 0
+        fi
+        sleep 1
+        i=$((i + 1))
+    done
+    return 1
+}
+
+sing_box_reload_filter()
+{
+    if [ -x /etc/rc.filter_configure ]; then
+        /etc/rc.filter_configure >/dev/null 2>&1 || true
+    fi
+}
+
+sing_box_prestart()
+{
+    touch "$log_file"
+    rm -f "$pidfile"
+
+    if service mihomo status >/dev/null 2>&1; then
+        log_message "Refusing to start: mihomo is already running and owns transparent routing."
+        return 1
+    fi
+
+    if [ ! -x "$sing_box_bin" ]; then
+        log_message "sing-box binary not found or not executable: ${sing_box_bin}"
+        return 1
+    fi
+
+    if [ ! -f "$sing_box_config" ]; then
+        log_message "sing-box config not found: ${sing_box_config}"
+        return 1
+    fi
+
+    if ! "$sing_box_bin" check -c "$sing_box_config" >> "$log_file" 2>&1; then
+        log_message "sing-box config check failed before startup: ${sing_box_config}"
+        return 1
+    fi
+}
+
+sing_box_status()
+{
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+        echo "sing-box is running as pid $(cat "$pidfile")."
+        return 0
+    fi
+
+    echo "sing-box is not running."
+    return 1
+}
+
+sing_box_start()
+{
+    log_message "Starting sing-box..."
+    # shellcheck disable=SC2086
+    $command $command_args
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+        log_message "sing-box failed to start with exit code ${rc}."
+        return "$rc"
+    fi
+
+    if [ -f "$pidfile" ]; then
+        log_message "sing-box started with pid $(cat "$pidfile")."
+    else
+        log_message "sing-box start command completed, but pid file was not created."
+        return 1
+    fi
+
+    if sing_box_wait_for_tun; then
+        log_message "tun_singbox detected, reloading filter rules."
+        sing_box_reload_filter
+    else
+        log_message "tun_singbox was not detected after startup."
+    fi
+}
+
+sing_box_stop()
+{
+    log_message "Stopping sing-box..."
+    if [ -f "$pidfile" ]; then
+        daemon_pid="$(cat "$pidfile" 2>/dev/null)"
+        if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+            pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+            kill -TERM "$daemon_pid" 2>/dev/null || return 1
+        fi
+        rm -f "$pidfile"
+        log_message "sing-box stopped."
+    else
+        log_message "No sing-box pid file found."
+    fi
+    sing_box_reload_filter
+}
+
+load_rc_config "$name"
+run_rc_command "$1"

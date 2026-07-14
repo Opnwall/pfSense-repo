@@ -1,0 +1,93 @@
+#!/bin/sh
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+
+case "$ABI" in
+	FreeBSD:15:amd64|FreeBSD:16:amd64)
+		echo "===> Detected supported pfSense ABI: $ABI"
+		;;
+	*)
+		echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
+		echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.x), FreeBSD:16:amd64" >&2
+		exit 1
+		;;
+esac
+
+echo "===> Preparing DDNS-Go runtime"
+mkdir -p /etc/rc.conf.d /usr/local/etc/ddns-go
+chmod 0755 /usr/local/bin/ddns-go /usr/local/etc/rc.d/ddnsgo /usr/local/etc/rc.d/ddnsgo.sh 2>/dev/null || true
+if [ ! -f /usr/local/etc/ddns-go/config.yaml ]; then
+	install -m 0600 /usr/local/share/pfSense-pkg-ddns-go/config.yaml.sample /usr/local/etc/ddns-go/config.yaml
+fi
+printf '%s\n' \
+	'ddnsgo_enable="YES"' \
+	'ddnsgo_config="/usr/local/etc/ddns-go/config.yaml"' \
+	'ddnsgo_listen=":9876"' \
+	'ddnsgo_interval="300"' \
+	'ddnsgo_extra_args=""' \
+	> /etc/rc.conf.d/ddnsgo
+service ddnsgo enable >/dev/null 2>&1 || true
+touch /var/log/ddnsgo.log 2>/dev/null || true
+chmod 0600 /var/log/ddnsgo.log 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	echo "===> Registering pfSense package metadata"
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function remove_entries_by_match($path, $matches) {
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		return;
+	}
+
+	$entries = array_values(array_filter($entries, function($entry) use ($matches) {
+		if (!is_array($entry)) {
+			return true;
+		}
+
+		foreach ($matches as $key => $value) {
+			if (($entry[$key] ?? null) !== $value) {
+				return true;
+			}
+		}
+
+		return false;
+	}));
+
+	config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+	'name' => 'DDNS-GO',
+	'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/menu', [
+	'name' => 'DDNS-Go',
+	'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/service', [
+	'name' => 'ddnsgo',
+]);
+remove_entries_by_match('installedpackages/package', [
+	'name' => 'ddnsgo',
+]);
+
+install_package_xml('ddnsgo');
+
+write_config('Register DDNS-Go package');
+PHP
+fi
+
+echo "===> Starting DDNS-Go service"
+service ddnsgo onerestart >/dev/null 2>&1 || service ddnsgo onestart >/dev/null 2>&1 || true
+
+if service ddnsgo onestatus >/dev/null 2>&1; then
+	echo "===> DDNS-Go for pfSense installed. Refresh the browser and open Services > DDNS-Go."
+else
+	echo "===> Installed, but DDNS-Go did not report running. Check /var/log/ddnsgo.log." >&2
+fi
+
+exit 0

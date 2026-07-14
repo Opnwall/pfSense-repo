@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>sing_box</name>
+  <title>VPN: Sing-Box</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/sing_box.inc</include_file>
+  <aftersaveredirect>/sing-box.php</aftersaveredirect>
+  <menu>
+    <name>Sing-Box</name>
+    <section>VPN</section>
+    <url>/sing-box.php</url>
+  </menu>
+  <service>
+    <name>sing-box</name>
+    <rcfile>sing-box</rcfile>
+    <executable>sing-box</executable>
+    <description>Proxy Service</description>
+  </service>
+  <custom_php_install_command>sing_box_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>sing_box_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>sing_box_resync_config();</custom_php_resync_config_command>
+  <start_command>sing_box_start();</start_command>
+  <custom_php_service_status_command>sing_box_service_status();</custom_php_service_status_command>
+  <filter_rules_needed>sing_box_generate_rules</filter_rules_needed>
+</packagegui>

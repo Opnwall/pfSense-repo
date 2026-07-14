@@ -1,0 +1,85 @@
+#!/bin/sh
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+
+case "$ABI" in
+	FreeBSD:15:amd64|FreeBSD:16:amd64)
+		echo "===> Detected supported pfSense ABI: $ABI"
+		;;
+	*)
+		echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
+		echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.x), FreeBSD:16:amd64" >&2
+		exit 1
+		;;
+esac
+
+echo "===> Preparing Lucky runtime"
+mkdir -p /etc/rc.conf.d /usr/local/etc/lucky
+chmod 0755 /usr/local/bin/lucky /usr/local/etc/rc.d/lucky 2>/dev/null || true
+printf '%s\n' \
+	'lucky_enable="YES"' \
+	'lucky_conf_dir="/usr/local/etc/lucky"' \
+	'lucky_http_port="16601"' \
+	'lucky_extra_args=""' \
+	> /etc/rc.conf.d/lucky
+touch /var/log/lucky.log 2>/dev/null || true
+chmod 0600 /var/log/lucky.log 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	echo "===> Registering pfSense package metadata"
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function remove_entries_by_match($path, $matches) {
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		return;
+	}
+
+	$entries = array_values(array_filter($entries, function($entry) use ($matches) {
+		if (!is_array($entry)) {
+			return true;
+		}
+
+		foreach ($matches as $key => $value) {
+			if (($entry[$key] ?? null) !== $value) {
+				return true;
+			}
+		}
+
+		return false;
+	}));
+
+	config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+	'name' => 'Lucky',
+	'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/service', [
+	'name' => 'lucky',
+]);
+remove_entries_by_match('installedpackages/package', [
+	'name' => 'lucky',
+]);
+
+if (!install_package_xml('lucky')) {
+	fwrite(STDERR, "failed to register lucky package XML\n");
+	exit(1);
+}
+PHP
+fi
+
+echo "===> Starting Lucky service"
+service lucky onerestart >/dev/null 2>&1 || service lucky onestart >/dev/null 2>&1 || true
+
+if service lucky onestatus >/dev/null 2>&1; then
+	echo "===> Lucky for pfSense installed. Refresh the browser and open Services > Lucky."
+else
+	echo "===> Installed, but Lucky did not report running. Check /var/log/lucky.log." >&2
+fi
+
+exit 0

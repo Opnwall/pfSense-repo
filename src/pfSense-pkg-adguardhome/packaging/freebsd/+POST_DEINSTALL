@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "===> Scheduling AdGuard Home residual file cleanup"
+(
+    sleep 3
+    rm -rf /usr/local/etc/adguardhome
+    rm -rf /var/db/adguardhome
+    rm -f /etc/rc.conf.d/adguardhome
+    rm -f /var/log/adguardhome.log
+) >/dev/null 2>&1 &

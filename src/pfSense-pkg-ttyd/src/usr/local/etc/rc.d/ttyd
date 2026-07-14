@@ -1,0 +1,123 @@
+#!/bin/sh
+
+# PROVIDE: ttyd
+# REQUIRE: NETWORKING sshd
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="ttyd"
+rcvar="ttyd_enable"
+
+load_rc_config "$name"
+
+: "${ttyd_enable:=YES}"
+: "${ttyd_port:=7681}"
+: "${ttyd_interface:=0.0.0.0}"
+: "${ttyd_base_path:=/}"
+: "${ttyd_command:=printf \"login: \"; read -r ttyd_login; if [ -z \"\$ttyd_login\" ]; then echo \"login is required\"; exit 1; fi; exec /usr/bin/ssh -tt -p 22 -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no -o ServerAliveInterval=30 -o StrictHostKeyChecking=accept-new \"\$ttyd_login@127.0.0.1\"}"
+
+pidfile="/var/run/${name}.pid"
+logfile="/var/log/${name}.log"
+webgui_nginx_conf="/var/etc/nginx-webConfigurator.conf"
+webgui_default_cert_file="/var/etc/cert.crt"
+webgui_default_key_file="/var/etc/cert.key"
+command="/usr/sbin/daemon"
+ttyd_bin="/usr/local/pfSense-pkg-ttyd/bin/ttyd"
+ttyd_env="env LD_LIBRARY_PATH=/usr/local/pfSense-pkg-ttyd/lib:/usr/local/lib"
+
+start_precmd="${name}_prestart"
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+ttyd_use_webgui_cert()
+{
+	webgui_cert_file=""
+	webgui_key_file=""
+
+	if [ -r "$webgui_nginx_conf" ]; then
+		webgui_cert_file="$(awk '$1 == "ssl_certificate" {gsub(/;$/, "", $2); print $2; exit}' "$webgui_nginx_conf")"
+		webgui_key_file="$(awk '$1 == "ssl_certificate_key" {gsub(/;$/, "", $2); print $2; exit}' "$webgui_nginx_conf")"
+	fi
+
+	if [ -z "$webgui_cert_file" ] || [ -z "$webgui_key_file" ]; then
+		webgui_cert_file="$webgui_default_cert_file"
+		webgui_key_file="$webgui_default_key_file"
+	fi
+
+	if [ -r "$webgui_cert_file" ] && [ -r "$webgui_key_file" ]; then
+		cert_file="$webgui_cert_file"
+		key_file="$webgui_key_file"
+		return 0
+	fi
+
+	return 1
+}
+
+ttyd_prestart()
+{
+	if [ ! -x "$ttyd_bin" ]; then
+		if [ -x /usr/local/bin/ttyd ]; then
+			ttyd_bin="/usr/local/bin/ttyd"
+		else
+			echo "ttyd is not installed. Install it with: pkg install -y ttyd"
+			return 1
+		fi
+	fi
+
+	if ! service sshd onestatus >/dev/null 2>&1; then
+		echo "sshd is not running. Enable Secure Shell in System > Advanced > Admin Access."
+		return 1
+	fi
+
+	if ! ttyd_use_webgui_cert; then
+		echo "pfSense WebGUI certificate was not found. Restart the WebGUI or check /var/etc/cert.crt and /var/etc/cert.key."
+		return 1
+	fi
+
+	touch "$logfile"
+	chmod 0600 "$logfile"
+	rm -f "$pidfile"
+}
+
+ttyd_start()
+{
+	# shellcheck disable=SC2086
+	$command -P "$pidfile" -r -f -o "$logfile" -t "${name}:daemon" \
+		$ttyd_env "$ttyd_bin" \
+		--interface "$ttyd_interface" \
+		--port "$ttyd_port" \
+		--base-path "$ttyd_base_path" \
+		--ssl \
+		--ssl-cert "$cert_file" \
+		--ssl-key "$key_file" \
+		--writable \
+		--terminal-type xterm-256color \
+		sh -c "$ttyd_command"
+}
+
+ttyd_stop()
+{
+	if [ -f "$pidfile" ]; then
+		daemon_pid="$(cat "$pidfile" 2>/dev/null)"
+		if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+			pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+			kill -TERM "$daemon_pid" 2>/dev/null || true
+		fi
+		rm -f "$pidfile"
+	fi
+}
+
+ttyd_status()
+{
+	if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "$pidfile")."
+		return 0
+	fi
+
+	echo "${name} is not running."
+	return 1
+}
+
+run_rc_command "$1"

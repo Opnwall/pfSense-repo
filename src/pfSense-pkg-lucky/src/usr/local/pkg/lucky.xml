@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>lucky</name>
+  <title>Services: Lucky</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/lucky.inc</include_file>
+  <aftersaveredirect>/lucky.php</aftersaveredirect>
+  <menu>
+    <name>Lucky</name>
+    <section>Services</section>
+    <url>/lucky.php</url>
+  </menu>
+  <service>
+    <name>lucky</name>
+    <rcfile>lucky</rcfile>
+    <executable>lucky</executable>
+    <description>Lucky network toolbox</description>
+  </service>
+  <custom_php_install_command>lucky_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>lucky_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>lucky_resync_config();</custom_php_resync_config_command>
+  <start_command>lucky_start();</start_command>
+  <custom_php_service_status_command>lucky_service_status();</custom_php_service_status_command>
+</packagegui>

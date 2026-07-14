@@ -1,0 +1,56 @@
+#!/bin/sh
+
+echo "===> Stopping mihomo"
+if [ -f /var/run/mihomo.pid ]; then
+    daemon_pid="$(cat /var/run/mihomo.pid 2>/dev/null || true)"
+    if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+        pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+        kill -TERM "$daemon_pid" 2>/dev/null || true
+    fi
+    rm -f /var/run/mihomo.pid
+fi
+pkill -TERM -f '/usr/local/bin/mihomo' 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Removing mihomo pfSense menu and package metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'Mihomo',
+    'section' => 'VPN',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'mihomo',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'mihomo',
+]);
+
+write_config('Removed mihomo package metadata');
+PHP
+fi

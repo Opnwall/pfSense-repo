@@ -1,0 +1,126 @@
+#!/bin/sh
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	echo "===> Registering Static IP Binding package metadata"
+	if ! php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function staticarp_remove_entries_by_match($path, $matches) {
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		return;
+	}
+
+	$entries = array_values(array_filter($entries, function($entry) use ($matches) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		foreach ($matches as $key => $value) {
+			if (($entry[$key] ?? null) !== $value) {
+				return true;
+			}
+		}
+		return false;
+	}));
+
+	config_set_path($path, $entries);
+}
+
+staticarp_remove_entries_by_match('installedpackages/menu', [
+	'name' => 'IP&MAC',
+	'section' => 'Services',
+]);
+staticarp_remove_entries_by_match('installedpackages/menu', [
+	'name' => 'Static IP Binding',
+	'section' => 'Services',
+]);
+staticarp_remove_entries_by_match('installedpackages/menu', [
+	'name' => 'Static Binding',
+	'section' => 'Services',
+]);
+staticarp_remove_entries_by_match('installedpackages/menu', [
+	'name' => '静态绑定',
+	'section' => 'Services',
+]);
+staticarp_remove_entries_by_match('installedpackages/menu', [
+	'name' => '靜態綁定',
+	'section' => 'Services',
+]);
+staticarp_remove_entries_by_match('installedpackages/package', [
+	'name' => 'staticarp',
+]);
+
+function staticarp_language() {
+	global $config;
+
+	$candidates = [];
+	if (isset($config['system']['language'])) {
+		$candidates[] = $config['system']['language'];
+	}
+	$candidates[] = config_get_path('system/language', null);
+	foreach ($candidates as $language) {
+		$language = strtolower(str_replace('-', '_', trim((string)$language)));
+		if ($language !== '') {
+			return $language;
+		}
+	}
+	return 'en_us';
+}
+
+$language = staticarp_language();
+if (in_array($language, ['zh_cn', 'zh_hans', 'zh_hans_cn'], true) || strpos($language, 'zh_cn') === 0 || strpos($language, 'zh_hans') === 0) {
+	$menu_name = '静态绑定';
+} elseif (in_array($language, ['zh_tw', 'zh_hant', 'zh_hant_tw'], true) || strpos($language, 'zh_tw') === 0 || strpos($language, 'zh_hant') === 0) {
+	$menu_name = '靜態綁定';
+} else {
+	$menu_name = 'Static Binding';
+}
+$menus = config_get_path('installedpackages/menu', []);
+if (is_array($menus)) {
+	foreach ($menus as $idx => $menu) {
+		if (is_array($menu) && (($menu['url'] ?? '') === '/services_arp.php')) {
+			$menus[$idx]['name'] = $menu_name;
+		}
+	}
+	config_set_path('installedpackages/menu', $menus);
+}
+$menus = config_get_path('installedpackages/menu', []);
+if (!is_array($menus)) {
+	$menus = [];
+}
+$exists = false;
+foreach ($menus as $menu) {
+	if (is_array($menu) && (($menu['url'] ?? '') === '/services_arp.php')) {
+		$exists = true;
+		break;
+	}
+}
+if (!$exists) {
+	$menus[] = [
+		'name' => $menu_name,
+		'section' => 'Services',
+		'url' => '/services_arp.php',
+	];
+	config_set_path('installedpackages/menu', $menus);
+}
+write_config('Register Static IP Binding package');
+PHP
+	then
+		echo "===> Failed to register Static IP Binding package metadata" >&2
+		exit 1
+	fi
+	echo "===> Static Binding package metadata registered"
+fi
+
+mkdir -p /usr/local/etc/staticarp
+chmod 0755 /usr/local/sbin/staticarpctl 2>/dev/null || true
+[ -f /usr/local/etc/staticarp/settings.conf ] || printf '%s\n' 'enabled=NO' > /usr/local/etc/staticarp/settings.conf
+[ -f /usr/local/etc/staticarp/entries.conf ] || : > /usr/local/etc/staticarp/entries.conf
+[ -f /usr/local/etc/staticarp/interfaces.conf ] || : > /usr/local/etc/staticarp/interfaces.conf
+chmod 0644 /usr/local/etc/staticarp/settings.conf /usr/local/etc/staticarp/entries.conf /usr/local/etc/staticarp/interfaces.conf 2>/dev/null || true
+rm -f /tmp/config.cache
+
+echo "===> Static Binding for pfSense installed. Refresh the browser and open Services > Static Binding."
+exit 0

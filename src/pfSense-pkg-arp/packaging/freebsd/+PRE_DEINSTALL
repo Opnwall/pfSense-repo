@@ -1,0 +1,16 @@
+#!/bin/sh
+
+INTERFACES_FILE="/usr/local/etc/staticarp/interfaces.conf"
+
+if [ -r "$INTERFACES_FILE" ]; then
+	while IFS= read -r line; do
+		case "$line" in
+			''|\#*) continue ;;
+		esac
+		device="$(printf '%s\n' "$line" | awk '{print $2}')"
+		[ -n "$device" ] || continue
+		ifconfig "$device" arp -staticarp 2>/dev/null || true
+	done < "$INTERFACES_FILE"
+fi
+
+exit 0

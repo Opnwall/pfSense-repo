@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>ddnsgo</name>
+  <title>Services: DDNS-Go</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/ddnsgo.inc</include_file>
+  <aftersaveredirect>/services_ddnsgo.php</aftersaveredirect>
+  <menu>
+    <name>DDNS-Go</name>
+    <section>Services</section>
+    <url>/services_ddnsgo.php</url>
+  </menu>
+  <service>
+    <name>ddnsgo</name>
+    <rcfile>ddnsgo</rcfile>
+    <executable>ddns-go</executable>
+    <description>DDNS-Go dynamic DNS client</description>
+  </service>
+  <custom_php_install_command>ddnsgo_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>ddnsgo_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>ddnsgo_resync_config();</custom_php_resync_config_command>
+  <start_command>ddnsgo_start();</start_command>
+  <custom_php_service_status_command>ddnsgo_service_status();</custom_php_service_status_command>
+</packagegui>

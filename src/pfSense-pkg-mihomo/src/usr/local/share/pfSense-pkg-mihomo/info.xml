@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>mihomo</name>
+    <descr><![CDATA[Mihomo proxy integration for pfSense.]]></descr>
+    <version>1.0</version>
+    <configurationfile>mihomo.xml</configurationfile>
+  </package>
+</pfsensepkgs>

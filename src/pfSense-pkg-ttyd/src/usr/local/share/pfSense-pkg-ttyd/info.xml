@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>ttyd</name>
+    <descr><![CDATA[ttyd for pfSense.]]></descr>
+    <version>1.0</version>
+    <configurationfile>ttyd.xml</configurationfile>
+  </package>
+</pfsensepkgs>

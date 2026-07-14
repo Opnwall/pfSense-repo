@@ -1,0 +1,11 @@
+ttyd for pfSense adds a Diagnostics menu entry that embeds a browser terminal.
+
+The terminal backend is ttyd, and the shell session first prompts for a login
+name, then runs ssh -tt to 127.0.0.1:22. This keeps the
+interactive shell behind pfSense SSH authentication while still supporting
+full TTY behavior such as editors, pagers, Ctrl-C, job control, and curses
+programs.
+
+The bundled ttyd runtime is installed privately under
+/usr/local/pfSense-pkg-ttyd, and HTTPS uses the pfSense WebGUI certificate
+instead of generating a separate ttyd certificate.

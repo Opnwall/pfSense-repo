@@ -1,0 +1,4 @@
+sing-box proxy integration for pfSense.
+
+This package installs the sing-box binary, pfSense GUI pages, rc.d service,
+default configuration, subscription helper, and pfSense package GUI metadata.

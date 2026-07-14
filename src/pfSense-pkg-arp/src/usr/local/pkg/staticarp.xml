@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>staticarp</name>
+  <title>Services: Static Binding</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/staticarp.inc</include_file>
+  <aftersaveredirect>/services_arp.php</aftersaveredirect>
+  <menu>
+    <name>Static Binding</name>
+    <section>Services</section>
+    <url>/services_arp.php</url>
+  </menu>
+  <custom_php_install_command>staticarp_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>staticarp_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>staticarp_resync_config();</custom_php_resync_config_command>
+</packagegui>

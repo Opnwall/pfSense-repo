@@ -1,0 +1,88 @@
+#!/bin/sh
+
+echo "===> Stopping sing-box"
+if [ -f /var/run/sing-box.pid ]; then
+    daemon_pid="$(cat /var/run/sing-box.pid 2>/dev/null || true)"
+    if [ -n "$daemon_pid" ] && kill -0 "$daemon_pid" 2>/dev/null; then
+        pkill -TERM -P "$daemon_pid" 2>/dev/null || true
+        kill -TERM "$daemon_pid" 2>/dev/null || true
+    fi
+    rm -f /var/run/sing-box.pid
+fi
+pkill -TERM -f '/usr/local/bin/sing-box' 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Removing sing-box pfSense menu and package metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'Sing-Box',
+    'section' => 'VPN',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'sing-box',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'sing_box',
+]);
+
+$shellcmd = 'service sing-box start';
+$old_shellcmd = '/usr/local/etc/rc.syshook.d/start/99-sing-box';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+
+if (!is_array($shellcmds)) {
+    $shellcmds = [];
+}
+
+$shellcmds = array_values(array_filter($shellcmds, function($entry) use ($shellcmd, $old_shellcmd) {
+    if (!is_array($entry)) {
+        return true;
+    }
+    return ($entry['cmd'] ?? '') !== $shellcmd && ($entry['cmd'] ?? '') !== $old_shellcmd;
+}));
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+    require_once('/usr/local/pkg/shellcmd.inc');
+    if (function_exists('shellcmd_sync_package')) {
+        shellcmd_sync_package();
+    }
+} else {
+    $system_shellcmds = config_get_path('system/shellcmd', []);
+    if (!is_array($system_shellcmds)) {
+        $system_shellcmds = [];
+    }
+    $system_shellcmds = array_values(array_filter($system_shellcmds, function($entry) use ($shellcmd, $old_shellcmd) {
+        return $entry !== $shellcmd && $entry !== $old_shellcmd;
+    }));
+    config_set_path('system/shellcmd', $system_shellcmds);
+}
+
+write_config('Removed sing-box package metadata');
+PHP
+fi

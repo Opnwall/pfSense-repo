@@ -1,0 +1,2 @@
+DDNS-Go is a dynamic DNS client with a small web interface. This package adds
+pfSense service management, menu registration, and a WebGUI control page.

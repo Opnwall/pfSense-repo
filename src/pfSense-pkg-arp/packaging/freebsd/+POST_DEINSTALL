@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+if (is_array($config['security'] ?? null)) {
+	unset($config['security']['arp']);
+}
+if (is_array($config['installedpackages']['menu'] ?? null)) {
+	$config['installedpackages']['menu'] = array_values(array_filter($config['installedpackages']['menu'], function($entry) {
+		return !is_array($entry) || (($entry['url'] ?? '') !== '/services_arp.php');
+	}));
+}
+if (is_array($config['installedpackages']['package'] ?? null)) {
+	$config['installedpackages']['package'] = array_values(array_filter($config['installedpackages']['package'], function($entry) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		return !in_array(($entry['name'] ?? ''), ['staticarp', 'pfSense-pkg-Static-arp', 'pfSense-pkg-arp'], true);
+	}));
+}
+if (is_array($config['interfaces'] ?? null)) {
+	foreach ($config['interfaces'] as $interfacename => $interface) {
+		if (is_array($interface)) {
+			unset($config['interfaces'][$interfacename]['arp']);
+		}
+	}
+}
+
+if (function_exists('delete_package_xml')) {
+	delete_package_xml('staticarp');
+}
+
+write_config('Remove Static IP Binding package configuration');
+PHP
+fi
+
+rm -f /usr/local/share/pfSense/menu/pfSense-Services_staticarp.xml
+rm -rf /usr/local/etc/staticarp
+rm -f /tmp/config.cache
+exit 0

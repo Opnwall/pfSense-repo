@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>sing_box</name>
+    <descr><![CDATA[sing-box proxy integration for pfSense.]]></descr>
+    <version>1.0</version>
+    <configurationfile>sing_box.xml</configurationfile>
+  </package>
+</pfsensepkgs>

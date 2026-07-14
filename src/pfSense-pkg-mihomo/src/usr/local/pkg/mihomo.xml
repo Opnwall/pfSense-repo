@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>mihomo</name>
+  <title>VPN: Mihomo</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/mihomo.inc</include_file>
+  <aftersaveredirect>/mihomo.php</aftersaveredirect>
+  <menu>
+    <name>Mihomo</name>
+    <section>VPN</section>
+    <url>/mihomo.php</url>
+  </menu>
+  <service>
+    <name>mihomo</name>
+    <rcfile>mihomo</rcfile>
+    <executable>mihomo</executable>
+    <description>Proxy Service</description>
+  </service>
+  <custom_php_install_command>mihomo_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>mihomo_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>mihomo_resync_config();</custom_php_resync_config_command>
+  <start_command>mihomo_start();</start_command>
+  <custom_php_service_status_command>mihomo_service_status();</custom_php_service_status_command>
+  <filter_rules_needed>mihomo_generate_rules</filter_rules_needed>
+</packagegui>

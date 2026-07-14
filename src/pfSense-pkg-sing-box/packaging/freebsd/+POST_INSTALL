@@ -1,0 +1,166 @@
+#!/bin/sh
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+
+case "$ABI" in
+  FreeBSD:15:amd64|FreeBSD:16:amd64)
+    echo "===> Detected supported pfSense ABI: $ABI"
+    ;;
+  *)
+    echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
+    echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.1), FreeBSD:16:amd64 (pfSense Plus 26.03)" >&2
+    exit 1
+    ;;
+esac
+
+echo "===> Configuring pfSense-pkg-sing-box"
+
+if [ ! -x /usr/local/bin/sing-box ]; then
+    echo "pkg: missing sing-box binary: /usr/local/bin/sing-box" >&2
+    exit 1
+fi
+
+mkdir -p /etc/rc.conf.d
+printf '%s\n' 'sing_box_enable="YES"' > /etc/rc.conf.d/sing_box
+touch /var/log/sing-box.log /var/log/sing-box_sub.log 2>/dev/null || true
+
+if grep -q '"secret": "CHANGE_ME_ON_INSTALL"' /usr/local/etc/sing-box/config.json 2>/dev/null; then
+    generated_secret="$(openssl rand -hex 32)"
+    sed -i '' "s/\"secret\": \"CHANGE_ME_ON_INSTALL\"/\"secret\": \"${generated_secret}\"/" /usr/local/etc/sing-box/config.json
+fi
+
+chmod 644 /usr/local/etc/sing-box/config.json 2>/dev/null || true
+chmod 600 /usr/local/etc/sing-box/sub/env 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Configuring Unbound DNS Resolver"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/services.inc');
+
+global $config;
+
+if (!is_array($config['unbound'] ?? null)) {
+    $config['unbound'] = [];
+}
+
+$config['unbound']['enable'] = '';
+$config['unbound']['forwarding'] = '';
+$config['unbound']['active_interface'] = 'all';
+$config['unbound']['outgoing_interface'] = 'all';
+$config['unbound']['port'] = '53';
+$config['unbound']['custom_options'] = base64_encode(
+    "server:\n" .
+    "    do-not-query-localhost: no\n" .
+    "forward-zone:\n" .
+    "    name: \".\"\n" .
+    "    forward-addr: 127.0.0.1@5353\n"
+);
+unset($config['unbound']['dnssec']);
+unset($config['unbound']['dnssecstripped']);
+unset($config['unbound']['forward_tls_upstream']);
+
+write_config('Forward public DNS from Unbound to sing-box split DNS');
+
+if (function_exists('services_unbound_configure')) {
+    services_unbound_configure();
+}
+PHP
+fi
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Registering sing-box startup shellcmd"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+$cmd = 'service sing-box start';
+$old_cmd = '/usr/local/etc/rc.syshook.d/start/99-sing-box';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+
+if (!is_array($shellcmds)) {
+    $shellcmds = [];
+}
+
+$shellcmds = array_values(array_filter($shellcmds, function($entry) use ($cmd, $old_cmd) {
+    if (!is_array($entry)) {
+        return true;
+    }
+    return ($entry['cmd'] ?? '') !== $cmd && ($entry['cmd'] ?? '') !== $old_cmd;
+}));
+$shellcmds[] = [
+    'cmd' => $cmd,
+    'cmdtype' => 'shellcmd',
+    'description' => 'Start sing-box on boot',
+];
+
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+    require_once('/usr/local/pkg/shellcmd.inc');
+    if (function_exists('shellcmd_sync_package')) {
+        shellcmd_sync_package();
+    }
+} else {
+    config_set_path('system/shellcmd', [$cmd]);
+}
+
+write_config('Register sing-box startup shellcmd');
+PHP
+fi
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+echo "===> Registering pfSense GUI metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+function remove_entries_by_match($path, $matches) {
+    $entries = config_get_path($path, []);
+    if (!is_array($entries)) {
+        return;
+    }
+
+    $entries = array_values(array_filter($entries, function($entry) use ($matches) {
+        if (!is_array($entry)) {
+            return true;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (($entry[$key] ?? null) !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }));
+
+    config_set_path($path, $entries);
+}
+
+remove_entries_by_match('installedpackages/menu', [
+    'name' => 'Sing-Box',
+    'section' => 'VPN',
+]);
+remove_entries_by_match('installedpackages/service', [
+    'name' => 'sing-box',
+]);
+remove_entries_by_match('installedpackages/package', [
+    'name' => 'sing_box',
+]);
+
+if (!install_package_xml('sing_box')) {
+    fwrite(STDERR, "Failed to register sing_box package XML\n");
+    exit(1);
+}
+PHP
+fi
+
+echo "===> Starting sing-box"
+service sing-box restart >/dev/null 2>&1 || true
+cat <<'EOF'
+
+Sing-box for pfSense has been installed!
+EOF

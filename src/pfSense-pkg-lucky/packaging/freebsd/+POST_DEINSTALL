@@ -1,0 +1,43 @@
+#!/bin/sh
+
+rm -f /etc/rc.conf.d/lucky /var/log/lucky.log
+
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+function remove_entries_by_match($path, $matches) {
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		return;
+	}
+
+	$entries = array_values(array_filter($entries, function($entry) use ($matches) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		foreach ($matches as $key => $value) {
+			if (($entry[$key] ?? null) !== $value) {
+				return true;
+			}
+		}
+		return false;
+	}));
+
+	config_set_path($path, $entries);
+	write_config('Remove Lucky package metadata');
+}
+
+remove_entries_by_match('installedpackages/menu', [
+	'name' => 'Lucky',
+	'section' => 'Services',
+]);
+remove_entries_by_match('installedpackages/service', [
+	'name' => 'lucky',
+]);
+remove_entries_by_match('installedpackages/package', [
+	'name' => 'lucky',
+]);
+PHP
+
+exit 0

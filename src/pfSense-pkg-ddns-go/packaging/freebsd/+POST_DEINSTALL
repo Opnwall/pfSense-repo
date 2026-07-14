@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+if (function_exists('delete_package_xml')) {
+	delete_package_xml('ddnsgo');
+}
+PHP
+fi
+
+rm -f \
+	/etc/rc.conf.d/ddnsgo \
+	/var/log/ddnsgo.log \
+	/var/run/ddnsgo.pid \
+	/usr/local/share/pfSense/menu/pfSense-Services_ddnsgo.xml
+rm -rf /usr/local/etc/ddns-go
+exit 0

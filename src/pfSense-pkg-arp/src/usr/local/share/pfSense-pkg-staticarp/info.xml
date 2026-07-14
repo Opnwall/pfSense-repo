@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>staticarp</name>
+    <version>1.0</version>
+    <title>Static Binding</title>
+    <configurationfile>staticarp.xml</configurationfile>
+    <descr>Static IP and MAC binding integration for pfSense.</descr>
+    <website>https://pfschina.org</website>
+  </package>
+</pfsensepkgs>

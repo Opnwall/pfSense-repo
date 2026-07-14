@@ -1,0 +1,38 @@
+#!/bin/sh
+
+echo "===> Preparing Localization Patch for pfSense"
+mkdir -p /var/lang
+chmod 0644 \
+	/usr/local/www/lang_update.php \
+	/usr/local/share/pfSense/menu/pfSense-System_lang.xml \
+	/var/lang/list 2>/dev/null || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+echo "===> Removing legacy pfSense menu metadata"
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+$menu_name = chr(0xe6) . chr(0xb1) . chr(0x89) . chr(0xe5) . chr(0x8c) . chr(0x96) .
+    chr(0xe8) . chr(0xa1) . chr(0xa5) . chr(0xe4) . chr(0xb8) . chr(0x81);
+$menu = config_get_path('installedpackages/menu', []);
+if (is_array($menu)) {
+    $filtered_menu = array_values(array_filter($menu, function ($entry) {
+        global $menu_name;
+        if (!is_array($entry)) {
+            return true;
+        }
+        $is_lang_menu = (($entry['name'] ?? null) === $menu_name && ($entry['section'] ?? null) === 'System') ||
+            (($entry['url'] ?? null) === '/lang_update.php');
+        return !$is_lang_menu;
+    }));
+    if ($filtered_menu !== $menu) {
+        config_set_path('installedpackages/menu', $filtered_menu);
+        write_config('Removed legacy pfSense localization patch menu');
+    }
+}
+PHP
+fi
+
+echo "===> Localization Patch for pfSense installed. Refresh the browser and open System > Localization Patch."
+exit 0

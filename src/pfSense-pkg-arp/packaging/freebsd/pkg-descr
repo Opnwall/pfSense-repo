@@ -1,0 +1,1 @@
+Static IP Binding for pfSense adds a Services page for managing IP and MAC address ARP bindings without replacing pfSense core WebGUI files.

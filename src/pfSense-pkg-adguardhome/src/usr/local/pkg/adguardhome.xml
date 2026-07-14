@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>adguardhome</name>
+  <title>Services: AdGuard Home</title>
+  <version>1.0</version>
+  <include_file>/usr/local/pkg/adguardhome.inc</include_file>
+  <aftersaveredirect>/adguardhome.php</aftersaveredirect>
+  <menu>
+    <name>AdGuard Home</name>
+    <section>Services</section>
+    <url>/adguardhome.php</url>
+  </menu>
+  <service>
+    <name>adguardhome</name>
+    <rcfile>adguardhome</rcfile>
+    <executable>AdGuardHome</executable>
+    <description>DNS filtering service</description>
+  </service>
+  <custom_php_install_command>adguardhome_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>adguardhome_php_deinstall_command();</custom_php_deinstall_command>
+  <start_command>adguardhome_start();</start_command>
+  <custom_php_service_status_command>adguardhome_service_status();</custom_php_service_status_command>
+</packagegui>

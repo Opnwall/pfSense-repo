@@ -1,0 +1,3 @@
+Lucky for pfSense integrates the Lucky network toolbox with the pfSense
+WebGUI and service system. Lucky provides DDNS, ACME certificate automation,
+reverse proxy, port forwarding, Wake-on-LAN and related network utilities.
