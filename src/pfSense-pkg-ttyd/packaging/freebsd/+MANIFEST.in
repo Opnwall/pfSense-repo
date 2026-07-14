@@ -1,5 +1,6 @@
 name: "@PKG_NAME@"
 origin: "@ORIGIN@"
+categories: [ "sysutils" ]
 version: "@VERSION@"
 comment: "@COMMENT@"
 maintainer: "@MAINTAINER@"
