@@ -5,7 +5,7 @@
 
 # pfSense Community Repository
 
-这是一个面向 pfSense CE 与 pfSense Plus 的社区软件仓库，提供一系列开源、高质量的第三方插件，可通过系统原生 `pkg` 包管理器安装。
+pfSense CE 与 pfSense Plus 社区软件仓库，提供一系列开源、高质量的第三方插件，可通过系统原生 `pkg` 包管理器安装。
 
 ## 支持平台
 
@@ -46,7 +46,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 
 ## 插件列表
 
-| 软件包 | 版本 | 说明 |
+| 软件包 | 版本 | 描述 |
 | --- | --- | --- |
 | `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS 过滤集成 |
 | `pfSense-pkg-arp` | 1.0.1 | 静态 IP/MAC 绑定 |
@@ -64,7 +64,7 @@ rm -f /usr/local/etc/pkg/repos/opnwall.conf
 pkg update -f
 ```
 
-该操作不会卸载已经安装的插件。
+删除仓库操作不会卸载已经安装的插件。
 
 ## 插件源码
 
