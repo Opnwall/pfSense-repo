@@ -31,7 +31,7 @@ Use `pkg search pfSense-pkg-` to list plugins and `pkg install <package-name>` t
 
 ### Show community plugins in the WebGUI package list
 
-pfSense normally queries only its official repository for `pfSense-pkg-*`. Run this single command to make System > Package Manager > Available Packages query all enabled repositories:
+pfSense normally queries only its official repository for `pfSense-pkg-*` and hides installed plugins whose repository is not the official one. Run this single command to show plugins from all enabled repositories in both Available Packages and Installed Packages:
 
 ```sh
 fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh

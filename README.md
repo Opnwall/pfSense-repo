@@ -31,7 +31,7 @@ pkg update -f
 
 ### 在 WebGUI 插件列表显示社区插件
 
-pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`。执行以下一条命令，可以让“系统 > 软件包管理器 > 可用软件包”查询所有已启用仓库：
+pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`，并隐藏来源不是官方仓库的已安装插件。执行以下一条命令，可以让“可用软件包”和“已安装的软件包”同时显示所有已启用仓库中的插件：
 
 ```sh
 fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
