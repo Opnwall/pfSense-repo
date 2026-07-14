@@ -5,9 +5,14 @@
 
 # pfSense Community Repository
 
-An unofficial community plugin repository for pfSense CE and pfSense Plus on amd64.
+![pfSense CE](https://img.shields.io/badge/pfSense_CE-2.8.1-005AA0?logo=pfsense&logoColor=white)
+![pfSense Plus](https://img.shields.io/badge/pfSense_Plus-26.03.1-00A86B)
+![FreeBSD](https://img.shields.io/badge/FreeBSD-15%20%7C%2016-red?logo=freebsd)
+![amd64](https://img.shields.io/badge/Architecture-amd64-success)
 
-## Supported platforms
+An unofficial community package repository for **pfSense CE** and **pfSense Plus**, providing high-quality open-source plugins that can be installed through the native `pkg` package manager.
+
+## Supported Platforms
 
 | System | Version | ABI | PHP | Status |
 | --- | --- | --- | --- | --- |
@@ -16,7 +21,7 @@ An unofficial community plugin repository for pfSense CE and pfSense Plus on amd
 
 ## Installation
 
-pfSense CE:
+### pfSense CE
 
 ```sh
 fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
@@ -24,7 +29,7 @@ fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
 pkg update -f
 ```
 
-pfSense Plus:
+### pfSense Plus
 
 ```sh
 fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
@@ -32,46 +37,58 @@ fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
 pkg update -f
 ```
 
-Use `pkg search pfSense-pkg-` to list plugins and `pkg install <package-name>` to install one.
+List available packages:
 
-### Show community plugins in the WebGUI package list
+```sh
+pkg search pfSense-pkg-
+```
 
-pfSense normally queries only its official repository for `pfSense-pkg-*` and hides installed plugins whose repository is not the official one. Run this single command to show plugins from all enabled repositories in both Available Packages and Installed Packages:
+Install a package:
+
+```sh
+pkg install <package-name>
+```
+
+### Enable WebGUI Package Listing
+
+By default, pfSense only displays packages from the official repository. Run the following command to make community packages appear in both **Available Packages** and **Installed Packages**:
 
 ```sh
 fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 ```
 
-The script backs up `/etc/inc/pkg-utils.inc`, validates the result and refreshes the WebGUI. A pfSense firmware upgrade may overwrite this change; run the same command again after upgrading.
+The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and refreshes the WebGUI. Re-run it after upgrading pfSense if necessary.
 
 ## Packages
 
 | Package | Version | Description |
 | --- | --- | --- |
-| `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS filtering integration |
-| `pfSense-pkg-arp` | 1.0.1 | Static IP and MAC binding integration |
-| `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go dynamic DNS integration |
-| `pfSense-pkg-lang` | 1.0.1 | Chinese localization updater |
-| `pfSense-pkg-lucky` | 1.0.1 | Lucky network toolbox integration |
-| `pfSense-pkg-mihomo` | 1.0.1 | Mihomo proxy integration |
-| `pfSense-pkg-sing-box` | 1.0.1 | sing-box proxy integration |
-| `pfSense-pkg-ttyd` | 1.0.1 | ttyd web terminal integration |
+| `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS integration |
+| `pfSense-pkg-arp` | 1.0.1 | Static IP/MAC binding |
+| `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go integration |
+| `pfSense-pkg-lang` | 1.0.1 | Chinese localization |
+| `pfSense-pkg-lucky` | 1.0.1 | Lucky network toolbox |
+| `pfSense-pkg-mihomo` | 1.0.1 | Mihomo integration |
+| `pfSense-pkg-sing-box` | 1.0.1 | sing-box integration |
+| `pfSense-pkg-ttyd` | 1.0.1 | ttyd web terminal |
 
-## Remove the repository
+## Installing Packages
+
+After enabling the WebGUI patch, all community packages can be installed either from the WebGUI or directly using the `pkg` command.
+
+## Remove the Repository
 
 ```sh
 rm -f /usr/local/etc/pkg/repos/opnwall.conf
 pkg update -f
 ```
 
-This does not uninstall packages that are already installed.
+Removing the repository does **not** uninstall packages that are already installed.
 
-## Source code
+## Source Code
 
-Complete source trees are stored under [`src/`](src/). Each `pfSense-pkg-*` directory is an independent plugin project. `pfSense-ce-dyndns` and `pfSense-plus-dyndns` are platform-specific system patch sources and are not published as ordinary repository plugins.
+All source code is available under the `src/` directory. Each `pfSense-pkg-*` directory is an independent plugin project and can be built on pfSense/FreeBSD using the included `build.sh` script.
 
 ## Disclaimer
 
-This repository is not affiliated with or supported by Netgate or the pfSense project. Third-party packages may affect upgrades and system stability. Back up the firewall configuration and test in a non-production environment first.
-
-Each project and bundled component remains subject to its included license and notices.
+This repository is **not affiliated with or endorsed by Netgate or the pfSense project**. Third-party packages may affect system stability or future upgrades. Always back up your firewall configuration and test in a non-production environment before deployment. Each bundled project remains subject to its own license and notices.
