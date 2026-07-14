@@ -5,8 +5,8 @@
 
 # pfSense Community Repository
 
-![pfSense CE](https://img.shields.io/badge/pfSense_CE-2.8.1-005AA0?logo=pfsense&logoColor=white)
-![pfSense Plus](https://img.shields.io/badge/pfSense_Plus-26.03.1-00A86B)
+![pfSense CE](https://img.shields.io/badge/pfSense_CE-005AA0?logo=pfsense&logoColor=white)
+![pfSense Plus](https://img.shields.io/badge/pfSense_Plus-00A86B)
 ![FreeBSD](https://img.shields.io/badge/FreeBSD-15%20%7C%2016-red?logo=freebsd)
 ![amd64](https://img.shields.io/badge/Architecture-amd64-success)
 
