@@ -57,6 +57,11 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 | `pfSense-pkg-sing-box` | 1.0.1 | sing-box 代理集成 |
 | `pfSense-pkg-ttyd` | 1.0.1 | ttyd 网页终端 |
 
+
+## 安装插件
+
+通过系统包管理器安装插件，安装补丁后，可在插件列表查看所有社区插件。
+
 ## 删除仓库
 
 ```sh
