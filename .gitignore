@@ -2,5 +2,6 @@
 ._*
 work/
 dist/
+tmp/
 *.pyc
 __pycache__/
