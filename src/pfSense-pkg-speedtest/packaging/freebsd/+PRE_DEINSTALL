@@ -1,3 +1,31 @@
 #!/bin/sh
 pkill -f '/usr/local/bin/opnwall-speedtest' >/dev/null 2>&1 || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+foreach (['menu', 'package'] as $type) {
+	$path = "installedpackages/{$type}";
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		continue;
+	}
+	$entries = array_values(array_filter($entries, function($entry) use ($type) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		if ($type === 'menu') {
+			return !in_array(($entry['name'] ?? ''), ['Speedtest', 'Internet Speed Test'], true) &&
+			    (($entry['url'] ?? '') !== '/speedtest.php');
+		}
+		return !in_array(($entry['name'] ?? ''), ['opnwallspeedtest', 'speedtest', 'pfSense-pkg-speedtest'], true);
+	}));
+	config_set_path($path, $entries);
+}
+config_del_path('installedpackages/opnwallspeedtest');
+write_config('Removed Speedtest package metadata');
+PHP
+fi
 exit 0
