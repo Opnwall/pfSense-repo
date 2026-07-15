@@ -1,0 +1,3 @@
+#!/bin/sh
+rm -rf /var/db/speedtest
+exit 0

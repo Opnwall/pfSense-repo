@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>speedtest</name>
+    <descr><![CDATA[Internet speed test integration for pfSense.]]></descr>
+    <version>1.0.1</version>
+    <configurationfile>opnwallspeedtest.xml</configurationfile>
+  </package>
+</pfsensepkgs>

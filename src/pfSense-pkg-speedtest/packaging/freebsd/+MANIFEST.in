@@ -1,0 +1,15 @@
+name: "@PKG_NAME@"
+origin: "net/pfSense-pkg-speedtest"
+version: "@VERSION@"
+comment: "Internet speed test integration for pfSense"
+maintainer: "https://github.com/Opnwall/"
+www: "https://github.com/showwin/speedtest-go"
+abi: "@ABI@"
+arch: "@ARCH@"
+prefix: "/usr/local"
+flatsize: @FLATSIZE@
+desc: <<EOD
+@DESC@
+EOD
+licenses: ["MIT"]
+categories: ["net", "pfSense"]

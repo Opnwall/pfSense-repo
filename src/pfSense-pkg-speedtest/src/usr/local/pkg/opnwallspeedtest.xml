@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>speedtest</name>
+  <title>Diagnostics: Speedtest</title>
+  <version>1.0.1</version>
+  <menu>
+    <name>Speedtest</name>
+    <section>Diagnostics</section>
+    <url>/speedtest.php</url>
+  </menu>
+</packagegui>

@@ -62,6 +62,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky 网络工具箱 |
 | `pfSense-pkg-mihomo` | 1.0.1 | Mihomo 代理集成 |
 | `pfSense-pkg-sing-box` | 1.0.1 | sing-box 代理集成 |
+| `pfSense-pkg-speedtest` | 1.0.1 | Speedtest 互联网测速工具 |
 | `pfSense-pkg-ttyd` | 1.0.1 | ttyd 网页终端 |
 
 

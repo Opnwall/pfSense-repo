@@ -1,0 +1,3 @@
+Speedtest for pfSense measures Internet latency, jitter, packet loss, download,
+and upload performance from the firewall. It uses the open-source speedtest-go
+engine and provides a multilingual pfSense WebGUI page.

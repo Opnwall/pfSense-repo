@@ -71,6 +71,7 @@ The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and re
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky network toolbox |
 | `pfSense-pkg-mihomo` | 1.0.1 | Mihomo integration |
 | `pfSense-pkg-sing-box` | 1.0.1 | sing-box integration |
+| `pfSense-pkg-speedtest` | 1.0.1 | Speedtest internet speed test |
 | `pfSense-pkg-ttyd` | 1.0.1 | ttyd web terminal |
 
 ## Installing Packages

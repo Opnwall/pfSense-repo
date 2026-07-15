@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+mkdir -p /var/db/speedtest
+chmod 0700 /var/db/speedtest
+rm -f /usr/local/www/opnwall_speedtest.php
+
+/usr/local/bin/php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+foreach (['menu', 'package'] as $type) {
+	$path = "installedpackages/{$type}";
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) continue;
+	$entries = array_values(array_filter($entries, function($entry) use ($type) {
+		if (!is_array($entry)) return true;
+		return $type === 'menu' ? !in_array(($entry['name'] ?? ''), ['Speedtest', 'Internet Speed Test'], true) : !in_array(($entry['name'] ?? ''), ['opnwallspeedtest', 'speedtest'], true);
+	}));
+	config_set_path($path, $entries);
+}
+if (install_package_xml('speedtest') === false) {
+	fwrite(STDERR, "Unable to register Speedtest package XML\n");
+	exit(1);
+}
+write_config('Install Speedtest package');
+PHP
+echo "Speedtest installed. Open Diagnostics > Speedtest."
