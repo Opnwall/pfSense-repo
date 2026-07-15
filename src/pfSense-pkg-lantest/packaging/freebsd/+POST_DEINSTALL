@@ -1,3 +1,33 @@
 #!/bin/sh
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+
+foreach (['menu', 'service', 'package'] as $type) {
+	$path = "installedpackages/{$type}";
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		continue;
+	}
+	$entries = array_values(array_filter($entries, function($entry) use ($type) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		if ($type === 'menu') {
+			return !in_array(($entry['name'] ?? ''), ['LAN Speed Test', 'LanTest'], true) &&
+			    (($entry['url'] ?? '') !== '/lanspeedtest.php');
+		}
+		if ($type === 'service') {
+			return ($entry['name'] ?? '') !== 'lanspeedtest';
+		}
+		return !in_array(($entry['name'] ?? ''), ['lanspeedtest', 'lantest', 'pfSense-pkg-lantest'], true);
+	}));
+	config_set_path($path, $entries);
+}
+config_del_path('installedpackages/lanspeedtest');
+write_config('Removed LanTest package metadata');
+PHP
+fi
 rm -f /etc/rc.conf.d/lanspeedtest /var/run/lanspeedtest.pid /var/log/lanspeedtest.log
 exit 0

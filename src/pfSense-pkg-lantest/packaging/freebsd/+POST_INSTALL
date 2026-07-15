@@ -37,8 +37,6 @@ if (install_package_xml('lantest') === false) {
 	exit(1);
 }
 write_config('Install LanTest package');
-require_once('/usr/local/pkg/lanspeedtest.inc');
-lanspeedtest_php_install_command();
 PHP
 fi
 

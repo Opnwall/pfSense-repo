@@ -50,7 +50,7 @@ function lanspeedtest_resync_config(): void {
 
 function lanspeedtest_start(): void {
 	lanspeedtest_resync_config();
-	mwexec('/usr/local/etc/rc.d/lanspeedtest onestart');
+	mwexec_bg('/usr/local/etc/rc.d/lanspeedtest onestart');
 	usleep(300000);
 }
 
@@ -66,7 +66,6 @@ function lanspeedtest_restart(): void {
 
 function lanspeedtest_php_install_command(): void {
 	lanspeedtest_resync_config();
-	lanspeedtest_start();
 }
 
 function lanspeedtest_php_deinstall_command(): void {
