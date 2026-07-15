@@ -67,7 +67,7 @@ The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and re
 | `pfSense-pkg-arp` | 1.0.1 | Static IP/MAC binding |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go integration |
 | `pfSense-pkg-lang` | 1.0.1 | Chinese localization |
-| `pfSense-pkg-lantest` | 1.0.1 | LanTest browser-based LAN speed test |
+| `pfSense-pkg-lantest` | 1.0.1 | LAN speed test |
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky network toolbox |
 | `pfSense-pkg-mihomo` | 1.0.1 | Mihomo integration |
 | `pfSense-pkg-sing-box` | 1.0.1 | sing-box integration |
