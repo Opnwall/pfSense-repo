@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+  <package>
+    <name>lantest</name>
+    <descr><![CDATA[LanTest browser-based LAN throughput, latency, and jitter test.]]></descr>
+    <version>1.0.1</version>
+    <configurationfile>lanspeedtest.xml</configurationfile>
+  </package>
+</pfsensepkgs>

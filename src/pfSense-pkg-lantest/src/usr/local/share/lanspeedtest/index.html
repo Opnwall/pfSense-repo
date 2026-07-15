@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LanTest</title>
+  <style>
+    :root { color-scheme: light; --ink:#18222d; --muted:#627080; --line:#d9e0e6; --paper:#fff; --ground:#eef2f5; --blue:#1769aa; --green:#16835d; --amber:#ad6b00; --red:#b33a3a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--ground); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; letter-spacing:0; }
+    header { background:#253746; color:#fff; border-bottom:5px solid #d43f3a; }
+    .bar { max-width:920px; margin:auto; min-height:72px; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    h1 { margin:0; font-size:24px; font-weight:650; }
+    .host { color:#cbd5dd; font:13px ui-monospace,SFMono-Regular,monospace; overflow-wrap:anywhere; }
+    .tools { display:flex; align-items:center; gap:14px; }
+    .language { height:34px; border:1px solid #70808d; border-radius:4px; padding:0 30px 0 10px; background:#fff; color:var(--ink); font-size:13px; }
+    main { max-width:920px; margin:28px auto; padding:0 20px 36px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); background:var(--paper); }
+    .metric { min-height:120px; padding:20px; border-right:1px solid var(--line); display:flex; flex-direction:column; justify-content:center; }
+    .metric:last-child { border-right:0; }
+    .label { color:var(--muted); font-size:13px; font-weight:650; text-transform:uppercase; }
+    .value { margin-top:9px; font-size:31px; font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap; }
+    .unit { color:var(--muted); font-size:13px; margin-left:4px; font-weight:500; }
+    .stage { margin-top:16px; background:var(--paper); border:1px solid var(--line); padding:24px; }
+    .stage-row { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .status { min-height:48px; display:flex; flex-direction:column; justify-content:center; }
+    .status strong { font-size:18px; }
+    .status span { color:var(--muted); font-size:13px; margin-top:5px; }
+    button { width:150px; min-height:44px; border:0; border-radius:4px; color:#fff; background:var(--blue); font-size:15px; font-weight:650; cursor:pointer; }
+    button:hover { background:#0e568d; }
+    button:disabled { cursor:not-allowed; background:#84919c; }
+    .track { margin-top:22px; height:8px; background:#dce3e8; overflow:hidden; }
+    .fill { width:0; height:100%; background:var(--green); transition:width .18s linear; }
+    .details { margin-top:16px; display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); }
+    .detail { padding:18px 4px 0; color:var(--muted); font-size:13px; }
+    .detail b { color:var(--ink); display:block; font-size:15px; margin-top:5px; }
+    footer { text-align:center; color:var(--muted); font-size:12px; padding-top:18px; }
+    @media (max-width:700px) { .metrics { grid-template-columns:1fr 1fr; } .metric:nth-child(2) { border-right:0; } .metric:nth-child(-n+2) { border-bottom:1px solid var(--line); } .bar,.stage-row { align-items:flex-start; flex-direction:column; } .tools { width:100%; justify-content:space-between; } button { width:100%; } .value { font-size:27px; } }
+  </style>
+</head>
+<body>
+  <header><div class="bar"><h1>LanTest</h1><div class="tools"><div class="host" id="host"></div><select class="language" id="language" aria-label="Language"><option value="auto">Auto</option><option value="en">English</option><option value="zh-CN">简体中文</option><option value="zh-TW">繁體中文</option></select></div></div></header>
+  <main>
+    <section class="metrics" id="metrics" aria-label="Speed test results">
+      <div class="metric"><span class="label" data-i18n="latency">Latency</span><div class="value"><span id="ping">--</span><span class="unit">ms</span></div></div>
+      <div class="metric"><span class="label" data-i18n="jitter">Jitter</span><div class="value"><span id="jitter">--</span><span class="unit">ms</span></div></div>
+      <div class="metric"><span class="label" data-i18n="download">Download</span><div class="value"><span id="down">--</span><span class="unit">Mbps</span></div></div>
+      <div class="metric"><span class="label" data-i18n="upload">Upload</span><div class="value"><span id="up">--</span><span class="unit">Mbps</span></div></div>
+    </section>
+    <section class="stage">
+      <div class="stage-row">
+        <div class="status"><strong id="status">Ready</strong><span id="substatus">Test LAN performance between this device and pfSense</span></div>
+        <button id="start" type="button" data-i18n="start">Start test</button>
+      </div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <div class="details">
+        <div class="detail"><span data-i18n="server">Test server</span><b id="server"></b></div>
+        <div class="detail"><span data-i18n="path">Data path</span><b data-i18n="pathValue">Browser directly to pfSense</b></div>
+      </div>
+    </section>
+    <footer data-i18n="footer">Test traffic travels only between this client and the firewall</footer>
+  </main>
+  <script>
+    const $ = id => document.getElementById(id);
+    const messages = {
+      en: { latency:'Latency',jitter:'Jitter',download:'Download',upload:'Upload',start:'Start test',server:'Test server',path:'Data path',pathValue:'Browser directly to pfSense',footer:'Test traffic travels only between this client and the firewall',results:'Speed test results',ready:'Ready',readyDetail:'Test LAN performance between this device and pfSense',latencyTest:'Measuring latency',sample:'Sample {current} of {total}',downloadTest:'Testing download',received:'Received {size} MiB',uploadTest:'Testing upload',sent:'Sent {size} MiB',complete:'Test complete',completeDetail:'Run again to compare results',failed:'Test failed',uploadFailed:'Upload request failed'},
+      'zh-CN': { latency:'延迟',jitter:'抖动',download:'下载',upload:'上传',start:'开始测速',server:'测试服务器',path:'数据路径',pathValue:'浏览器直连 pfSense',footer:'测试流量仅在当前客户端与防火墙之间传输',results:'测速结果',ready:'准备就绪',readyDetail:'测试设备与 pfSense 之间的局域网性能',latencyTest:'正在测量延迟',sample:'样本 {current} / {total}',downloadTest:'正在测试下载',received:'已接收 {size} MiB',uploadTest:'正在测试上传',sent:'已发送 {size} MiB',complete:'测速完成',completeDetail:'可以再次运行以比较结果',failed:'测速失败',uploadFailed:'上传请求失败'},
+      'zh-TW': { latency:'延遲',jitter:'抖動',download:'下載',upload:'上傳',start:'開始測速',server:'測試伺服器',path:'資料路徑',pathValue:'瀏覽器直連 pfSense',footer:'測試流量僅在目前用戶端與防火牆之間傳輸',results:'測速結果',ready:'準備就緒',readyDetail:'測試裝置與 pfSense 之間的區域網路效能',latencyTest:'正在測量延遲',sample:'樣本 {current} / {total}',downloadTest:'正在測試下載',received:'已接收 {size} MiB',uploadTest:'正在測試上傳',sent:'已傳送 {size} MiB',complete:'測速完成',completeDetail:'可以再次執行以比較結果',failed:'測速失敗',uploadFailed:'上傳請求失敗'}
+    };
+    const browserLanguage = () => { const value=(navigator.language||'en').toLowerCase(); return value.startsWith('zh-tw') || value.startsWith('zh-hk') || value.startsWith('zh-mo') ? 'zh-TW' : value.startsWith('zh') ? 'zh-CN' : 'en'; };
+    let language = localStorage.getItem('lantest-language') || 'auto';
+    const activeLanguage = () => language === 'auto' ? browserLanguage() : language;
+    const t = (key, values={}) => Object.entries(values).reduce((text,[name,value]) => text.replace('{'+name+'}',value), messages[activeLanguage()][key] || key);
+    function applyLanguage(resetStatus=true) { document.documentElement.lang=activeLanguage(); document.querySelectorAll('[data-i18n]').forEach(node=>node.textContent=t(node.dataset.i18n)); $('metrics').setAttribute('aria-label',t('results')); $('language').value=language; if (resetStatus && !$('start').disabled) setStage(t('ready'),t('readyDetail'),0); }
+    const setStage = (title, detail, progress) => { $('status').textContent=title; $('substatus').textContent=detail; $('fill').style.width=progress+'%'; };
+    const fmt = n => Number.isFinite(n) ? n.toFixed(n >= 100 ? 0 : n >= 10 ? 1 : 2) : '--';
+    $('host').textContent=location.host; $('server').textContent=location.host;
+
+    async function latency() {
+      const samples=[];
+      for (let i=0;i<10;i++) { const started=performance.now(); await fetch('/api/ping?r='+Math.random(),{cache:'no-store'}); samples.push(performance.now()-started); setStage(t('latencyTest'),t('sample',{current:i+1,total:10}),5+i*2); }
+      const avg=samples.reduce((a,b)=>a+b,0)/samples.length;
+      const jitter=samples.slice(1).reduce((n,v,i)=>n+Math.abs(v-samples[i]),0)/(samples.length-1);
+      $('ping').textContent=fmt(avg); $('jitter').textContent=fmt(jitter);
+    }
+
+    async function download() {
+      const begun=performance.now(); let bytes=0, rounds=0;
+      while (performance.now()-begun < 6000) {
+        const response=await fetch('/api/download?size=33554432&r='+Math.random(),{cache:'no-store'});
+        const reader=response.body.getReader();
+        for (;;) { const part=await reader.read(); if (part.done) break; bytes+=part.value.byteLength; }
+        rounds++; const elapsed=(performance.now()-begun)/1000; $('down').textContent=fmt(bytes*8/elapsed/1e6); setStage(t('downloadTest'),t('received',{size:(bytes/1048576).toFixed(0)}),25+Math.min(30,elapsed*5));
+      }
+      return bytes*8/((performance.now()-begun)/1000)/1e6;
+    }
+
+    async function upload() {
+      const payload=new Uint8Array(16*1024*1024); const begun=performance.now(); let bytes=0;
+      while (performance.now()-begun < 6000) {
+        const response=await fetch('/api/upload?r='+Math.random(),{method:'POST',headers:{'Content-Type':'application/octet-stream'},body:payload});
+        if (!response.ok) throw new Error(t('uploadFailed'));
+        const result=await response.json(); bytes+=result.bytes;
+        const elapsed=(performance.now()-begun)/1000; $('up').textContent=fmt(bytes*8/elapsed/1e6); setStage(t('uploadTest'),t('sent',{size:(bytes/1048576).toFixed(0)}),60+Math.min(35,elapsed*5.8));
+      }
+      return bytes*8/((performance.now()-begun)/1000)/1e6;
+    }
+
+    $('start').addEventListener('click',async()=>{
+      $('start').disabled=true; ['ping','jitter','down','up'].forEach(id=>$(id).textContent='--');
+      try { await latency(); const down=await download(); $('down').textContent=fmt(down); const up=await upload(); $('up').textContent=fmt(up); setStage(t('complete'),t('completeDetail'),100); }
+      catch (error) { setStage(t('failed'),error.message || String(error),0); }
+      finally { $('start').disabled=false; }
+    });
+    $('language').addEventListener('change',event=>{ language=event.target.value; localStorage.setItem('lantest-language',language); applyLanguage(); });
+    applyLanguage();
+  </script>
+</body>
+</html>

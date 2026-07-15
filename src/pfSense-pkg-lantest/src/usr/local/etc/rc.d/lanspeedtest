@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# PROVIDE: lanspeedtest
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="lanspeedtest"
+rcvar="lanspeedtest_enable"
+load_rc_config "$name"
+
+: ${lanspeedtest_enable:="NO"}
+: ${lanspeedtest_host:="127.0.0.1"}
+: ${lanspeedtest_port:="3300"}
+
+pidfile="/var/run/${name}.pid"
+command="/usr/sbin/daemon"
+procname="/usr/local/bin/php"
+command_args="-p ${pidfile} -o /var/log/lanspeedtest.log -t ${name} /usr/local/bin/php -d expose_php=0 -d memory_limit=32M -S ${lanspeedtest_host}:${lanspeedtest_port} /usr/local/libexec/lanspeedtest/router.php"
+
+run_rc_command "$1"

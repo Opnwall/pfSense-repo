@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+  <name>lantest</name>
+  <title>Diagnostics: LanTest</title>
+  <version>1.0.1</version>
+  <include_file>/usr/local/pkg/lanspeedtest.inc</include_file>
+  <aftersaveredirect>/lanspeedtest.php</aftersaveredirect>
+  <menu>
+    <name>LanTest</name>
+    <section>Diagnostics</section>
+    <url>/lanspeedtest.php</url>
+  </menu>
+  <service>
+    <name>lanspeedtest</name>
+    <rcfile>lanspeedtest</rcfile>
+    <executable>php</executable>
+    <description>LanTest browser-based LAN speed test</description>
+  </service>
+  <custom_php_install_command>lanspeedtest_php_install_command();</custom_php_install_command>
+  <custom_php_deinstall_command>lanspeedtest_php_deinstall_command();</custom_php_deinstall_command>
+  <custom_php_resync_config_command>lanspeedtest_resync_config();</custom_php_resync_config_command>
+  <start_command>lanspeedtest_start();</start_command>
+  <custom_php_service_status_command>lanspeedtest_service_status();</custom_php_service_status_command>
+</packagegui>

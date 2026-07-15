@@ -1,0 +1,45 @@
+#!/bin/sh
+set -eu
+
+mkdir -p /etc/rc.conf.d /var/log
+touch /var/log/lanspeedtest.log
+chmod 0600 /var/log/lanspeedtest.log
+
+if [ -f /etc/inc/config.inc ] && [ -f /etc/inc/pkg-utils.inc ]; then
+	/usr/local/bin/php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+
+foreach (['menu', 'service', 'package'] as $type) {
+	$path = "installedpackages/{$type}";
+	$entries = config_get_path($path, []);
+	if (!is_array($entries)) {
+		continue;
+	}
+	$entries = array_values(array_filter($entries, function($entry) use ($type) {
+		if (!is_array($entry)) {
+			return true;
+		}
+		if ($type === 'menu') {
+			return !in_array(($entry['name'] ?? ''), ['LAN Speed Test', 'LanTest'], true);
+		}
+		if ($type === 'service') {
+			return ($entry['name'] ?? '') !== 'lanspeedtest';
+		}
+		return !in_array(($entry['name'] ?? ''), ['lanspeedtest', 'lantest'], true);
+	}));
+	config_set_path($path, $entries);
+}
+
+if (install_package_xml('lantest') === false) {
+	fwrite(STDERR, "Unable to register LanTest package XML\n");
+	exit(1);
+}
+write_config('Install LanTest package');
+require_once('/usr/local/pkg/lanspeedtest.inc');
+lanspeedtest_php_install_command();
+PHP
+fi
+
+echo "LanTest installed. Open Diagnostics > LanTest."

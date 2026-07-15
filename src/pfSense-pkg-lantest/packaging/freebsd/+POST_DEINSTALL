@@ -1,0 +1,3 @@
+#!/bin/sh
+rm -f /etc/rc.conf.d/lanspeedtest /var/run/lanspeedtest.pid /var/log/lanspeedtest.log
+exit 0

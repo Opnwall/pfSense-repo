@@ -58,6 +58,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 | `pfSense-pkg-arp` | 1.0.1 | 静态 IP/MAC 绑定 |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go 动态 DNS 集成 |
 | `pfSense-pkg-lang` | 1.0.1 | 中文汉化工具 |
+| `pfSense-pkg-lantest` | 1.0.1 | LanTest 局域网测速工具 |
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky 网络工具箱 |
 | `pfSense-pkg-mihomo` | 1.0.1 | Mihomo 代理集成 |
 | `pfSense-pkg-sing-box` | 1.0.1 | sing-box 代理集成 |

@@ -1,0 +1,3 @@
+LanTest provides a self-contained browser throughput test for pfSense.
+It measures latency, jitter, download, and upload between a LAN client and the
+firewall without using an Internet service or writing test payloads to disk.
