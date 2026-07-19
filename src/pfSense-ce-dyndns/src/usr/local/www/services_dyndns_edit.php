@@ -527,7 +527,7 @@ $section->addInput(new Form_Input(
 ))->setHelp('Azure: Enter the resource id of the of the DNS Zone%1$s' .
 			'DNSimple: Enter the Record ID of record to update.%1$s' .
 			'Route53: Enter AWS Zone ID.%1$s' .
-			'Tencent Cloud: Optional record line, defaults to 默认.', '<br />');
+			'Tencent Cloud: Optional record line.', '<br />');
 
 $section->addInput(new Form_Input(
 	'updateurl',
