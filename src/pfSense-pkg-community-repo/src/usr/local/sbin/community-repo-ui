@@ -55,9 +55,9 @@ function apply_patches() {
 	insert_after($available, "\tforeach (\$pkg_info as \$index) {\n",
 	    marker('FILTER', "\t\tif (isset(\$community_packages[\$index['name']])) {\n\t\t\tcontinue;\n\t\t}\n"), 'available package loop');
 	insert_after($available, "\$tab_array[] = array(gettext(\"Available Packages\"), true, \"pkg_mgr.php\");\n",
-	    marker('TAB', "\t\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n"), 'available tabs');
+	    marker('TAB', "\t\$tab_array[] = array(community_repo_text('tab'), false, \"pkg_mgr_community.php\");\n"), 'available tabs');
 	insert_after($installed, "\$tab_array[] = array(gettext(\"Available Packages\"), false, \"pkg_mgr.php\");\n",
-	    marker('TAB', "\t\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n"), 'installed tabs');
+	    marker('TAB', "\t\$tab_array[] = array(community_repo_text('tab'), false, \"pkg_mgr_community.php\");\n"), 'installed tabs');
 
 	write_valid_php(AVAILABLE_PAGE, $available);
 	write_valid_php(INSTALLED_PAGE, $installed);
@@ -83,4 +83,3 @@ try {
 	fwrite(STDERR, $error->getMessage() . "\n");
 	exit(1);
 }
-

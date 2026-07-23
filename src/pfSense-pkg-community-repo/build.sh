@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-community-repo}"
-VERSION="${VERSION:-1.0.2}"
+VERSION="${VERSION:-1.1.0}"
 ORIGIN="${ORIGIN:-sysutils/pfSense-pkg-community-repo}"
 COMMENT="${COMMENT:-Opnwall community repository integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

@@ -25,6 +25,13 @@ php <<'PHP'
 <?php
 require_once('/etc/inc/config.inc');
 require_once('/etc/inc/pkg-utils.inc');
+$menus = config_get_path('installedpackages/menu', []);
+if (is_array($menus)) {
+	$menus = array_values(array_filter($menus, function ($entry) {
+		return !is_array($entry) || ($entry['url'] ?? '') !== '/pkg_mgr_community.php';
+	}));
+	config_set_path('installedpackages/menu', $menus);
+}
 if (!install_package_xml('community-repo')) {
 	fwrite(STDERR, "Unable to register community repository package metadata.\n");
 	exit(1);

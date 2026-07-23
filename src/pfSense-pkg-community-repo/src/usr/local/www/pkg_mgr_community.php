@@ -41,18 +41,18 @@ $saveerr = null;
 if (isset($_POST['save_community_repo'])) {
 	$enable_repo = isset($_POST['community_repo_enabled']);
 	if (!community_repo_write_config($enable_repo)) {
-		$saveerr = '无法更新社区插件仓库配置。';
+		$saveerr = community_repo_text('write_error');
 	} elseif ($enable_repo) {
 		$output = array();
 		$status = 0;
 		exec('/usr/sbin/pkg update -f -r ' . escapeshellarg(COMMUNITY_REPO_NAME) . ' 2>&1', $output, $status);
 		if ($status !== 0) {
-			$saveerr = '社区插件仓库已启用，但无法更新仓库索引。';
+			$saveerr = community_repo_text('update_error');
 		} else {
-			$savemsg = '社区插件仓库已启用，仓库索引已更新。';
+			$savemsg = community_repo_text('enabled');
 		}
 	} else {
-		$savemsg = '社区插件仓库已禁用。';
+		$savemsg = community_repo_text('disabled');
 	}
 }
 
@@ -158,36 +158,36 @@ function get_pkg_table() {
 	return ($pkgtbl);
 }
 
-$pgtitle = array(gettext("System"), gettext("Package Manager"), "社区插件");
+$pgtitle = array(gettext("System"), gettext("Package Manager"), community_repo_text('tab'));
 $pglinks = array("", "pkg_mgr_installed.php", "@self");
 include("head.inc");
 
 $tab_array = array();
 $tab_array[] = array(gettext("Installed Packages"), false, "pkg_mgr_installed.php");
 $tab_array[] = array(gettext("Available Packages"), false, "pkg_mgr.php");
-$tab_array[] = array("社区插件", true, "pkg_mgr_community.php");
+$tab_array[] = array(community_repo_text('tab'), true, "pkg_mgr_community.php");
 display_top_tabs($tab_array);
 ?>
 <?php if ($savemsg) { print_info_box($savemsg, 'success'); } ?>
 <?php if ($saveerr) { print_info_box($saveerr, 'danger'); } ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h2 class="panel-title">社区插件仓库</h2></div>
+	<div class="panel-heading"><h2 class="panel-title"><?=htmlspecialchars(community_repo_text('panel'))?></h2></div>
 	<div class="panel-body">
 		<form method="post" class="form-horizontal">
 			<div class="form-group">
-				<label class="col-sm-2 control-label">仓库地址</label>
+				<label class="col-sm-2 control-label"><?=htmlspecialchars(community_repo_text('address'))?></label>
 				<div class="col-sm-10">
 					<p class="form-control-static"><a href="https://opnwall.github.io/pfSense-repo/" target="_blank">https://opnwall.github.io/pfSense-repo/</a></p>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label"><?=gettext('Enable')?></label>
+				<label class="col-sm-2 control-label"><?=htmlspecialchars(community_repo_text('enable'))?></label>
 				<div class="col-sm-10 checkbox">
 					<label>
 						<input type="checkbox" name="community_repo_enabled" value="yes" <?=community_repo_enabled() ? 'checked' : ''?> />
-						启用 Opnwall 社区插件仓库<br />
-						<span class="help-block">本选项卡只显示该仓库发布的插件。禁用后将阻止从该仓库安装或更新插件。</span>
+						<?=htmlspecialchars(community_repo_text('enable_label'))?><br />
+						<span class="help-block"><?=htmlspecialchars(community_repo_text('enable_help'))?></span>
 					</label>
 				</div>
 			</div>
@@ -249,7 +249,7 @@ display_top_tabs($tab_array);
 	</div>
 </div>
 <?php else: ?>
-<?php print_info_box('社区插件仓库已禁用。请先启用仓库，才能获取并显示社区插件。', 'info'); ?>
+<?php print_info_box(community_repo_text('disabled_help'), 'info'); ?>
 <?php endif; ?>
 
 <script type="text/javascript">
