@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Keep the repository configuration in place. During a pfSense upgrade the
+# package is removed and then reinstalled; deleting this file would make the
+# package unavailable to the automatic reinstallation pass.
+exit 0

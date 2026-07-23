@@ -1,0 +1,86 @@
+#!/usr/local/bin/php
+<?php
+
+const AVAILABLE_PAGE = '/usr/local/www/pkg_mgr.php';
+const INSTALLED_PAGE = '/usr/local/www/pkg_mgr_installed.php';
+
+function marker($id, $code) {
+	return "\t/* OPNWALL COMMUNITY REPO {$id} BEGIN */\n" . $code .
+	    "\t/* OPNWALL COMMUNITY REPO {$id} END */\n";
+}
+
+function remove_markers($contents) {
+	return preg_replace('/^[ \t]*\/\* OPNWALL COMMUNITY REPO [A-Z_]+ BEGIN \*\/.*?^[ \t]*\/\* OPNWALL COMMUNITY REPO [A-Z_]+ END \*\/\R?/ms', '', $contents);
+}
+
+function write_valid_php($path, $contents) {
+	$tmp = $path . '.community-repo.tmp';
+	if (file_put_contents($tmp, $contents, LOCK_EX) === false) {
+		throw new RuntimeException("Unable to write {$tmp}");
+	}
+	chmod($tmp, 0644);
+	exec('/usr/local/bin/php -l ' . escapeshellarg($tmp) . ' 2>&1', $output, $status);
+	if ($status !== 0) {
+		@unlink($tmp);
+		throw new RuntimeException("PHP validation failed for {$path}: " . implode("\n", $output));
+	}
+	if (!rename($tmp, $path)) {
+		@unlink($tmp);
+		throw new RuntimeException("Unable to replace {$path}");
+	}
+}
+
+function insert_after(&$contents, $needle, $addition, $label) {
+	if (substr_count($contents, $needle) !== 1) {
+		throw new RuntimeException("Unsupported pfSense page layout at {$label}");
+	}
+	$contents = str_replace($needle, $needle . $addition, $contents);
+}
+
+function apply_patches() {
+	$available = remove_markers(file_get_contents(AVAILABLE_PAGE));
+	$installed = remove_markers(file_get_contents(INSTALLED_PAGE));
+
+	/* Remove the pre-package prototype modifications, if present. */
+	$available = str_replace("require_once(\"community_repo.inc\");\n", '', $available);
+	$available = str_replace("\t\$community_packages = community_repo_package_names();\n", '', $available);
+	$available = str_replace("\t\tif (isset(\$community_packages[\$index['name']])) {\n\t\t\tcontinue;\n\t\t}\n", '', $available);
+	$available = str_replace("\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n", '', $available);
+	$installed = str_replace("\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n", '', $installed);
+
+	insert_after($available, "require_once(\"pkg-utils.inc\");\n",
+	    marker('INCLUDE', "\trequire_once(\"/usr/local/share/pfSense-pkg-community-repo/community_repo.inc\");\n"), 'available include');
+	insert_after($available, "\t\$pkg_info = get_pkg_info('all', true, false);\n",
+	    marker('NAMES', "\t\$community_packages = community_repo_package_names();\n"), 'available package query');
+	insert_after($available, "\tforeach (\$pkg_info as \$index) {\n",
+	    marker('FILTER', "\t\tif (isset(\$community_packages[\$index['name']])) {\n\t\t\tcontinue;\n\t\t}\n"), 'available package loop');
+	insert_after($available, "\$tab_array[] = array(gettext(\"Available Packages\"), true, \"pkg_mgr.php\");\n",
+	    marker('TAB', "\t\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n"), 'available tabs');
+	insert_after($installed, "\$tab_array[] = array(gettext(\"Available Packages\"), false, \"pkg_mgr.php\");\n",
+	    marker('TAB', "\t\$tab_array[] = array(\"社区插件\", false, \"pkg_mgr_community.php\");\n"), 'installed tabs');
+
+	write_valid_php(AVAILABLE_PAGE, $available);
+	write_valid_php(INSTALLED_PAGE, $installed);
+}
+
+function remove_patches() {
+	foreach ([AVAILABLE_PAGE, INSTALLED_PAGE] as $path) {
+		if (is_file($path)) {
+			write_valid_php($path, remove_markers(file_get_contents($path)));
+		}
+	}
+}
+
+try {
+	if (($argv[1] ?? '--apply') === '--remove') {
+		remove_patches();
+		echo "Community repository UI patches removed.\n";
+	} else {
+		apply_patches();
+		echo "Community repository UI patches applied.\n";
+	}
+} catch (Throwable $error) {
+	fwrite(STDERR, $error->getMessage() . "\n");
+	exit(1);
+}
+

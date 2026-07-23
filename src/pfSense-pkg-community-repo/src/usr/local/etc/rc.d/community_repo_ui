@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# PROVIDE: community_repo_ui
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="community_repo_ui"
+rcvar="community_repo_ui_enable"
+start_cmd="community_repo_ui_start"
+stop_cmd=":"
+
+community_repo_ui_start()
+{
+	/usr/local/sbin/community-repo-ui --apply >/dev/null 2>&1 || logger -t community_repo_ui "Unable to apply package manager integration"
+}
+
+load_rc_config "$name"
+: ${community_repo_ui_enable:="YES"}
+run_rc_command "$1"
+

@@ -1,0 +1,4 @@
+Adds an isolated Community Packages tab to the pfSense package manager and
+manages the Opnwall community repository. The integration is reapplied after
+package installation and at boot so it survives pfSense core upgrades.
+

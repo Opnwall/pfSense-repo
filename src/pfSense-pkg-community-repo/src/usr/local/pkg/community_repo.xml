@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<packagegui>
+	<name>community-repo</name>
+	<title>Opnwall Community Repository</title>
+	<version>1.0.2</version>
+	<include_file>/usr/local/share/pfSense-pkg-community-repo/community_repo.inc</include_file>
+	<menu>
+		<name>社区插件</name>
+		<section>System</section>
+		<url>/pkg_mgr_community.php</url>
+	</menu>
+</packagegui>

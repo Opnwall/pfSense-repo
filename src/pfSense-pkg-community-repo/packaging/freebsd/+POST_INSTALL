@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+chmod 0755 /usr/local/sbin/community-repo-ui /usr/local/etc/rc.d/community_repo_ui
+chmod 0644 /usr/local/www/pkg_mgr_community.php \
+	/usr/local/share/pfSense-pkg-community-repo/community_repo.inc \
+	/usr/local/share/pfSense-pkg-community-repo/info.xml \
+	/usr/local/pkg/community_repo.xml
+
+if [ ! -f /usr/local/etc/pkg/repos/opnwall.conf ]; then
+	mkdir -p /usr/local/etc/pkg/repos
+	cat > /usr/local/etc/pkg/repos/opnwall.conf <<'EOF'
+opnwall: {
+  url: "https://opnwall.github.io/pfSense-repo/repo/pfSense-CE/${ABI}",
+  enabled: yes,
+  priority: 10
+}
+EOF
+	chmod 0644 /usr/local/etc/pkg/repos/opnwall.conf
+fi
+
+/usr/local/sbin/community-repo-ui --apply
+
+php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+if (!install_package_xml('community-repo')) {
+	fwrite(STDERR, "Unable to register community repository package metadata.\n");
+	exit(1);
+}
+PHP
+
+exit 0

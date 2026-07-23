@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+	<package>
+		<name>community-repo</name>
+		<version>1.0.2</version>
+		<title>Opnwall Community Repository</title>
+		<configurationfile>community_repo.xml</configurationfile>
+		<descr>Community package repository integration for pfSense.</descr>
+		<website>https://opnwall.github.io/pfSense-repo/</website>
+	</package>
+</pfsensepkgs>
