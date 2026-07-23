@@ -15,13 +15,6 @@ dff762be3ffe3de19df1b9f0f80a354961504490c096d0b4ab50cc83c6be96ba  repo/pfSense-C
 53a1a3590da5e198d3d5932fad89c02be663dbdfd2dfad313da75ad6ad388c5a  repo/pfSense-CE/FreeBSD:15:amd64/meta.conf
 d42d5df600d61c52423e1be7ca149e4057da7f5fe21cd40633dd6cd6e584f6d2  repo/pfSense-CE/FreeBSD:15:amd64/packagesite.pkg
 d42d5df600d61c52423e1be7ca149e4057da7f5fe21cd40633dd6cd6e584f6d2  repo/pfSense-CE/FreeBSD:15:amd64/packagesite.txz
-41442b2758fc4dd6813e18a1f0fa15dfe0ebafa913e2573fe14a5c2de29405d4  repo/pfSense-CE/FreeBSD:16:amd64/All/pfSense-pkg-community-repo.pkg
-ec13697283d3c49955adb25f9da7afa6918d4d9a0a37520806a1590608102200  repo/pfSense-CE/FreeBSD:16:amd64/data.pkg
-ec13697283d3c49955adb25f9da7afa6918d4d9a0a37520806a1590608102200  repo/pfSense-CE/FreeBSD:16:amd64/data.txz
-53a1a3590da5e198d3d5932fad89c02be663dbdfd2dfad313da75ad6ad388c5a  repo/pfSense-CE/FreeBSD:16:amd64/meta
-53a1a3590da5e198d3d5932fad89c02be663dbdfd2dfad313da75ad6ad388c5a  repo/pfSense-CE/FreeBSD:16:amd64/meta.conf
-6b7956cb4260bb043cf16ba2a1f0a6de02498f3b52162a2813234b3e27e722e4  repo/pfSense-CE/FreeBSD:16:amd64/packagesite.pkg
-6b7956cb4260bb043cf16ba2a1f0a6de02498f3b52162a2813234b3e27e722e4  repo/pfSense-CE/FreeBSD:16:amd64/packagesite.txz
 e91d4672d5547769a4769f2f54ff1aa76707992868e54e19c22652656cabc9ba  repo/pfSense-Plus/FreeBSD:16:amd64/All/pfSense-pkg-adguardhome.pkg
 61faca2cfd6ede7e9468842403f02c120a2f2dce11ea4dec7451cb8ea7af7169  repo/pfSense-Plus/FreeBSD:16:amd64/All/pfSense-pkg-arp.pkg
 41442b2758fc4dd6813e18a1f0fa15dfe0ebafa913e2573fe14a5c2de29405d4  repo/pfSense-Plus/FreeBSD:16:amd64/All/pfSense-pkg-community-repo.pkg
