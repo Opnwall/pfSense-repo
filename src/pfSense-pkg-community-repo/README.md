@@ -19,6 +19,8 @@ repository with the native pfSense Package Manager.
 - Keeps the repository configuration during removal so pfSense package
   reinstallation can find the package after a firmware upgrade.
 
+  ![](image/community.png)
+
 ## Supported systems
 
 | System | Tested version | ABI |
