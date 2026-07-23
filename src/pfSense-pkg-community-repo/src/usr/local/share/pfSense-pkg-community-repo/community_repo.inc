@@ -48,12 +48,21 @@ function community_repo_text($key) {
 			'disabled_help' => '社群套件庫已停用。請先啟用套件庫，才能下載並顯示社群套件。',
 		],
 	];
-	$language = function_exists('g_get') ? (string)g_get('language') : 'en';
+	if (function_exists('config_get_path')) {
+		$language = (string)config_get_path('system/language', 'en');
+	} else {
+		$language = function_exists('g_get') ? (string)g_get('language') : 'en';
+	}
 	if (in_array($language, ['zh_CN', 'zh_Hans_CN'], true)) {
 		$language = 'zh_CN';
 	} elseif (in_array($language, ['zh_TW', 'zh_Hant_TW'], true)) {
 		$language = 'zh_TW';
 	} else {
+		$language = 'en';
+	}
+	/* A selected Chinese locale can remain in config after its translation
+	 * catalog is removed. Follow the language actually rendered by gettext. */
+	if ($language !== 'en' && gettext('System') === 'System') {
 		$language = 'en';
 	}
 

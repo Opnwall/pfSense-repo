@@ -2,7 +2,7 @@
 <pfsensepkgs>
 	<package>
 		<name>community-repo</name>
-		<version>1.1.1</version>
+		<version>1.1.2</version>
 		<title>Opnwall Community Repository</title>
 		<configurationfile>community_repo.xml</configurationfile>
 		<descr>Community package repository integration for pfSense.</descr>
