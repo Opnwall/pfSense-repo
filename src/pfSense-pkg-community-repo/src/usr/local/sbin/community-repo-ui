@@ -50,6 +50,8 @@ function apply_patches() {
 
 	insert_after($available, "require_once(\"pkg-utils.inc\");\n",
 	    marker('INCLUDE', "\trequire_once(\"/usr/local/share/pfSense-pkg-community-repo/community_repo.inc\");\n"), 'available include');
+	insert_after($installed, "require_once(\"pkg-utils.inc\");\n",
+	    marker('INCLUDE', "\trequire_once(\"/usr/local/share/pfSense-pkg-community-repo/community_repo.inc\");\n"), 'installed include');
 	insert_after($available, "\t\$pkg_info = get_pkg_info('all', true, false);\n",
 	    marker('NAMES', "\t\$community_packages = community_repo_package_names();\n"), 'available package query');
 	insert_after($available, "\tforeach (\$pkg_info as \$index) {\n",
