@@ -40,15 +40,15 @@ pkg update -f
 
 使用 `pkg search pfSense-pkg-` 查看插件，使用 `pkg install <软件包名>` 安装。
 
-### 补丁安装
+### 安装社区仓库插件
 
-pfSense 默认只在官方仓库中查询 `pfSense-pkg-*`，并隐藏来源不是官方仓库的已安装插件。执行以下命令，让“可用软件包”和“已安装的软件包”同时显示所有已启用仓库中的插件：
+安装持久化社区仓库集成：
 
 ```sh
-fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
+pkg install pfSense-pkg-community-repo
 ```
 
-脚本会备份 `/etc/inc/pkg-utils.inc`、验证修改结果并刷新 WebGUI。pfSense 固件更新可能覆盖该修改，升级后可重新执行相同命令。
+安装后，系统插件管理器会增加“社区插件”选项卡。仓库启用、禁用和索引更新均可在 WebGUI 中完成，插件会在启动时自动恢复被 pfSense 固件升级覆盖的界面集成。
 
 ## 插件列表
 
@@ -56,6 +56,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 | --- | --- | --- |
 | `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS 过滤集成 |
 | `pfSense-pkg-arp` | 1.0.1 | 静态 IP/MAC 绑定 |
+| `pfSense-pkg-community-repo` | 1.1.4 | 社区仓库和插件管理器集成 |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go 动态 DNS 集成 |
 | `pfSense-pkg-lang` | 1.0.1 | 中文汉化工具 |
 | `pfSense-pkg-lantest` | 1.0.1 | 局域网测速工具 |
@@ -68,7 +69,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 
 ## 安装插件
 
-通过系统包管理器安装插件，安装补丁后，可在插件列表查看所有社区插件。
+安装社区仓库插件后，可通过“系统 > 插件管理 > 社区插件”查看并安装所有社区插件。
 
 ## 删除仓库
 

@@ -1,6 +1,6 @@
 PKG_NAME?=	pfSense-pkg-community-repo
 OUTPUT_NAME?=	pfSense-pkg-community-repo.pkg
-VERSION?=	1.1.3
+VERSION?=	1.1.4
 ABI?=		universal
 
 .PHONY: package clean

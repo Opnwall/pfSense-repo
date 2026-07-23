@@ -49,15 +49,17 @@ Install a package:
 pkg install <package-name>
 ```
 
-### Enable WebGUI Package Listing
+### Install the Community Repository Plugin
 
-By default, pfSense only displays packages from the official repository. Run the following command to make community packages appear in both **Available Packages** and **Installed Packages**:
+Install the persistent Package Manager integration:
 
 ```sh
-fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
+pkg install pfSense-pkg-community-repo
 ```
 
-The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and refreshes the WebGUI. Re-run it after upgrading pfSense if necessary.
+The plugin adds a **Community Packages** tab. Repository enable/disable and
+catalog refresh operations are available in the WebGUI, and the integration is
+automatically reapplied at boot after pfSense upgrades.
 
 ## Packages
 
@@ -65,6 +67,7 @@ The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and re
 | --- | --- | --- |
 | `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS integration |
 | `pfSense-pkg-arp` | 1.0.1 | Static IP/MAC binding |
+| `pfSense-pkg-community-repo` | 1.1.4 | Community repository and Package Manager integration |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go integration |
 | `pfSense-pkg-lang` | 1.0.1 | Chinese localization |
 | `pfSense-pkg-lantest` | 1.0.1 | LAN speed test |
@@ -76,7 +79,9 @@ The script backs up `/etc/inc/pkg-utils.inc`, validates the modification, and re
 
 ## Installing Packages
 
-After enabling the WebGUI patch, all community packages can be installed either from the WebGUI or directly using the `pkg` command.
+After installing the community repository plugin, all community packages can
+be installed from **System > Package Manager > Community Packages** or directly
+using the `pkg` command.
 
 ## Remove the Repository
 

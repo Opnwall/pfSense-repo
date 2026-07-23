@@ -9,14 +9,10 @@ chmod 0644 /usr/local/www/pkg_mgr_community.php \
 
 if [ ! -f /usr/local/etc/pkg/repos/opnwall.conf ]; then
 	mkdir -p /usr/local/etc/pkg/repos
-	cat > /usr/local/etc/pkg/repos/opnwall.conf <<'EOF'
-opnwall: {
-  url: "https://opnwall.github.io/pfSense-repo/repo/pfSense-CE/${ABI}",
-  enabled: yes,
-  priority: 10
-}
-EOF
-	chmod 0644 /usr/local/etc/pkg/repos/opnwall.conf
+	/usr/local/bin/php -r '
+	require_once("/usr/local/share/pfSense-pkg-community-repo/community_repo.inc");
+	exit(community_repo_write_config(true) ? 0 : 1);
+	'
 fi
 
 /usr/local/sbin/community-repo-ui --apply
