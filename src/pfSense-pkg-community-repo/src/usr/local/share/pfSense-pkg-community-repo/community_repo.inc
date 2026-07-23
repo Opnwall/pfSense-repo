@@ -4,7 +4,13 @@
 
 const COMMUNITY_REPO_NAME = 'opnwall';
 const COMMUNITY_REPO_CONF = '/usr/local/etc/pkg/repos/opnwall.conf';
-const COMMUNITY_REPO_URL = 'https://opnwall.github.io/pfSense-repo/repo/pfSense-CE/${ABI}';
+
+function community_repo_url() {
+	$version = is_readable('/etc/version') ? trim((string)file_get_contents('/etc/version')) : '';
+	$edition = preg_match('/^[0-9]{2}\.[0-9]{2}(?:\.|-|$)/', $version) ? 'pfSense-Plus' : 'pfSense-CE';
+
+	return 'https://opnwall.github.io/pfSense-repo/repo/' . $edition . '/${ABI}';
+}
 
 function community_repo_text($key) {
 	$translations = [
@@ -76,7 +82,7 @@ function community_repo_enabled() {
 
 function community_repo_write_config($enabled) {
 	$config = COMMUNITY_REPO_NAME . ": {\n" .
-	    '  url: "' . COMMUNITY_REPO_URL . "\",\n" .
+	    '  url: "' . community_repo_url() . "\",\n" .
 	    '  enabled: ' . ($enabled ? 'yes' : 'no') . ",\n" .
 	    "  priority: 10\n}\n";
 	$tmpfile = COMMUNITY_REPO_CONF . '.tmp';
