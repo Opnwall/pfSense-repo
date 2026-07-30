@@ -28,7 +28,6 @@
 
 require_once("guiconfig.inc");
 require_once("/usr/local/pkg/dnscrypt-proxy.inc");
-dnscrypt_proxy_start_translation();
 
 $pgtitle = array(gettext("Services"), gettext("DNSCrypt Proxy"), gettext("Query Log"));
 $pglinks = array("", "/dnscrypt-proxy.php", "@self");
@@ -61,14 +60,14 @@ include("head.inc");
 
 // Build the tab array
 $tab_array = array();
-$tab_array[] = array(dnscrypt_proxy_gettext("General Settings"), false, "/dnscrypt-proxy.php?page=general");
-$tab_array[] = array(dnscrypt_proxy_gettext("Server Selection"), false, "/dnscrypt-proxy.php?page=servers");
-$tab_array[] = array(dnscrypt_proxy_gettext("Cache & Filtering"), false, "/dnscrypt-proxy.php?page=cache");
-$tab_array[] = array(dnscrypt_proxy_gettext("Logging"), false, "/dnscrypt-proxy.php?page=logging");
-$tab_array[] = array(dnscrypt_proxy_gettext("Lists"), false, "/dnscrypt-proxy.php?page=lists");
-$tab_array[] = array(dnscrypt_proxy_gettext("Advanced"), false, "/dnscrypt-proxy.php?page=advanced");
-$tab_array[] = array(dnscrypt_proxy_gettext("Query Log"), true, "/dnscrypt-proxy-querylog.php");
-$tab_array[] = array(dnscrypt_proxy_gettext("Config"), false, "/dnscrypt-proxy-config.php");
+$tab_array[] = array(gettext("General Settings"), false, "/dnscrypt-proxy.php?page=general");
+$tab_array[] = array(gettext("Server Selection"), false, "/dnscrypt-proxy.php?page=servers");
+$tab_array[] = array(gettext("Cache & Filtering"), false, "/dnscrypt-proxy.php?page=cache");
+$tab_array[] = array(gettext("Logging"), false, "/dnscrypt-proxy.php?page=logging");
+$tab_array[] = array(gettext("Lists"), false, "/dnscrypt-proxy.php?page=lists");
+$tab_array[] = array(gettext("Advanced"), false, "/dnscrypt-proxy.php?page=advanced");
+$tab_array[] = array(gettext("Query Log"), true, "/dnscrypt-proxy-querylog.php");
+$tab_array[] = array(gettext("Config"), false, "/dnscrypt-proxy-config.php");
 display_top_tabs($tab_array);
 
 ?>
@@ -80,14 +79,14 @@ display_top_tabs($tab_array);
 	<div class="panel-body">
 		<form action="/dnscrypt-proxy-querylog.php" method="get" class="form-inline">
 			<div class="form-group" style="margin-right: 10px;">
-				<label for="filter_domain" style="margin-right: 5px;">Domain:</label>
+				<label for="filter_domain" style="margin-right: 5px;"><?=gettext("Domain:")?></label>
 				<input type="text" class="form-control" id="filter_domain" name="filter_domain"
-					   value="<?=htmlspecialchars($filter_domain)?>" placeholder="e.g., google.com">
+					   value="<?=htmlspecialchars($filter_domain)?>" placeholder="<?=htmlspecialchars(gettext("e.g., google.com"))?>">
 			</div>
 			<div class="form-group" style="margin-right: 10px;">
-				<label for="filter_type" style="margin-right: 5px;">Type:</label>
+				<label for="filter_type" style="margin-right: 5px;"><?=gettext("Type:")?></label>
 				<select class="form-control" id="filter_type" name="filter_type">
-					<option value="">All</option>
+					<option value=""><?=gettext("All")?></option>
 					<option value="A" <?=($filter_type == 'A') ? 'selected' : ''?>>A</option>
 					<option value="AAAA" <?=($filter_type == 'AAAA') ? 'selected' : ''?>>AAAA</option>
 					<option value="CNAME" <?=($filter_type == 'CNAME') ? 'selected' : ''?>>CNAME</option>
@@ -99,12 +98,12 @@ display_top_tabs($tab_array);
 				</select>
 			</div>
 			<div class="form-group" style="margin-right: 10px;">
-				<label for="filter_client" style="margin-right: 5px;">Client IP:</label>
+				<label for="filter_client" style="margin-right: 5px;"><?=gettext("Client IP:")?></label>
 				<input type="text" class="form-control" id="filter_client" name="filter_client"
-					   value="<?=htmlspecialchars($filter_client)?>" placeholder="e.g., 192.168.1.100">
+					   value="<?=htmlspecialchars($filter_client)?>" placeholder="<?=htmlspecialchars(gettext("e.g., 192.168.1.100"))?>">
 			</div>
 			<div class="form-group" style="margin-right: 10px;">
-				<label for="entries" style="margin-right: 5px;">Entries:</label>
+				<label for="entries" style="margin-right: 5px;"><?=gettext("Entries:")?></label>
 				<select class="form-control" id="entries" name="entries">
 					<option value="50" <?=($num_entries == 50) ? 'selected' : ''?>>50</option>
 					<option value="100" <?=($num_entries == 100) ? 'selected' : ''?>>100</option>
@@ -114,10 +113,10 @@ display_top_tabs($tab_array);
 				</select>
 			</div>
 			<button type="submit" class="btn btn-primary">
-				<i class="fa fa-filter"></i> Filter
+				<i class="fa fa-filter"></i> <?=gettext("Filter")?>
 			</button>
 			<a href="/dnscrypt-proxy-querylog.php" class="btn btn-default">
-				<i class="fa fa-undo"></i> Reset
+				<i class="fa fa-undo"></i> <?=gettext("Reset")?>
 			</a>
 		</form>
 	</div>
@@ -126,9 +125,10 @@ display_top_tabs($tab_array);
 <?php if (!$query_log_enabled): ?>
 <div class="alert alert-warning">
 	<i class="fa fa-exclamation-triangle"></i>
-	<?=gettext("Query logging is not enabled. Enable it in the ")?>
-	<a href="/pkg_edit.php?xml=dnscrypt-proxy-logging.xml"><?=gettext("Logging")?></a>
-	<?=gettext(" tab.")?>
+	<?=sprintf(
+		gettext("Query logging is not enabled. Enable it in the %s tab."),
+		'<a href="/pkg_edit.php?xml=dnscrypt-proxy-logging.xml">' . gettext("Logging") . '</a>'
+	)?>
 </div>
 <?php endif; ?>
 
@@ -139,7 +139,7 @@ display_top_tabs($tab_array);
 			<span class="pull-right">
 				<form action="/dnscrypt-proxy-querylog.php" method="post" style="display: inline;">
 					<button type="submit" name="clear" value="1" class="btn btn-xs btn-danger"
-							onclick="return confirm('<?=gettext("Are you sure you want to clear the query log?")?>');">
+							onclick="return confirm(<?=htmlspecialchars(json_encode(gettext("Are you sure you want to clear the query log?")), ENT_QUOTES)?>);">
 						<i class="fa fa-trash"></i> <?=gettext("Clear Log")?>
 					</button>
 				</form>
@@ -261,7 +261,11 @@ endif;
 		<p><strong><?=gettext("Note:")?></strong>
 		<?=gettext("Query logging can impact performance and generate large log files. Use it for troubleshooting purposes.")?>
 		</p>
-		<p><?=gettext("Service logs are available in ")?><a href="/status_logs_packages.php?pkg=dnscrypt-proxy"><?=gettext("Status > System Logs > Packages")?></a>.</p>
+		<p><?=sprintf(
+			gettext("Service logs are available in %s."),
+			'<a href="/status_logs_packages.php?pkg=dnscrypt-proxy">' .
+			    gettext("Status > System Logs > Packages") . '</a>'
+		)?></p>
 	</div>
 </div>
 

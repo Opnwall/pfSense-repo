@@ -11,8 +11,8 @@ A pfSense package providing a full GUI for [DNSCrypt Proxy](https://github.com/D
 
 This localized edition is based on the original
 [nopoz/pfsense-dnscrypt-proxy](https://github.com/nopoz/pfsense-dnscrypt-proxy)
-project. It adds package-local English, Simplified Chinese, and Traditional
-Chinese interfaces without replacing pfSense's system translation catalogs.
+project. It adds English, Simplified Chinese, and Traditional Chinese interface
+support through pfSense's system `pfSense.mo` translation catalogue.
 
 > **Note:** This is a community-maintained package and is not affiliated with or supported by Netgate.
 
@@ -30,6 +30,30 @@ Chinese interfaces without replacing pfSense's system translation catalogs.
 - **Multi-Architecture** - Supports both amd64 and arm64 (auto-detected)
 - **Service Integration** - Managed via Status > Services like native pfSense services
 - **Three UI Languages** - English, Simplified Chinese, and Traditional Chinese follow the current pfSense WebGUI language
+
+## Localization
+
+The package uses pfSense's standard `gettext()` path and the system
+`pfSense.mo` catalogue. It does not replace page output at runtime and does not
+ship separate localized XML files.
+
+Ready-to-merge PO fragments are provided for both Chinese locales:
+
+- `translations/pfSense-dnscrypt-proxy.zh_CN.po` — 319 Simplified Chinese entries
+- `translations/pfSense-dnscrypt-proxy.zh_TW.po` — 319 Traditional Chinese entries
+
+After changing English XML/PHP interface text or `tools/translation-map.php`,
+regenerate both fragments with:
+
+```bash
+php tools/extract-po.php
+```
+
+Merge the relevant fragment into the matching pfSense system PO source, compile
+it as the `pfSense` gettext domain, install it under
+`/usr/local/share/locale/<locale>/LC_MESSAGES/pfSense.mo`, and restart PHP-FPM
+so the updated catalogue is loaded. Back up the existing system MO file before
+replacing it.
 
 ## Screenshots
 

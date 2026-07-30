@@ -78,12 +78,6 @@ stage_files() {
         "${STAGE_DIR}${PREFIX}/pkg/"
     install -m 0644 "${FILES_DIR}${PREFIX}/pkg/dnscrypt-proxy-servers.xml" \
         "${STAGE_DIR}${PREFIX}/pkg/"
-    install -m 0644 "${FILES_DIR}${PREFIX}/pkg/dnscrypt-proxy-i18n.inc" \
-        "${STAGE_DIR}${PREFIX}/pkg/"
-    for localized_xml in "${FILES_DIR}${PREFIX}"/pkg/dnscrypt-proxy*.zh_CN.xml \
-        "${FILES_DIR}${PREFIX}"/pkg/dnscrypt-proxy*.zh_TW.xml; do
-        install -m 0644 "${localized_xml}" "${STAGE_DIR}${PREFIX}/pkg/"
-    done
     install -m 0644 "${FILES_DIR}${PREFIX}/share/${PORTNAME}/info.xml" \
         "${STAGE_DIR}${DATADIR}/"
     install -m 0644 "${FILES_DIR}${PREFIX}/www/dnscrypt-proxy-config.php" \
@@ -162,7 +156,6 @@ bin/dnscrypt-proxy-bin/LICENSE
 bin/dnscrypt-proxy-bin/dnscrypt-proxy-amd64
 bin/dnscrypt-proxy-bin/dnscrypt-proxy-arm64
 pkg/dnscrypt-proxy.inc
-pkg/dnscrypt-proxy-i18n.inc
 pkg/dnscrypt-proxy.xml
 pkg/dnscrypt-proxy-advanced.xml
 pkg/dnscrypt-proxy-cache.xml
@@ -170,20 +163,6 @@ pkg/dnscrypt-proxy-lists.xml
 pkg/dnscrypt-proxy-logging.xml
 pkg/dnscrypt-proxy-querylog.xml
 pkg/dnscrypt-proxy-servers.xml
-pkg/dnscrypt-proxy.zh_CN.xml
-pkg/dnscrypt-proxy-advanced.zh_CN.xml
-pkg/dnscrypt-proxy-cache.zh_CN.xml
-pkg/dnscrypt-proxy-lists.zh_CN.xml
-pkg/dnscrypt-proxy-logging.zh_CN.xml
-pkg/dnscrypt-proxy-querylog.zh_CN.xml
-pkg/dnscrypt-proxy-servers.zh_CN.xml
-pkg/dnscrypt-proxy.zh_TW.xml
-pkg/dnscrypt-proxy-advanced.zh_TW.xml
-pkg/dnscrypt-proxy-cache.zh_TW.xml
-pkg/dnscrypt-proxy-lists.zh_TW.xml
-pkg/dnscrypt-proxy-logging.zh_TW.xml
-pkg/dnscrypt-proxy-querylog.zh_TW.xml
-pkg/dnscrypt-proxy-servers.zh_TW.xml
 share/pfSense-pkg-dnscrypt-proxy/info.xml
 www/dnscrypt-proxy-config.php
 www/dnscrypt-proxy-querylog.php

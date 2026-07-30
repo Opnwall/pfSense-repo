@@ -1,0 +1,1288 @@
+# DNSCrypt Proxy translations for the pfSense gettext domain.
+# Merge this fragment into pfSense.po for zh_CN.
+msgid ""
+msgstr ""
+"Project-Id-Version: pfSense-pkg-dnscrypt-proxy\n"
+"PO-Revision-Date: 2026-07-30 00:00+0800\n"
+"Last-Translator: Opnwall community\n"
+"Language-Team: Opnwall community\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: files/usr/local/www/dnscrypt-proxy-config.php:156
+msgid "# Paste dnscrypt-proxy TOML configuration here..."
+msgstr "# 在此处粘贴 dnscrypt-proxy TOML 配置……"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "(all servers use these relays)"
+msgstr "（所有服务器都使用这些中继）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "(not DoH or ODoH)."
+msgstr "（不支持 DoH 或 ODoH）。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid ") are appended after the generated configuration."
+msgstr "）会追加到生成的配置之后。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:82
+msgid "1 - Info (verbose)"
+msgstr "1 - 信息（详细）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:83
+msgid "2 - Notice (default)"
+msgstr "2 - 通知（默认）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:84
+msgid "3 - Warning"
+msgstr "3 - 警告"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:85
+msgid "4 - Error"
+msgstr "4 - 错误"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:86
+msgid "5 - Critical (least verbose)"
+msgstr "5 - 严重（最简略）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:112
+msgid ": Always use fastest server"
+msgstr "：始终使用最快的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:98
+msgid ": Listen on all interfaces (use with caution)"
+msgstr "：监听所有接口（请谨慎使用）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:98
+msgid ": Listen on specific interface IP addresses"
+msgstr "：监听指定接口的 IP 地址"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:98
+msgid ": Only local services can use DNSCrypt (recommended for forwarding from Unbound)"
+msgstr "：仅本机服务可以使用 DNSCrypt（推荐用于 Unbound 转发）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:134
+msgid ": Only use servers selected below"
+msgstr "：仅使用下方选中的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:112
+msgid ": Power of Two random selection"
+msgstr "：二选一随机选择"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:112
+msgid ": Power of Two with shuffling"
+msgstr "：二选一并随机排序"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:112
+msgid ": Random selection"
+msgstr "：随机选择"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:239
+msgid ": Return empty response"
+msgstr "：返回空响应"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:239
+msgid ": Return HINFO record (default, compatible)"
+msgstr "：返回 HINFO 记录（默认，兼容性较好）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:239
+msgid ": Return REFUSED status"
+msgstr "：返回 REFUSED 状态"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:134
+msgid ": Use any available server matching requirements above"
+msgstr "：使用符合上述要求的任意可用服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:265
+msgid "Additional server names from the public resolver list (comma-separated)."
+msgstr "公共解析器列表中的其他服务器（使用逗号分隔）。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:258
+msgid "Additional Servers"
+msgstr "其他服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:149
+msgid "Address used to test network connectivity at startup. Default: 9.9.9.9:53"
+msgstr "启动时用于测试网络连接的地址。默认值：9.9.9.9:53"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:282
+msgid "Add your own DNS servers not in the public list. One per line."
+msgstr "添加公共列表中没有的自定义 DNS 服务器，每行一个。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:201
+msgid "adguard-dns - DNSCrypt, ad + malware blocking"
+msgstr "adguard-dns - DNSCrypt，阻止广告和恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:198
+msgid "adguard-dns-doh - DoH, ad + malware blocking"
+msgstr "adguard-dns-doh - DoH，阻止广告和恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:199
+msgid "adguard-dns-family-doh - DoH, family protection + ad blocking"
+msgstr "adguard-dns-family-doh - DoH，家庭保护和广告拦截"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:200
+msgid "adguard-dns-unfiltered-doh - DoH, no filtering"
+msgstr "adguard-dns-unfiltered-doh - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:193
+msgid "AdGuard DNS (ad and tracker blocking)"
+msgstr "AdGuard DNS（阻止广告和跟踪器）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:173
+msgid "Adjust the port (5300) if you changed the Listen Port above."
+msgstr "如果修改了上方的监听端口，请相应调整这里的端口（5300）。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:83 files/usr/local/www/dnscrypt-proxy-querylog.php:68 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:57 files/usr/local/pkg/dnscrypt-proxy-cache.xml:58 files/usr/local/pkg/dnscrypt-proxy-lists.xml:58 files/usr/local/pkg/dnscrypt-proxy-logging.xml:58 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:55 files/usr/local/pkg/dnscrypt-proxy-servers.xml:58 files/usr/local/pkg/dnscrypt-proxy.xml:71
+msgid "Advanced"
+msgstr "高级设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:72
+msgid "Advanced Settings Info"
+msgstr "设置说明"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:112
+msgid "Algorithm for selecting servers when multiple are available."
+msgstr "存在多个可用服务器时使用的选择算法。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:89 files/usr/local/pkg/dnscrypt-proxy.xml:98
+msgid "All"
+msgstr "全部"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:96
+msgid "Allowed Domains"
+msgstr "允许的域名"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:92
+msgid "Allowed Names"
+msgstr "允许的域名"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:67
+msgid "All settings have been reset to defaults. The service has been restarted."
+msgstr "所有设置已恢复为默认值，服务已重新启动。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:91
+msgid "Always use TCP for upstream DNS queries. Enable if your network blocks UDP DNS."
+msgstr "始终使用 TCP 发送上游 DNS 查询。如果网络阻止 UDP DNS，请启用此项。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:173
+msgid "and add to Custom options:"
+msgstr "，在“自定义选项”中添加以下内容："
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:299
+msgid "Anonymized DNS"
+msgstr "匿名 DNS"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:303
+msgid "Anonymized DNS Info"
+msgstr "匿名 DNS 说明"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Anonymized DNS only works with the"
+msgstr "匿名 DNS 仅适用于"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:142
+msgid "Are you sure you want to clear the query log?"
+msgstr "确定要清空查询日志吗？"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:224
+msgid "Are you sure you want to reset ALL DNSCrypt Proxy settings to defaults? This cannot be undone."
+msgstr "确定要将所有 DNSCrypt Proxy 设置恢复为默认值吗？此操作无法撤销。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "as the server name to route all servers through the same relays."
+msgstr "作为服务器名称，可让所有服务器使用相同的中继。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:142
+msgid "Auto - Use any matching server"
+msgstr "自动 - 使用任意匹配的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Available Relays"
+msgstr "可用中继"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "before saving."
+msgstr "验证完整的合并配置。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:76
+msgid "Blocked Domains"
+msgstr "阻止的域名"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:72
+msgid "Blocked Names"
+msgstr "阻止的域名"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:236
+msgid "Blocked Query Response"
+msgstr "被阻止查询的响应"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:232
+msgid "Blocked Response Handling"
+msgstr "阻止响应处理"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:111
+msgid "Block IPv6"
+msgstr "阻止 IPv6"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:126
+msgid "Block queries for locally-served zones (RFC 6303 - home, lan, local, etc.)"
+msgstr "阻止本地服务区域的查询（RFC 6303，例如 home、lan、local 等）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:119
+msgid "Block queries for single-label names (e.g., \"server\" instead of \"server.domain.com\")"
+msgstr "阻止单标签名称查询（例如使用“server”而不是“server.domain.com”）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:124
+msgid "Block Undelegated"
+msgstr "阻止未委派域名"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:117
+msgid "Block Unqualified"
+msgstr "阻止非限定名称"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:137
+msgid "Bootstrap Resolvers"
+msgstr "引导解析器"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Cache"
+msgstr "缓存"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:80 files/usr/local/www/dnscrypt-proxy-querylog.php:65 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:45 files/usr/local/pkg/dnscrypt-proxy-cache.xml:45 files/usr/local/pkg/dnscrypt-proxy-lists.xml:45 files/usr/local/pkg/dnscrypt-proxy-logging.xml:45 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:43 files/usr/local/pkg/dnscrypt-proxy-servers.xml:46 files/usr/local/pkg/dnscrypt-proxy.xml:59
+msgid "Cache & Filtering"
+msgstr "缓存与过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:99
+msgid "Cache Max TTL (seconds)"
+msgstr "缓存最大 TTL（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:91
+msgid "Cache Min TTL (seconds)"
+msgstr "缓存最小 TTL（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:83
+msgid "Cache Size"
+msgstr "缓存大小"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Certificate handling"
+msgstr "证书处理"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:200
+msgid "Certificate Handling"
+msgstr "证书处理"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:204
+msgid "Certificate Refresh Delay (minutes)"
+msgstr "证书刷新间隔（分钟）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Choose relays operated by"
+msgstr "请选择由"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:241
+msgid "cisco - DNSCrypt, no filtering"
+msgstr "cisco - DNSCrypt，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:239
+msgid "cisco-doh - DoH, no filtering"
+msgstr "cisco-doh - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:240
+msgid "cisco-familyshield - DNSCrypt, family protection"
+msgstr "cisco-familyshield - DNSCrypt，家庭保护"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:254
+msgid "cleanbrowsing-adult - DNSCrypt, adult content blocking"
+msgstr "cleanbrowsing-adult - DNSCrypt，阻止成人内容"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:253
+msgid "cleanbrowsing-family - DNSCrypt, family protection"
+msgstr "cleanbrowsing-family - DNSCrypt，家庭保护"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:252
+msgid "cleanbrowsing-security - DNSCrypt, malware + phishing blocking"
+msgstr "cleanbrowsing-security - DNSCrypt，阻止恶意软件和网络钓鱼"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:247
+msgid "CleanBrowsing DNS (content filtering)"
+msgstr "CleanBrowsing DNS（内容过滤）"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:143
+msgid "Clear Log"
+msgstr "清空日志"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:158
+msgid "Client"
+msgstr "客户端"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:131 files/usr/local/pkg/dnscrypt-proxy-lists.xml:135
+msgid "Cloaking Rules"
+msgstr "伪装规则"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:158
+msgid "cloudflare - DoH, no filtering"
+msgstr "cloudflare - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:160
+msgid "cloudflare-family - DoH, malware + adult content blocking"
+msgstr "cloudflare-family - DoH，阻止恶意软件和成人内容"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:161
+msgid "cloudflare-ipv6 - DoH, no filtering (IPv6)"
+msgstr "cloudflare-ipv6 - DoH，不过滤（IPv6）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:159
+msgid "cloudflare-security - DoH, malware blocking"
+msgstr "cloudflare-security - DoH，阻止恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:153
+msgid "Cloudflare DNS (anycast, privacy-focused)"
+msgstr "Cloudflare DNS（任播，注重隐私）"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:70 files/usr/local/www/dnscrypt-proxy-querylog.php:70 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:66 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299 files/usr/local/pkg/dnscrypt-proxy-cache.xml:66 files/usr/local/pkg/dnscrypt-proxy-lists.xml:66 files/usr/local/pkg/dnscrypt-proxy-logging.xml:66 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:64 files/usr/local/pkg/dnscrypt-proxy-servers.xml:66 files/usr/local/pkg/dnscrypt-proxy.xml:79
+msgid "Config"
+msgstr "配置"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:58
+msgid "Configuration imported successfully. All GUI tabs now reflect the imported settings."
+msgstr "配置导入成功，所有界面标签页均已更新为导入的设置。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:33
+msgid "Configure DNSCrypt Proxy encrypted DNS client"
+msgstr "配置 DNSCrypt Proxy 加密 DNS 客户端"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Connection settings"
+msgstr "连接设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:85
+msgid "Connection Settings"
+msgstr "连接设置"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:138
+msgid "Copied!"
+msgstr "已复制！"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:117
+msgid "Copy to Clipboard"
+msgstr "复制到剪贴板"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:178
+msgid "Create a unique encryption key for each DNSCrypt query. More secure but slightly slower."
+msgstr "为每个 DNSCrypt 查询创建唯一的加密密钥。安全性更高，但速度会略有下降。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:291
+msgid "Custom Configuration"
+msgstr "自定义配置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:295
+msgid "Custom Options Info"
+msgstr "自定义选项说明"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:279
+msgid "Custom Resolvers"
+msgstr "自定义解析器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:275
+msgid "Custom Static Servers"
+msgstr "自定义静态服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:313
+msgid "Custom TOML Options"
+msgstr "自定义 TOML 选项"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:140
+msgid "Default: 9.9.9.11:53, 8.8.8.8:53"
+msgstr "默认值：9.9.9.11:53, 8.8.8.8:53"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:115
+msgid "Default: 5300"
+msgstr "默认值：5300"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "Define relay routes, one per line. Format:"
+msgstr "定义中继路由，每行一条。格式："
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:277
+msgid "Delete log files older than this many days. Default: 7"
+msgstr "删除超过此天数的日志文件。默认值：7"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "different entities"
+msgstr "不同运营商"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:353
+msgid "Direct Certificate Fallback"
+msgstr "证书直连回退"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:188
+msgid "Disabled Server Names"
+msgstr "禁用的服务器名称"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:182
+msgid "Disable TLS Session Tickets"
+msgstr "禁用 TLS 会话票据"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:184
+msgid "Disable TLS session tickets for improved privacy at the cost of slight performance reduction."
+msgstr "禁用 TLS 会话票据可增强隐私保护，但性能会略有下降。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:72
+msgid "DNS Cache"
+msgstr "DNS 缓存"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "DNSCrypt protocol"
+msgstr "DNSCrypt 协议"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:41
+msgid "DNSCrypt Proxy - Encrypted DNS"
+msgstr "DNSCrypt Proxy - 加密 DNS"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:114
+msgid "DNSCrypt Proxy Configuration"
+msgstr "DNSCrypt Proxy 配置"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "DNSCrypt Proxy configuration"
+msgstr "DNSCrypt Proxy 配置"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:198
+msgid "DNSCrypt Proxy Version"
+msgstr "DNSCrypt Proxy 版本"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:138
+msgid "DNS Queries"
+msgstr "DNS 查询"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Documentation"
+msgstr "文档"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:159
+msgid "Domain"
+msgstr "域名"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:99
+msgid "Domains to always allow (bypass blocking). One per line."
+msgstr "始终允许的域名（绕过阻止），每行一个。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:79
+msgid "Domains to block (one per line). Supports wildcards."
+msgstr "要阻止的域名（每行一个），支持通配符。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:152
+msgid "Do not use DNS servers from /etc/resolv.conf"
+msgstr "不使用 /etc/resolv.conf 中的 DNS 服务器"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:120
+msgid "Download"
+msgstr "下载"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:103
+msgid "e.g., 192.168.1.100"
+msgstr "例如 192.168.1.100"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:84
+msgid "e.g., google.com"
+msgstr "例如 google.com"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:251
+msgid "Empty Response"
+msgstr "空响应"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:89
+msgid "Enable"
+msgstr "启用"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:319
+msgid "Enable Anonymized DNS"
+msgstr "启用匿名 DNS"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:76
+msgid "Enable Cache"
+msgstr "启用缓存"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:91
+msgid "Enable DNSCrypt Proxy service"
+msgstr "启用 DNSCrypt Proxy 服务"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:95
+msgid "Enable HTTP/3"
+msgstr "启用 HTTP/3"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:78
+msgid "Enable local DNS response caching"
+msgstr "启用本地 DNS 响应缓存"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:165
+msgid "Enable ODoH Servers"
+msgstr "启用 ODoH 服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:112
+msgid "Enable Query Logging"
+msgstr "启用查询日志"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "Enter additional dnscrypt-proxy TOML options not exposed in the UI."
+msgstr "输入页面中未提供的其他 dnscrypt-proxy TOML 选项。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:106
+msgid "Entries:"
+msgstr "条目数："
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:176
+msgid "Ephemeral Keys"
+msgstr "临时密钥"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:191 files/usr/local/pkg/dnscrypt-proxy-lists.xml:79 files/usr/local/pkg/dnscrypt-proxy-lists.xml:117 files/usr/local/pkg/dnscrypt-proxy-lists.xml:138 files/usr/local/pkg/dnscrypt-proxy-servers.xml:265 files/usr/local/pkg/dnscrypt-proxy-servers.xml:282
+msgid "Example:"
+msgstr "示例："
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "Examples:"
+msgstr "示例："
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:125
+msgid "Fastest Server"
+msgstr "最快服务器"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:116
+msgid "Filter"
+msgstr "筛选"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:265
+msgid "for available servers."
+msgstr "查看可用服务器。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:89
+msgid "Force TCP"
+msgstr "强制 TCP"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299 files/usr/local/pkg/dnscrypt-proxy-lists.xml:117 files/usr/local/pkg/dnscrypt-proxy-lists.xml:138 files/usr/local/pkg/dnscrypt-proxy-servers.xml:282
+msgid "Format:"
+msgstr "格式："
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:110 files/usr/local/pkg/dnscrypt-proxy-lists.xml:114
+msgid "Forwarding Rules"
+msgstr "转发规则"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:117
+msgid "Forward specific domains to different DNS servers."
+msgstr "将指定域名转发到不同的 DNS 服务器。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:78 files/usr/local/www/dnscrypt-proxy-querylog.php:63 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:37 files/usr/local/pkg/dnscrypt-proxy-cache.xml:37 files/usr/local/pkg/dnscrypt-proxy-lists.xml:37 files/usr/local/pkg/dnscrypt-proxy-logging.xml:37 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:35 files/usr/local/pkg/dnscrypt-proxy-servers.xml:37 files/usr/local/pkg/dnscrypt-proxy.xml:50 files/usr/local/pkg/dnscrypt-proxy.xml:85
+msgid "General Settings"
+msgstr "常规设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Generated by pfSense package - do not edit manually"
+msgstr "由 pfSense 软件包自动生成，请勿手动编辑"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:282
+msgid "Generate stamps at:"
+msgstr "DNS Stamp 生成地址："
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:186
+msgid "google - DoH, no filtering"
+msgstr "google - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:187
+msgid "google-ipv6 - DoH, no filtering (IPv6)"
+msgstr "google-ipv6 - DoH，不过滤（IPv6）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:181
+msgid "Google Public DNS (anycast)"
+msgstr "Google 公共 DNS（任播）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:173
+msgid "Go to"
+msgstr "前往"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "headers."
+msgstr "段标题之前。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:249
+msgid "HINFO Record (default)"
+msgstr "HINFO 记录（默认）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:159
+msgid "How long to wait for a response from DNS servers (milliseconds). Default: 5000"
+msgstr "等待 DNS 服务器响应的最长时间（毫秒）。默认值：5000"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:206
+msgid "How often to refresh DNSCrypt server certificates. Default: 240 (4 hours)"
+msgstr "DNSCrypt 服务器证书的刷新间隔。默认值：240（4 小时）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:101
+msgid "HTTP Keepalive (seconds)"
+msgstr "HTTP 保持连接（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:355
+msgid "If certificates cannot be retrieved via relay, try direct connection. DNS queries will still go through relays."
+msgstr "如果无法通过中继获取证书，则尝试直接连接；DNS 查询仍会通过中继发送。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:150
+msgid "Ignore System DNS"
+msgstr "忽略系统 DNS"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:113
+msgid "Immediately respond with empty answer to AAAA queries (IPv6)"
+msgstr "立即以空响应回答 AAAA（IPv6）查询"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:166
+msgid "Import"
+msgstr "导入"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Important:"
+msgstr "注意："
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:137
+msgid "Important for systems where DNS starts before network is ready. Default: 60"
+msgstr "对于 DNS 早于网络就绪的系统很重要。默认值：60"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:148
+msgid "Import Configuration"
+msgstr "导入配置"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:169
+msgid "Importing will overwrite current settings (except enable/disable state, listen interfaces, and list file contents). The service will be restarted with the imported configuration."
+msgstr "导入将覆盖当前设置（启用/禁用状态、监听接口和列表文件内容除外）。导入配置后服务将重新启动。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:140
+msgid "Initial DNS resolvers used to resolve DoH server hostnames (comma-separated)."
+msgstr "用于解析 DoH 服务器主机名的初始 DNS 解析器（使用逗号分隔）。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:169
+msgid "Integration Guide"
+msgstr "集成说明"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:98
+msgid "Interfaces to listen on for DNS queries. Use CTRL/CMD+click to select multiple."
+msgstr "用于监听 DNS 查询的接口。按住 CTRL/CMD 并单击可选择多个项目。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:103
+msgid "Keep HTTP connections open for this duration. Default: 30"
+msgstr "HTTP 连接保持打开的时间。默认值：30"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:162
+msgid "Latency"
+msgstr "延迟"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:112
+msgid "Listen Port"
+msgstr "监听端口"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:82 files/usr/local/www/dnscrypt-proxy-querylog.php:67 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:53 files/usr/local/pkg/dnscrypt-proxy-cache.xml:54 files/usr/local/pkg/dnscrypt-proxy-lists.xml:53 files/usr/local/pkg/dnscrypt-proxy-logging.xml:54 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:51 files/usr/local/pkg/dnscrypt-proxy-servers.xml:54 files/usr/local/pkg/dnscrypt-proxy.xml:67
+msgid "Lists"
+msgstr "列表"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:109
+msgid "Load Balancing Strategy"
+msgstr "负载均衡策略"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:160
+msgid "Load from file"
+msgstr "从文件加载"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:114
+msgid "Log all DNS queries to a file (can grow large quickly)"
+msgstr "将所有 DNS 查询记录到文件（文件可能快速增大）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:90
+msgid "Log Destination"
+msgstr "日志目标"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:97
+msgid "Log File"
+msgstr "日志文件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:101
+msgid "Log File Path"
+msgstr "日志文件路径"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:81 files/usr/local/www/dnscrypt-proxy-querylog.php:66 files/usr/local/pkg/dnscrypt-proxy.inc files/usr/local/pkg/dnscrypt-proxy-advanced.xml:49 files/usr/local/pkg/dnscrypt-proxy-cache.xml:50 files/usr/local/pkg/dnscrypt-proxy-lists.xml:49 files/usr/local/pkg/dnscrypt-proxy-logging.xml:49 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:47 files/usr/local/pkg/dnscrypt-proxy-servers.xml:50 files/usr/local/pkg/dnscrypt-proxy.xml:63
+msgid "Logging"
+msgstr "日志"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:72
+msgid "Logging Settings"
+msgstr "日志设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:78
+msgid "Logging verbosity. Info is useful for troubleshooting; Notice is recommended for normal operation."
+msgstr "日志详细程度。“信息”适合故障排查；正常运行建议使用“通知”。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:76
+msgid "Log Level"
+msgstr "日志级别"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:263
+msgid "Log Rotation"
+msgstr "日志轮换"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:143
+msgid "Manual - Select specific servers"
+msgstr "手动 - 选择指定服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:125
+msgid "Max Clients"
+msgstr "最大客户端数"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:85
+msgid "Maximum number of DNS entries to cache. Default: 4096"
+msgstr "最多缓存的 DNS 条目数。默认值：4096"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:127
+msgid "Maximum number of simultaneous client connections. Default: 250"
+msgstr "允许的最大并发客户端连接数。默认值：250"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:101
+msgid "Maximum TTL for cached entries. Default: 86400 (24 hours)"
+msgstr "缓存条目的最大 TTL。默认值：86400（24 小时）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:226
+msgid "Maximum TTL for NXDOMAIN responses. Default: 600"
+msgstr "NXDOMAIN 响应的最大 TTL。默认值：600"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:275
+msgid "Max Log Age (days)"
+msgstr "日志最长保留天数"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:283
+msgid "Max Log Backups"
+msgstr "最大日志备份数"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:267
+msgid "Max Log File Size (MB)"
+msgstr "最大日志文件大小（MB）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:93
+msgid "Minimum TTL for cached entries. Default: 2400 (40 minutes)"
+msgstr "缓存条目的最小 TTL。默认值：2400（40 分钟）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:218
+msgid "Minimum TTL for NXDOMAIN (non-existent domain) responses. Default: 60"
+msgstr "NXDOMAIN（域名不存在）响应的最小 TTL。默认值：60"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:228
+msgid "mullvad-all-doh - DoH, maximum blocking"
+msgstr "mullvad-all-doh - DoH，最大程度拦截"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:226
+msgid "mullvad-base-doh - DoH, ad, tracker + malware blocking"
+msgstr "mullvad-base-doh - DoH，阻止广告、跟踪器和恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:225
+msgid "mullvad-doh - DoH, no filtering"
+msgstr "mullvad-doh - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:227
+msgid "mullvad-family-doh - DoH, family protection"
+msgstr "mullvad-family-doh - DoH，家庭保护"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:220
+msgid "Mullvad DNS (privacy-focused, no logging, audited)"
+msgstr "Mullvad DNS（注重隐私、不记录日志、已审计）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:212
+msgid "Negative Cache"
+msgstr "否定缓存"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:224
+msgid "Negative Cache Max TTL (seconds)"
+msgstr "否定缓存最大 TTL（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:216
+msgid "Negative Cache Min TTL (seconds)"
+msgstr "否定缓存最小 TTL（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:95
+msgid "Network Interfaces"
+msgstr "网络接口"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:147
+msgid "Network Probe Address"
+msgstr "网络探测地址"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:134
+msgid "Network Probe Timeout (seconds)"
+msgstr "网络探测超时（秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:133
+msgid "Network Settings"
+msgstr "网络设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:207
+msgid "NextDNS (customizable filtering via nextdns.io)"
+msgstr "NextDNS（可通过 nextdns.io 自定义过滤）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:212
+msgid "nextdns - DoH, customizable filtering"
+msgstr "nextdns - DoH，可自定义过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:213
+msgid "nextdns-ipv6 - DoH, customizable filtering (IPv6)"
+msgstr "nextdns-ipv6 - DoH，可自定义过滤（IPv6）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:214
+msgid "nextdns-ultralow - DoH, customizable filtering (ultra-low latency)"
+msgstr "nextdns-ultralow - DoH，可自定义过滤（超低延迟）"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:108
+msgid "No configuration file found. Enable the service and save settings to generate the config."
+msgstr "未找到配置文件。请启用服务并保存设置以生成配置。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:224
+msgid "No queries found matching the filter criteria."
+msgstr "未找到符合筛选条件的查询。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:233 files/usr/local/www/dnscrypt-proxy-querylog.php:261
+msgid "Note:"
+msgstr "注意："
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:52
+msgid "No TOML content provided. Paste a configuration or use the file picker."
+msgstr "未提供 TOML 内容。请粘贴配置或使用文件选择器。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:285
+msgid "Number of rotated log files to keep. Default: 1"
+msgstr "保留的轮换日志文件数量。默认值：1"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:168
+msgid "ODoH separates the resolver from the query, so no single server sees both your IP and your queries."
+msgstr "ODoH 将解析器与查询分离，因此任何单一服务器都无法同时看到你的 IP 和查询内容。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:155
+msgid "Offline Mode"
+msgstr "离线模式"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "One option per line, e.g."
+msgstr "每行一个选项，例如"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:76
+msgid "Only modify if you understand the implications."
+msgstr "仅在了解相关影响的情况下进行修改。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:115
+msgid "Only use servers that claim to not log queries"
+msgstr "仅使用声明不记录查询日志的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:122
+msgid "Only use servers that do not filter/block domains"
+msgstr "仅使用不过滤或阻止域名的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:109
+msgid "Only use servers that support DNSSEC validation"
+msgstr "仅使用支持 DNSSEC 验证的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:262
+msgid "Other Server Names"
+msgstr "其他服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:138
+msgid "Override DNS responses (like /etc/hosts). One entry per line."
+msgstr "覆盖 DNS 响应（类似 /etc/hosts），每行一项。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:188
+msgid "Package Info"
+msgstr "软件包信息"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:192
+msgid "Package Version"
+msgstr "软件包版本"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:153
+msgid "Paste TOML configuration or load from file:"
+msgstr "粘贴 TOML 配置或从文件加载："
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:103
+msgid "Path to log file. Only used when Log Destination is set to \"Log File\"."
+msgstr "日志文件路径，仅在日志目标设为“日志文件”时使用。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:120
+msgid "Path to query log file. Default: /var/log/dnscrypt-proxy/query.log"
+msgstr "查询日志文件路径。默认值：/var/log/dnscrypt-proxy/query.log"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:194
+msgid "Please paste a TOML configuration or load a file first."
+msgstr "请先粘贴 TOML 配置或加载文件。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:147
+msgid "Popular DNS Providers"
+msgstr "常用 DNS 提供商"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:115
+msgid "Port to listen on. Use 5300 to avoid conflicts with Unbound (53)."
+msgstr "要监听的端口。建议使用 5300，以避免与 Unbound（53）冲突。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:123
+msgid "Power of Two (p2) - Default"
+msgstr "二选一（p2）- 默认"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:124
+msgid "Power of Two + Shuffle (ph)"
+msgstr "二选一并随机排序（ph）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:161
+msgid "Privacy & Security"
+msgstr "隐私与安全"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:72
+msgid "Protocol Selection"
+msgstr "协议选择"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:167
+msgid "Quad9 DNS (security-focused, threat blocking)"
+msgstr "Quad9 DNS（注重安全，阻止威胁）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:172
+msgid "quad9-dnscrypt-ip4-filter-pri - DNSCrypt, malware blocking"
+msgstr "quad9-dnscrypt-ip4-filter-pri - DNSCrypt，阻止恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:173
+msgid "quad9-dnscrypt-ip4-nofilter-pri - DNSCrypt, no filtering"
+msgstr "quad9-dnscrypt-ip4-nofilter-pri - DNSCrypt，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:174
+msgid "quad9-doh-ip4-port443-filter-pri - DoH, malware blocking"
+msgstr "quad9-doh-ip4-port443-filter-pri - DoH，阻止恶意软件"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:175
+msgid "quad9-doh-ip4-port443-nofilter-pri - DoH, no filtering"
+msgstr "quad9-doh-ip4-port443-nofilter-pri - DoH，不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Query filtering"
+msgstr "查询过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-cache.xml:107
+msgid "Query Filtering"
+msgstr "查询过滤"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:84 files/usr/local/www/dnscrypt-proxy-querylog.php:32 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:62 files/usr/local/pkg/dnscrypt-proxy-cache.xml:62 files/usr/local/pkg/dnscrypt-proxy-lists.xml:62 files/usr/local/pkg/dnscrypt-proxy-logging.xml:62 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:59 files/usr/local/pkg/dnscrypt-proxy-servers.xml:62 files/usr/local/pkg/dnscrypt-proxy.xml:75
+msgid "Query Log"
+msgstr "查询日志"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:118
+msgid "Query Log File"
+msgstr "查询日志文件"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:222
+msgid "Query log file does not exist. Enable query logging and make some DNS queries."
+msgstr "查询日志文件不存在。请启用查询日志并执行一些 DNS 查询。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:77
+msgid "Query Log Filter"
+msgstr "查询日志过滤器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:108
+msgid "Query Logging"
+msgstr "查询日志记录"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:262
+msgid "Query logging can impact performance and generate large log files. Use it for troubleshooting purposes."
+msgstr "查询日志可能影响性能并生成较大的日志文件，建议仅用于故障排查。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:129
+msgid "Query logging is not enabled. Enable it in the %s tab."
+msgstr "查询日志尚未启用。请在“%s”标签页中启用。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:157
+msgid "Query Timeout (ms)"
+msgstr "查询超时（毫秒）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:126
+msgid "Random"
+msgstr "随机"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:315
+msgid "Raw TOML options, one per line."
+msgstr "原始 TOML 选项，每行一个。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:147
+msgid "Refresh"
+msgstr "刷新"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:250
+msgid "REFUSED Status"
+msgstr "REFUSED 状态"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:255
+msgid "Reject TTL (seconds)"
+msgstr "拒绝响应 TTL（秒）"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:164
+msgid "Relay"
+msgstr "中继"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "Relay names are listed at:"
+msgstr "中继名称列表："
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:325
+msgid "Relay Routes"
+msgstr "中继路由"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "Relays hide your IP address from DNS resolvers by routing encrypted queries through intermediate servers."
+msgstr "中继通过中间服务器转发加密查询，从而向 DNS 解析器隐藏你的 IP 地址。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:107
+msgid "Require DNSSEC"
+msgstr "要求 DNSSEC"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:120
+msgid "Require No Filtering"
+msgstr "要求不过滤"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:113
+msgid "Require No Logging"
+msgstr "要求不记录日志"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:119
+msgid "Reset"
+msgstr "重置"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:215
+msgid "Reset All Settings"
+msgstr "重置所有设置"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:206
+msgid "Reset to Defaults"
+msgstr "重置为默认值"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:239
+msgid "Response type for blocked queries."
+msgstr "被阻止查询的响应类型。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:269
+msgid "Rotate log files when they reach this size. Default: 10"
+msgstr "日志文件达到此大小时进行轮换。默认值：10"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:321
+msgid "Route DNS queries through anonymizing relays to hide your IP from resolvers"
+msgstr "通过匿名中继路由 DNS 查询，向解析器隐藏你的 IP 地址"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:157
+msgid "Run without upstream servers. Only cloaking and forwarding rules will work."
+msgstr "在没有上游服务器的情况下运行，此时仅伪装和转发规则有效。"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Security and privacy"
+msgstr "安全和隐私"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:265
+msgid "See"
+msgstr "请参阅"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:131
+msgid "Selection Mode"
+msgstr "选择模式"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:163
+msgid "Server"
+msgstr "服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:191
+msgid "Server names to exclude even if they match other criteria (comma-separated)."
+msgstr "即使符合其他条件也要排除的服务器名称（使用逗号分隔）。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:103
+msgid "Server Requirements"
+msgstr "服务器要求"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:79 files/usr/local/www/dnscrypt-proxy-querylog.php:64 files/usr/local/pkg/dnscrypt-proxy-advanced.xml:41 files/usr/local/pkg/dnscrypt-proxy-cache.xml:41 files/usr/local/pkg/dnscrypt-proxy-lists.xml:41 files/usr/local/pkg/dnscrypt-proxy-logging.xml:41 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:39 files/usr/local/pkg/dnscrypt-proxy-servers.xml:41 files/usr/local/pkg/dnscrypt-proxy-servers.xml:127 files/usr/local/pkg/dnscrypt-proxy.xml:55
+msgid "Server Selection"
+msgstr "服务器选择"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Server selection"
+msgstr "服务器选择"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Server sources"
+msgstr "服务器来源"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:265
+msgid "Service logs are available in %s."
+msgstr "服务日志可在%s中查看。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:70 files/usr/local/www/dnscrypt-proxy-querylog.php:32 files/usr/local/pkg/dnscrypt-proxy.xml:34
+msgid "Services"
+msgstr "服务"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:29 files/usr/local/pkg/dnscrypt-proxy-cache.xml:29 files/usr/local/pkg/dnscrypt-proxy-lists.xml:29 files/usr/local/pkg/dnscrypt-proxy-logging.xml:29 files/usr/local/pkg/dnscrypt-proxy-querylog.xml:29 files/usr/local/pkg/dnscrypt-proxy-servers.xml:29 files/usr/local/pkg/dnscrypt-proxy.xml:29
+msgid "Services: DNSCrypt Proxy"
+msgstr "服务: DNSCrypt Proxy"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:173
+msgid "Services > DNS Resolver > General Settings"
+msgstr "服务 > DNS 解析器 > 常规设置"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:346
+msgid "Skip Incompatible"
+msgstr "跳过不兼容服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:348
+msgid "Skip resolvers incompatible with anonymization instead of using them directly"
+msgstr "跳过不兼容匿名模式的解析器，而不是直接使用它们"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:130
+msgid "Startup & Network Probing"
+msgstr "启动与网络探测"
+
+#: files/usr/local/pkg/dnscrypt-proxy.inc
+msgid "Startup and network"
+msgstr "启动和网络"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:161
+msgid "Status"
+msgstr "状态"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:267
+msgid "Status > System Logs > Packages"
+msgstr "状态 > 系统日志 > 软件包"
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:96
+msgid "Syslog (Status > System Logs)"
+msgstr "系统日志（状态 > 系统日志）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "tab to view the complete generated TOML file."
+msgstr "标签页查看完整生成的 TOML 文件。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:306
+msgid "than your resolvers for maximum privacy."
+msgstr "运营的中继，以获得更好的隐私保护。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "The full merged configuration is validated with"
+msgstr "保存前会使用"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:76
+msgid "These settings have sensible defaults and most users do not need to change them."
+msgstr "这些设置已有合理的默认值，大多数用户无需修改。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-lists.xml:99
+msgid "These take priority over blocked domains."
+msgstr "允许列表的优先级高于阻止列表。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:213
+msgid "This action cannot be undone. Your current configuration will be lost."
+msgstr "此操作无法撤销，当前配置将会丢失。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:234
+msgid "This is the generated TOML configuration file used by dnscrypt-proxy. Changes should be made through the GUI tabs above, or by importing a complete TOML configuration."
+msgstr "这是 dnscrypt-proxy 使用的自动生成 TOML 配置文件。请通过上方界面标签页修改设置，或导入完整的 TOML 配置。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:197
+msgid "This will overwrite your current DNSCrypt Proxy settings with the imported configuration. Are you sure?"
+msgstr "这会使用导入的配置覆盖当前 DNSCrypt Proxy 设置，确定继续吗？"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:211
+msgid "This will reset all DNSCrypt Proxy settings across all tabs to their default values."
+msgstr "这会将所有标签页中的 DNSCrypt Proxy 设置恢复为默认值。"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:157
+msgid "Time"
+msgstr "时间"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:173
+msgid "To forward Unbound queries through DNSCrypt Proxy:"
+msgstr "要通过 DNSCrypt Proxy 转发 Unbound 查询："
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "TOML section blocks (e.g."
+msgstr "TOML 配置段（例如"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "Top-level options add keys not available in the UI. If a custom key duplicates a UI-managed key, the UI value takes precedence."
+msgstr "顶层选项可添加页面中没有的值。如果自定义值与页面管理的值重复，以页面中的值为准。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "Top-level options must appear before any"
+msgstr "顶层选项必须位于所有"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:257
+msgid "TTL for synthetic responses to blocked queries. Default: 10"
+msgstr "被阻止查询的合成响应 TTL。默认值：10"
+
+#: files/usr/local/www/dnscrypt-proxy-querylog.php:160
+msgid "Type"
+msgstr "类型"
+
+#: files/usr/local/pkg/dnscrypt-proxy.xml:165
+msgid "Unbound Integration"
+msgstr "Unbound 集成"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:328
+msgid "Use"
+msgstr "使用"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:89
+msgid "Use DNSCrypt Servers"
+msgstr "使用 DNSCrypt 服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:96
+msgid "Use DoH Servers"
+msgstr "使用 DoH 服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:97
+msgid "Use HTTP/3 (QUIC) for DNS-over-HTTPS servers when available. Can improve performance."
+msgstr "可用时对 DNS-over-HTTPS 服务器使用 HTTP/3（QUIC），可能有助于提高性能。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:76
+msgid "Use IPv4 Servers"
+msgstr "使用 IPv4 服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:83
+msgid "Use IPv6 Servers"
+msgstr "使用 IPv6 服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:168
+msgid "Use Oblivious DNS-over-HTTPS servers for enhanced privacy."
+msgstr "使用 Oblivious DNS-over-HTTPS 服务器增强隐私保护。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:78
+msgid "Use servers reachable via IPv4"
+msgstr "使用可通过 IPv4 访问的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:85
+msgid "Use servers reachable via IPv6 (requires IPv6 connectivity)"
+msgstr "使用可通过 IPv6 访问的服务器（需要 IPv6 连接）"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:98
+msgid "Use servers supporting DNS-over-HTTPS"
+msgstr "使用支持 DNS-over-HTTPS 的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-servers.xml:91
+msgid "Use servers supporting the DNSCrypt protocol"
+msgstr "使用支持 DNSCrypt 协议的服务器"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:299
+msgid "Use the"
+msgstr "使用"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:137
+msgid "Wait this long for network connectivity before starting. Set to -1 to disable."
+msgstr "启动前等待网络连接的时间。设为 -1 可禁用等待。"
+
+#: files/usr/local/www/dnscrypt-proxy-config.php:212
+msgid "Warning:"
+msgstr "警告："
+
+#: files/usr/local/pkg/dnscrypt-proxy-logging.xml:92
+msgid "Where to send log messages. Only one can be active at a time."
+msgstr "日志消息的发送位置，同一时间只能启用一种。"
+
+#: files/usr/local/pkg/dnscrypt-proxy-advanced.xml:32 files/usr/local/pkg/dnscrypt-proxy-cache.xml:32 files/usr/local/pkg/dnscrypt-proxy-lists.xml:32 files/usr/local/pkg/dnscrypt-proxy-logging.xml:32 files/usr/local/pkg/dnscrypt-proxy-servers.xml:32 files/usr/local/pkg/dnscrypt-proxy.xml:45
+msgid "[dnscrypt-proxy] Settings saved"
+msgstr "[dnscrypt-proxy] 设置已保存"

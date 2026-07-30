@@ -28,7 +28,6 @@
 
 require_once("guiconfig.inc");
 require_once("/usr/local/pkg/dnscrypt-proxy.inc");
-dnscrypt_proxy_start_translation();
 
 // Handle download request
 if (isset($_GET['download'])) {
@@ -76,14 +75,14 @@ include("head.inc");
 
 // Build the tab array
 $tab_array = array();
-$tab_array[] = array(dnscrypt_proxy_gettext("General Settings"), false, "/dnscrypt-proxy.php?page=general");
-$tab_array[] = array(dnscrypt_proxy_gettext("Server Selection"), false, "/dnscrypt-proxy.php?page=servers");
-$tab_array[] = array(dnscrypt_proxy_gettext("Cache & Filtering"), false, "/dnscrypt-proxy.php?page=cache");
-$tab_array[] = array(dnscrypt_proxy_gettext("Logging"), false, "/dnscrypt-proxy.php?page=logging");
-$tab_array[] = array(dnscrypt_proxy_gettext("Lists"), false, "/dnscrypt-proxy.php?page=lists");
-$tab_array[] = array(dnscrypt_proxy_gettext("Advanced"), false, "/dnscrypt-proxy.php?page=advanced");
-$tab_array[] = array(dnscrypt_proxy_gettext("Query Log"), false, "/dnscrypt-proxy-querylog.php");
-$tab_array[] = array(dnscrypt_proxy_gettext("Config"), true, "/dnscrypt-proxy-config.php");
+$tab_array[] = array(gettext("General Settings"), false, "/dnscrypt-proxy.php?page=general");
+$tab_array[] = array(gettext("Server Selection"), false, "/dnscrypt-proxy.php?page=servers");
+$tab_array[] = array(gettext("Cache & Filtering"), false, "/dnscrypt-proxy.php?page=cache");
+$tab_array[] = array(gettext("Logging"), false, "/dnscrypt-proxy.php?page=logging");
+$tab_array[] = array(gettext("Lists"), false, "/dnscrypt-proxy.php?page=lists");
+$tab_array[] = array(gettext("Advanced"), false, "/dnscrypt-proxy.php?page=advanced");
+$tab_array[] = array(gettext("Query Log"), false, "/dnscrypt-proxy-querylog.php");
+$tab_array[] = array(gettext("Config"), true, "/dnscrypt-proxy-config.php");
 display_top_tabs($tab_array);
 
 if ($input_errors) {
@@ -95,6 +94,11 @@ if ($savemsg) {
 
 $config_exists = file_exists(DNSCRYPT_PROXY_CONFIG);
 $config_content = $config_exists ? file_get_contents(DNSCRYPT_PROXY_CONFIG) : '';
+if ($config_exists) {
+	$config_content = preg_replace_callback('/^# ([^\r\n]+)$/m', function ($match) {
+		return '# ' . gettext($match[1]);
+	}, $config_content);
+}
 
 ?>
 
@@ -131,7 +135,7 @@ document.getElementById('btn-copy').addEventListener('click', function() {
 	navigator.clipboard.writeText(textarea.value).then(function() {
 		var btn = document.getElementById('btn-copy');
 		var origHTML = btn.innerHTML;
-		btn.innerHTML = '<i class="fa fa-check"></i> Copied!';
+		btn.innerHTML = '<i class="fa fa-check"></i> ' + <?=json_encode(gettext("Copied!"))?>;
 		setTimeout(function() { btn.innerHTML = origHTML; }, 2000);
 	});
 });
@@ -149,7 +153,7 @@ document.getElementById('btn-copy').addEventListener('click', function() {
 				<label><?=gettext("Paste TOML configuration or load from file:")?></label>
 				<textarea id="import-toml" name="import_toml" class="form-control" rows="12"
 					style="font-family: monospace; font-size: 13px; resize: vertical;"
-					placeholder="# Paste dnscrypt-proxy TOML configuration here..."><?=htmlspecialchars($_POST['import_toml'] ?? '')?></textarea>
+					placeholder="<?=htmlspecialchars(gettext("# Paste dnscrypt-proxy TOML configuration here..."))?>"><?=htmlspecialchars($_POST['import_toml'] ?? '')?></textarea>
 			</div>
 			<div class="form-group">
 				<label class="btn btn-default btn-file">
@@ -187,10 +191,10 @@ document.getElementById('import-form').addEventListener('submit', function(e) {
 	var content = document.getElementById('import-toml').value.trim();
 	if (!content) {
 		e.preventDefault();
-		alert('<?=gettext("Please paste a TOML configuration or load a file first.")?>');
+		alert(<?=json_encode(gettext("Please paste a TOML configuration or load a file first."))?>);
 		return;
 	}
-	if (!confirm('<?=gettext("This will overwrite your current DNSCrypt Proxy settings with the imported configuration. Are you sure?")?>')) {
+	if (!confirm(<?=json_encode(gettext("This will overwrite your current DNSCrypt Proxy settings with the imported configuration. Are you sure?"))?>)) {
 		e.preventDefault();
 	}
 });
@@ -217,7 +221,7 @@ document.getElementById('import-form').addEventListener('submit', function(e) {
 <script type="text/javascript">
 //<![CDATA[
 document.getElementById('reset-form').addEventListener('submit', function(e) {
-	if (!confirm('<?=gettext("Are you sure you want to reset ALL DNSCrypt Proxy settings to defaults? This cannot be undone.")?>')) {
+	if (!confirm(<?=json_encode(gettext("Are you sure you want to reset ALL DNSCrypt Proxy settings to defaults? This cannot be undone."))?>)) {
 		e.preventDefault();
 	}
 });

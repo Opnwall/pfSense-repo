@@ -23,7 +23,75 @@ require_once("config.inc");
 require_once("functions.inc");
 require_once("util.inc");
 require_once("service-utils.inc");
-require_once("dnscrypt-proxy-i18n.inc");
+
+/**
+ * Translate a package GUI value through the system pfSense gettext catalogue.
+ *
+ * pkg_edit.php translates its own interface, but it does not pass package XML
+ * field labels, descriptions, or tab captions through gettext().
+ */
+function dnscrypt_proxy_translate_gui_text($text) {
+	if (!is_string($text) || trim($text) === '') {
+		return $text;
+	}
+
+	$parts = preg_split('/(<[^>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	foreach ($parts as &$part) {
+		if ($part === '' || $part[0] === '<' || trim($part) === '') {
+			continue;
+		}
+		$lines = preg_split('/(\r\n|\n|\r)/', $part, -1, PREG_SPLIT_DELIM_CAPTURE);
+		foreach ($lines as &$line) {
+			if ($line === '' || preg_match('/^(?:\r\n|\n|\r)$/', $line) || trim($line) === '') {
+				continue;
+			}
+			$leading = substr($line, 0, strlen($line) - strlen(ltrim($line)));
+			$trailing = substr($line, strlen(rtrim($line)));
+			$msgid = html_entity_decode(
+				preg_replace('/\s+/', ' ', trim($line)),
+				ENT_QUOTES | ENT_HTML5,
+				'UTF-8'
+			);
+			$translated = gettext($msgid);
+			if ($translated !== $msgid) {
+				$line = $leading . $translated . $trailing;
+			}
+		}
+		unset($line);
+		$part = implode('', $lines);
+	}
+	unset($part);
+
+	return implode('', $parts);
+}
+
+function dnscrypt_proxy_translate_package_gui(&$value, $key = null) {
+	static $translatable_keys = [
+		'addedit_string' => true,
+		'description' => true,
+		'fielddescr' => true,
+		'name' => true,
+		'savehelp' => true,
+		'savetext' => true,
+		'section' => true,
+		'text' => true,
+		'title' => true,
+		'tooltiptext' => true,
+	];
+
+	if (is_array($value)) {
+		foreach ($value as $child_key => &$child_value) {
+			dnscrypt_proxy_translate_package_gui($child_value, $child_key);
+		}
+		unset($child_value);
+	} elseif (isset($translatable_keys[$key])) {
+		$value = dnscrypt_proxy_translate_gui_text($value);
+	}
+}
+
+if (isset($pkg['fields']) && is_array($pkg)) {
+	dnscrypt_proxy_translate_package_gui($pkg);
+}
 
 define('DNSCRYPT_PROXY_BASE', '/usr/local/etc/dnscrypt-proxy');
 define('DNSCRYPT_PROXY_BINARY', '/usr/local/bin/dnscrypt-proxy');
