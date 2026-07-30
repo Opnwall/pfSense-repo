@@ -43,12 +43,6 @@ do-install:
 		${STAGEDIR}${PREFIX}/pkg
 	${INSTALL_DATA} ${FILESDIR}${PREFIX}/pkg/dnscrypt-proxy-servers.xml \
 		${STAGEDIR}${PREFIX}/pkg
-	${INSTALL_DATA} ${FILESDIR}${PREFIX}/pkg/dnscrypt-proxy-i18n.inc \
-		${STAGEDIR}${PREFIX}/pkg
-	${INSTALL_DATA} ${FILESDIR}${PREFIX}/pkg/dnscrypt-proxy*.zh_CN.xml \
-		${STAGEDIR}${PREFIX}/pkg
-	${INSTALL_DATA} ${FILESDIR}${PREFIX}/pkg/dnscrypt-proxy*.zh_TW.xml \
-		${STAGEDIR}${PREFIX}/pkg
 	${INSTALL_DATA} ${FILESDIR}${PREFIX}/share/pfSense-pkg-dnscrypt-proxy/info.xml \
 		${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${FILESDIR}${PREFIX}/www/dnscrypt-proxy-config.php \
