@@ -22,26 +22,6 @@ DNSCrypt v2、DNS-over-HTTPS（DoH）、Oblivious DoH（ODoH）和匿名 DNS。
 - WebGUI 自动跟随 pfSense 当前语言，支持英文、简体中文和繁体中文
 - 作为原生服务出现在“状态 > 服务”中
 
-## 多语言实现
-
-插件使用 pfSense 标准 `gettext()` 调用和系统 `pfSense.mo` 语言目录，不再对
-页面输出进行字符串替换，也不再使用独立的简繁体 XML 文件。
-
-项目提供可直接合并到 pfSense 系统 PO 源文件的词条：
-
-- `translations/pfSense-dnscrypt-proxy.zh_CN.po`：319 条简体中文词条
-- `translations/pfSense-dnscrypt-proxy.zh_TW.po`：319 条繁体中文词条
-
-修改英文 XML、PHP 界面文字或 `tools/translation-map.php` 后，执行：
-
-```sh
-php tools/extract-po.php
-```
-
-将对应 PO 片段合并到 pfSense 系统语言 PO，编译为 `pfSense` gettext 域，
-并安装到 `/usr/local/share/locale/<locale>/LC_MESSAGES/pfSense.mo`。替换系统
-MO 文件前应先备份，安装后需要重启 PHP-FPM 以重新加载语言目录。
-
 ## 从 Opnwall 仓库安装（推荐）
 
 先按照 [Opnwall pfSense Repo](https://opnwall.github.io/pfSense-repo/)
