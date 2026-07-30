@@ -1,6 +1,7 @@
 # pfSense DNSCrypt Proxy Package
 
 [简体中文](README.zh_CN.md) | [English](README.md)
+
 [![CI](https://github.com/nopoz/pfsense-dnscrypt-proxy/actions/workflows/ci.yml/badge.svg)](https://github.com/nopoz/pfsense-dnscrypt-proxy/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/nopoz/pfsense-dnscrypt-proxy?sort=semver)](https://github.com/nopoz/pfsense-dnscrypt-proxy/releases/latest)
 [![Build provenance](https://img.shields.io/badge/build%20provenance-attested-success)](SECURITY.md#verifying-a-download)
