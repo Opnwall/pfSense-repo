@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE packagegui SYSTEM "../schema/packages.dtd">
+<?xml-stylesheet type="text/xsl" href="./xsl/package.xsl"?>
+<packagegui>
+	<copyright>
+	<![CDATA[
+/*
+ * dnscrypt-proxy-cache.xml
+ *
+ * for pfSense
+ * Copyright (c) 2026 nopoz (https://github.com/nopoz)
+ * SPDX-License-Identifier: ISC
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+	]]>
+	</copyright>
+	<name>dnscryptproxy</name>
+	<title>服務: DNSCrypt Proxy</title>
+	<shortcut_section>dnscrypt-proxy</shortcut_section>
+	<configpath>installedpackages->dnscryptproxy->config</configpath>
+	<addedit_string>[dnscrypt-proxy] 設定已儲存</addedit_string>
+	<aftersaveredirect>/pkg_edit.php?xml=dnscrypt-proxy-cache.xml</aftersaveredirect>
+	<include_file>/usr/local/pkg/dnscrypt-proxy.inc</include_file>
+	<tabs>
+		<tab>
+			<text>一般設定</text>
+			<url>/dnscrypt-proxy.php?page=general</url>
+		</tab>
+		<tab>
+			<text>伺服器選擇</text>
+			<url>/dnscrypt-proxy.php?page=servers</url>
+		</tab>
+		<tab>
+			<text>快取與過濾</text>
+			<url>/dnscrypt-proxy.php?page=cache</url>
+			<active/>
+		</tab>
+		<tab>
+			<text>日誌</text>
+			<url>/dnscrypt-proxy.php?page=logging</url>
+		</tab>
+		<tab>
+			<text>清單</text>
+			<url>/dnscrypt-proxy.php?page=lists</url>
+		</tab>
+		<tab>
+			<text>進階設定</text>
+			<url>/dnscrypt-proxy.php?page=advanced</url>
+		</tab>
+		<tab>
+			<text>查詢日誌</text>
+			<url>/dnscrypt-proxy-querylog.php</url>
+		</tab>
+		<tab>
+			<text>設定檔</text>
+			<url>/dnscrypt-proxy-config.php</url>
+		</tab>
+	</tabs>
+	<fields>
+		<field>
+			<name>DNS 快取</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>啟用快取</fielddescr>
+			<fieldname>cache</fieldname>
+			<description>啟用本機 DNS 回應快取</description>
+			<type>checkbox</type>
+			<default_value>on</default_value>
+		</field>
+		<field>
+			<fielddescr>快取大小</fielddescr>
+			<fieldname>cache_size</fieldname>
+			<description>最多快取的 DNS 項目數。 Default: 4096</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>4096</default_value>
+		</field>
+		<field>
+			<fielddescr>快取最小 TTL（秒）</fielddescr>
+			<fieldname>cache_min_ttl</fieldname>
+			<description>快取項目的最小 TTL。 Default: 2400 (40 minutes)</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>2400</default_value>
+		</field>
+		<field>
+			<fielddescr>快取最大 TTL（秒）</fielddescr>
+			<fieldname>cache_max_ttl</fieldname>
+			<description>快取項目的最大 TTL。 Default: 86400 (24 hours)</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>86400</default_value>
+		</field>
+		<field>
+			<name>查詢過濾</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>封鎖 IPv6</fielddescr>
+			<fieldname>block_ipv6</fieldname>
+			<description>立即以空回應回答 AAAA（IPv6）查詢</description>
+			<type>checkbox</type>
+		</field>
+		<field>
+			<fielddescr>封鎖非限定名稱</fielddescr>
+			<fieldname>block_unqualified</fieldname>
+			<description>Block queries for single-label names (e.g., "server" instead of "server.domain.com")</description>
+			<type>checkbox</type>
+			<default_value>on</default_value>
+		</field>
+		<field>
+			<fielddescr>封鎖未委派網域</fielddescr>
+			<fieldname>block_undelegated</fieldname>
+			<description>Block queries for locally-served zones (RFC 6303 - home, lan, local, etc.)</description>
+			<type>checkbox</type>
+			<default_value>on</default_value>
+		</field>
+	</fields>
+	<custom_php_resync_config_command>
+		dnscrypt_proxy_sync();
+	</custom_php_resync_config_command>
+	<custom_php_validation_command>
+		dnscrypt_proxy_validate($_POST, $input_errors);
+	</custom_php_validation_command>
+	<custom_add_php_command_late>
+		dnscrypt_proxy_save_config_late();
+	</custom_add_php_command_late>
+</packagegui>

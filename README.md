@@ -58,6 +58,7 @@ pkg install pfSense-pkg-community-repo
 | `pfSense-pkg-arp` | 1.0.1 | 静态 IP/MAC 绑定 |
 | `pfSense-pkg-community-repo` | 1.1.4 | 社区仓库和插件管理器集成 |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go 动态 DNS 集成 |
+| `pfSense-pkg-dnscrypt-proxy` | 1.3.0 | DNSCrypt/DoH 加密 DNS（三语界面） |
 | `pfSense-pkg-lang` | 1.0.1 | 中文汉化工具 |
 | `pfSense-pkg-lantest` | 1.0.1 | 局域网测速工具 |
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky 网络工具箱 |
