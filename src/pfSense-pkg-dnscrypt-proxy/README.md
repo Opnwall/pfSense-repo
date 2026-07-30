@@ -11,8 +11,7 @@ A pfSense package providing a full GUI for [DNSCrypt Proxy](https://github.com/D
 
 This localized edition is based on the original
 [nopoz/pfsense-dnscrypt-proxy](https://github.com/nopoz/pfsense-dnscrypt-proxy)
-project. It adds English, Simplified Chinese, and Traditional Chinese interface
-support.
+project. Added multi-language support for the WebGUI and support for the Opnwall pfSense software repository.
 
 > **Note:** This is a community-maintained package and is not affiliated with or supported by Netgate.
 
