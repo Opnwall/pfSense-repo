@@ -69,6 +69,7 @@ automatically reapplied at boot after pfSense upgrades.
 | `pfSense-pkg-arp` | 1.0.1 | Static IP/MAC binding |
 | `pfSense-pkg-community-repo` | 1.1.4 | Community repository and Package Manager integration |
 | `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go integration |
+| `pfSense-pkg-dnscrypt-proxy` | 1.3.0 | DNSCrypt/DoH encrypted DNS with a trilingual WebGUI |
 | `pfSense-pkg-lang` | 1.0.1 | Chinese localization |
 | `pfSense-pkg-lantest` | 1.0.1 | LAN speed test |
 | `pfSense-pkg-lucky` | 1.0.1 | Lucky network toolbox |

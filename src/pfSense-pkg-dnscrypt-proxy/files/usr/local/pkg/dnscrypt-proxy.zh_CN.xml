@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE packagegui SYSTEM "../schema/packages.dtd">
+<?xml-stylesheet type="text/xsl" href="./xsl/package.xsl"?>
+<packagegui>
+	<copyright>
+	<![CDATA[
+/*
+ * dnscrypt-proxy.xml
+ *
+ * for pfSense
+ * Copyright (c) 2026 nopoz (https://github.com/nopoz)
+ * SPDX-License-Identifier: ISC
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+	]]>
+	</copyright>
+	<name>dnscryptproxy</name>
+	<title>服务: DNSCrypt Proxy</title>
+	<shortcut_section>dnscrypt-proxy</shortcut_section>
+	<menu>
+		<name>DNSCrypt Proxy</name>
+		<tooltiptext>配置 DNSCrypt Proxy 加密 DNS 客户端</tooltiptext>
+		<section>服务</section>
+		<url>/dnscrypt-proxy.php</url>
+	</menu>
+	<service>
+		<name>dnscrypt_proxy</name>
+		<rcfile>dnscrypt-proxy.sh</rcfile>
+		<executable>dnscrypt-proxy</executable>
+		<description>DNSCrypt Proxy - 加密 DNS</description>
+		<starts_on_sync/>
+	</service>
+	<configpath>installedpackages->dnscryptproxy->config</configpath>
+	<addedit_string>[dnscrypt-proxy] 设置已保存</addedit_string>
+	<aftersaveredirect>/pkg_edit.php?xml=dnscrypt-proxy.xml</aftersaveredirect>
+	<include_file>/usr/local/pkg/dnscrypt-proxy.inc</include_file>
+	<tabs>
+		<tab>
+			<text>常规设置</text>
+			<url>/dnscrypt-proxy.php?page=general</url>
+			<active/>
+		</tab>
+		<tab>
+			<text>服务器选择</text>
+			<url>/dnscrypt-proxy.php?page=servers</url>
+		</tab>
+		<tab>
+			<text>缓存与过滤</text>
+			<url>/dnscrypt-proxy.php?page=cache</url>
+		</tab>
+		<tab>
+			<text>日志</text>
+			<url>/dnscrypt-proxy.php?page=logging</url>
+		</tab>
+		<tab>
+			<text>列表</text>
+			<url>/dnscrypt-proxy.php?page=lists</url>
+		</tab>
+		<tab>
+			<text>高级设置</text>
+			<url>/dnscrypt-proxy.php?page=advanced</url>
+		</tab>
+		<tab>
+			<text>查询日志</text>
+			<url>/dnscrypt-proxy-querylog.php</url>
+		</tab>
+		<tab>
+			<text>配置</text>
+			<url>/dnscrypt-proxy-config.php</url>
+		</tab>
+	</tabs>
+	<fields>
+		<field>
+			<name>常规设置</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>启用</fielddescr>
+			<fieldname>enable</fieldname>
+			<description>启用 DNSCrypt Proxy 服务</description>
+			<type>checkbox</type>
+		</field>
+		<field>
+			<fielddescr>网络接口</fielddescr>
+			<fieldname>listen_interfaces</fieldname>
+			<description>
+				<![CDATA[
+				用于监听 DNS 查询的接口。 Use CTRL/CMD+click to select multiple.<br/>
+				<strong>loopback</strong>: 仅本机服务可以使用 DNSCrypt (recommended for forwarding from Unbound)<br/>
+				<strong>全部</strong>: 监听所有接口 (use with caution)<br/>
+				<strong>LAN/WAN/etc</strong>: 监听指定接口的 IP 地址
+				]]>
+			</description>
+			<type>interfaces_selection</type>
+			<showlistenall/>
+			<showvirtualips/>
+			<multiple/>
+			<default_value>lo0</default_value>
+		</field>
+		<field>
+			<fielddescr>监听端口</fielddescr>
+			<fieldname>listen_port</fieldname>
+			<description>
+				<![CDATA[
+				要监听的端口。 Use 5300 to avoid conflicts with Unbound (53).<br/>
+				Default: 5300
+				]]>
+			</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>5300</default_value>
+		</field>
+		<field>
+			<fielddescr>最大客户端数</fielddescr>
+			<fieldname>max_clients</fieldname>
+			<description>允许的最大并发客户端连接数。 Default: 250</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>250</default_value>
+		</field>
+		<field>
+			<name>网络设置</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>引导解析器</fielddescr>
+			<fieldname>bootstrap_resolvers</fieldname>
+			<description>
+				<![CDATA[
+				用于解析 DoH 服务器主机名的初始 DNS 解析器 (comma-separated).<br/>
+				Default: 9.9.9.11:53, 8.8.8.8:53
+				]]>
+			</description>
+			<type>input</type>
+			<size>60</size>
+			<default_value>9.9.9.11:53, 8.8.8.8:53</default_value>
+		</field>
+		<field>
+			<fielddescr>忽略系统 DNS</fielddescr>
+			<fieldname>ignore_system_dns</fieldname>
+			<description>不使用 /etc/resolv.conf 中的 DNS 服务器</description>
+			<type>checkbox</type>
+			<default_value>on</default_value>
+		</field>
+		<field>
+			<fielddescr>查询超时（毫秒）</fielddescr>
+			<fieldname>timeout</fieldname>
+			<description>等待 DNS 服务器响应的最长时间 (milliseconds). Default: 5000</description>
+			<type>input</type>
+			<size>10</size>
+			<default_value>5000</default_value>
+		</field>
+		<field>
+			<name>Unbound 集成</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>集成指南</fielddescr>
+			<fieldname>unbound_info</fieldname>
+			<type>info</type>
+			<description>
+				<![CDATA[
+				<div class="alert alert-info">
+				<strong>要通过 DNSCrypt Proxy 转发 Unbound 查询：</strong><br/><br/>
+				Go to <strong>服务 &gt; DNS Resolver &gt; 常规设置</strong> 并添加到“自定义选项”：<br/>
+				<pre>server:
+    do-not-query-localhost: no
+forward-zone:
+    name: "."
+    forward-addr: 127.0.0.1@5300</pre>
+				如果已修改上方的端口 5300，请相应调整 监听端口 above.
+				</div>
+				]]>
+			</description>
+		</field>
+		<field>
+			<name>软件包信息</name>
+			<type>listtopic</type>
+		</field>
+		<field>
+			<fielddescr>软件包版本</fielddescr>
+			<fieldname>pkg_version_display</fieldname>
+			<type>info</type>
+			<description><![CDATA[<span id="pkg-version"></span>]]></description>
+		</field>
+		<field>
+			<fielddescr>DNSCrypt Proxy 版本</fielddescr>
+			<fieldname>version_display</fieldname>
+			<type>info</type>
+			<description><![CDATA[<span id="dnscrypt-version"></span>]]></description>
+		</field>
+	</fields>
+	<custom_php_after_head_command>
+		$pkg_version = dnscrypt_proxy_get_pkg_version();
+		$binary_version = dnscrypt_proxy_get_version();
+		echo "&lt;script&gt;document.addEventListener('DOMContentLoaded', function() { ";
+		echo "var pkgEl = document.getElementById('pkg-version'); if (pkgEl) pkgEl.textContent = " . json_encode($pkg_version) . "; ";
+		echo "var binEl = document.getElementById('dnscrypt-version'); if (binEl) binEl.textContent = " . json_encode($binary_version) . "; ";
+		echo "});&lt;/script&gt;";
+	</custom_php_after_head_command>
+	<custom_php_install_command>
+		dnscrypt_proxy_install();
+	</custom_php_install_command>
+	<custom_php_deinstall_command>
+		dnscrypt_proxy_deinstall();
+	</custom_php_deinstall_command>
+	<custom_php_resync_config_command>
+		dnscrypt_proxy_sync();
+	</custom_php_resync_config_command>
+	<custom_php_validation_command>
+		dnscrypt_proxy_validate($_POST, $input_errors);
+	</custom_php_validation_command>
+	<custom_add_php_command_late>
+		dnscrypt_proxy_save_config_late();
+	</custom_add_php_command_late>
+</packagegui>

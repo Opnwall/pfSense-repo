@@ -1,0 +1,182 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (e.g., 1.1.2)'
+        required: true
+        default: '1.1.2'
+
+# Default to no privileges; the job grants exactly what it needs below.
+permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Package on FreeBSD
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # create the release and upload assets
+      id-token: write       # mint the OIDC token for build provenance
+      attestations: write   # record the SLSA attestation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Extract version from tag
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
+            VERSION="${INPUT_VERSION}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+
+          # Anchor the version to a plain dotted release before it reaches
+          # filenames, the release body, or the build VM. This covers the
+          # manual workflow_dispatch input as well as the tag path.
+          if ! [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid version '${VERSION}'. Expected MAJOR.MINOR.PATCH." >&2
+            exit 1
+          fi
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Building version: ${VERSION}"
+
+          # Guard against tagging the wrong commit: for tag-triggered releases
+          # the tag version must match PORTVERSION at that commit. (A mismatch
+          # is how v1.2.5 once shipped a stale binary.) Skip for manual dispatch.
+          if [ "${EVENT_NAME}" != "workflow_dispatch" ]; then
+            MK=$(grep '^PORTVERSION=' Makefile | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+            if [ "${VERSION}" != "${MK}" ]; then
+              echo "::error::Tag v${VERSION} does not match Makefile PORTVERSION ${MK} at this commit. Tag the commit that contains the version bump." >&2
+              exit 1
+            fi
+          fi
+
+          if [ -f .upstream-version ]; then
+            UPSTREAM=$(tr -d '[:space:]' < .upstream-version)
+          else
+            UPSTREAM="unknown"
+          fi
+          echo "upstream=${UPSTREAM}" >> "$GITHUB_OUTPUT"
+          echo "Bundled dnscrypt-proxy: ${UPSTREAM}"
+
+      - name: Build package on FreeBSD
+        uses: vmactions/freebsd-vm@77ed28d336d03fe19a3f4f7266c1d2c4714dd79d  # v1.5.2
+        env:
+          PORTVERSION: ${{ steps.version.outputs.version }}
+        with:
+          usesh: true
+          release: "15.0"
+          # Pass PORTVERSION into the VM as data, not interpolated into the
+          # script body, so the version string can't be shell-injected.
+          envs: 'PORTVERSION'
+          run: |
+            set -e
+
+            echo "=== FreeBSD Build Environment ==="
+            uname -a
+            pkg --version
+
+            echo "=== Setting version ==="
+            echo "Building version: ${PORTVERSION}"
+
+            echo "=== Running build script ==="
+            chmod +x build.sh
+            sh build.sh build
+
+            echo "=== Build complete ==="
+            ls -la build/pkg/
+
+            # Copy package to root for upload
+            cp build/pkg/*.pkg ./ || cp build/pkg/*.txz ./
+
+            # Create a non-versioned copy for "latest" download URL
+            cp pfSense-pkg-dnscrypt-proxy-*.pkg pfSense-pkg-dnscrypt-proxy.pkg 2>/dev/null || \
+            cp pfSense-pkg-dnscrypt-proxy-*.txz pfSense-pkg-dnscrypt-proxy.txz 2>/dev/null || true
+
+      - name: List built artifacts
+        run: |
+          echo "=== Built packages ==="
+          ls -la ./*.pkg ./*.txz 2>/dev/null || true
+
+      - name: Generate SHA256 checksums
+        run: |
+          set -euo pipefail
+          # Hash every downloadable package (versioned and the unversioned
+          # "latest" copy, whether .pkg or .txz) so users can verify what they
+          # pull from the release.
+          : > SHA256SUMS
+          for f in pfSense-pkg-dnscrypt-proxy*.pkg pfSense-pkg-dnscrypt-proxy*.txz; do
+            [ -e "$f" ] && sha256sum "$f" >> SHA256SUMS
+          done
+          echo "=== SHA256SUMS ==="
+          cat SHA256SUMS
+
+      # Cryptographic build provenance (SLSA): binds each package to this
+      # workflow, commit, and runner. Feeding the checksums file attests every
+      # listed artifact regardless of extension. Verifiable later with
+      # `gh attestation verify <file> --repo <owner>/<repo>`.
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373  # v4.1.1
+        with:
+          subject-checksums: SHA256SUMS
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: pfSense-pkg-dnscrypt-proxy
+          path: |
+            *.pkg
+            *.txz
+            SHA256SUMS
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228  # v3.0.2
+        with:
+          files: |
+            *.pkg
+            *.txz
+            SHA256SUMS
+          body: |
+            Bundles **dnscrypt-proxy ${{ steps.version.outputs.upstream }}** (upstream).
+
+            ## Installation
+
+            ### pfSense CE
+            ```bash
+            pkg-static add https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/pfSense-pkg-dnscrypt-proxy-${{ steps.version.outputs.version }}.pkg
+            ```
+
+            ### pfSense Plus
+            ```bash
+            pkg-static -C /dev/null add https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/pfSense-pkg-dnscrypt-proxy-${{ steps.version.outputs.version }}.pkg
+            ```
+
+            ### Uninstall
+            ```bash
+            pkg delete pfSense-pkg-dnscrypt-proxy
+            ```
+
+            See [README](https://github.com/${{ github.repository }}#readme) for full documentation.
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
