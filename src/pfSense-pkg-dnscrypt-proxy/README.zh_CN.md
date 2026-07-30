@@ -8,7 +8,7 @@ DNSCrypt v2、DNS-over-HTTPS（DoH）、Oblivious DoH（ODoH）和匿名 DNS。
 > 项目来源：本项目基于
 > [nopoz/pfsense-dnscrypt-proxy](https://github.com/nopoz/pfsense-dnscrypt-proxy)
 > 修改，遵循原项目 ISC 许可证。
-> WebGUI 多语言支持以及 Opnwall pfSense 软件仓库支持。本项目为社区维护项目，
+> 添加 WebGUI 多语言支持以及 Opnwall pfSense 软件仓库支持。本项目为社区维护项目，
 > 与 Netgate 无隶属或官方支持关系。
 
 ## 功能
