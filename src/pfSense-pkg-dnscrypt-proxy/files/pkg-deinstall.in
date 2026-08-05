@@ -1,3 +1,10 @@
 #!/bin/sh
 
+# pkg runs the old package's pre-deinstall script during an upgrade. Preserve
+# configuration and runtime state in that case; the new package's post-install
+# hook will update the files and restart the service.
+if [ -n "${PKG_UPGRADE:-}" ]; then
+	exit 0
+fi
+
 /usr/local/bin/php -f /etc/rc.packages %%PORTNAME%% ${2}

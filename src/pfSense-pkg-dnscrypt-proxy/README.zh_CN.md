@@ -84,7 +84,8 @@ forward-zone:
 pkg delete pfSense-pkg-dnscrypt-proxy
 ```
 
-升级和卸载默认保留 `config.xml` 中的用户设置。
+升级时保留 `config.xml` 中的用户设置。正常卸载会删除插件设置、运行文件、菜单和
+服务登记，避免在“已安装插件”页面留下红色感叹号的孤立记录。
 
 ## 从源码构建
 

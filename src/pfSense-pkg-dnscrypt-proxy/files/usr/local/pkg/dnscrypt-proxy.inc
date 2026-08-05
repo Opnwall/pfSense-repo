@@ -21,6 +21,7 @@
 
 require_once("config.inc");
 require_once("functions.inc");
+require_once("pfsense-utils.inc");
 require_once("util.inc");
 require_once("service-utils.inc");
 
@@ -940,10 +941,65 @@ function dnscrypt_proxy_deinstall() {
 	unlink_if_exists(DNSCRYPT_PROXY_BASE . '/cloaking-rules.txt');
 	unlink_if_exists('/var/run/dnscrypt_proxy.pid');
 
-	// Remove directories if empty
-	@rmdir(DNSCRYPT_PROXY_BASE);
-	@rmdir(DNSCRYPT_PROXY_LOGDIR);
-	@rmdir('/var/cache/dnscrypt-proxy');
+	// Remove package-owned runtime directories, including downloaded resolver
+	// lists and logs which make a simple rmdir() fail after normal use.
+	foreach ([DNSCRYPT_PROXY_BASE, DNSCRYPT_PROXY_LOGDIR, '/var/cache/dnscrypt-proxy'] as $directory) {
+		if (is_dir($directory)) {
+			rmdir_recursive($directory);
+		}
+	}
+
+	// Remove every pfSense registration associated with this package. Leaving
+	// installedpackages/dnscryptproxy behind makes Package Manager show a red
+	// "configured but not fully installed" orphan after pkg delete.
+	$packages = config_get_path('installedpackages/package', []);
+	if (is_array($packages)) {
+		$packages = array_values(array_filter($packages, function ($package) {
+			if (!is_array($package)) {
+				return true;
+			}
+			$name = strtolower($package['name'] ?? '');
+			$internal_name = strtolower($package['internal_name'] ?? '');
+			$configuration_file = strtolower($package['configurationfile'] ?? '');
+			return !in_array($name, ['dnscrypt proxy', 'dnscrypt-proxy', 'pfsense-pkg-dnscrypt-proxy'], true) &&
+			    $internal_name !== 'dnscrypt-proxy' &&
+			    strpos($configuration_file, 'dnscrypt-proxy') !== 0;
+		}));
+		config_set_path('installedpackages/package', $packages);
+	}
+
+	$menus = config_get_path('installedpackages/menu', []);
+	if (is_array($menus)) {
+		$menus = array_values(array_filter($menus, function ($menu) {
+			if (!is_array($menu)) {
+				return true;
+			}
+			$name = strtolower($menu['name'] ?? '');
+			$url = strtolower($menu['url'] ?? '');
+			$config_file = strtolower($menu['configfile'] ?? '');
+			return strpos($name, 'dnscrypt') === false &&
+			    strpos($url, 'dnscrypt-proxy') === false &&
+			    strpos($config_file, 'dnscrypt-proxy') !== 0;
+		}));
+		config_set_path('installedpackages/menu', $menus);
+	}
+
+	$services = config_get_path('installedpackages/service', []);
+	if (is_array($services)) {
+		$services = array_values(array_filter($services, function ($service) {
+			if (!is_array($service)) {
+				return true;
+			}
+			$name = strtolower($service['name'] ?? '');
+			$rcfile = strtolower($service['rcfile'] ?? '');
+			return strpos($name, 'dnscrypt') === false &&
+			    strpos($rcfile, 'dnscrypt-proxy') === false;
+		}));
+		config_set_path('installedpackages/service', $services);
+	}
+
+	config_del_path('installedpackages/dnscryptproxy');
+	write_config('[dnscrypt-proxy] Removed package configuration and registrations');
 
 	log_error("[dnscrypt-proxy] Package uninstalled");
 }
