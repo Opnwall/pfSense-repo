@@ -16,7 +16,7 @@ set -e
 
 # --- Configuration ---
 PORTNAME="pfSense-pkg-dnscrypt-proxy"
-PORTVERSION="${PORTVERSION:-1.3.0}"
+PORTVERSION="${PORTVERSION:-1.3.1}"
 PREFIX="/usr/local"
 DATADIR="${PREFIX}/share/${PORTNAME}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -38,7 +38,7 @@ usage() {
     echo ""
     echo "Environment variables:"
     echo "  DEPLOY_HOST    pfSense SSH host (default: pf)"
-    echo "  PORTVERSION    Package version (default: 1.2.3)"
+    echo "  PORTVERSION    Package version (default: 1.3.1)"
 }
 
 clean() {
@@ -145,7 +145,7 @@ licenses: ["ISC"]
 categories: ["dns"]
 scripts: {
     post-install: "#!/bin/sh\n/usr/local/bin/php -f /etc/rc.packages ${PORTNAME} POST-INSTALL\n/etc/rc.restart_webgui",
-    pre-deinstall: "#!/bin/sh\n/usr/local/bin/php -f /etc/rc.packages ${PORTNAME} DEINSTALL"
+    pre-deinstall: "#!/bin/sh\nif [ -z \"\${PKG_UPGRADE:-}\" ]; then\n\t/usr/local/bin/php -f /etc/rc.packages ${PORTNAME} DEINSTALL\nfi"
 }
 EOF
 

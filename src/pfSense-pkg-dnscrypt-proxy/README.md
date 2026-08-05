@@ -162,6 +162,9 @@ Note: The pfSense DNS Server Settings only accepts IP addresses and assumes port
 pkg delete pfSense-pkg-dnscrypt-proxy
 ```
 
+Normal removal deletes the package configuration, runtime files, menu entry,
+and service registration so no orphan remains in **Installed Packages**.
+
 ### Complete Removal (Troubleshooting)
 
 If normal uninstall doesn't fully clean up, or you need a fresh start:
@@ -171,7 +174,7 @@ If normal uninstall doesn't fully clean up, or you need a fresh start:
 ./uninstall.sh pfsense.local
 ```
 
-This removes all package files, runtime artifacts, and pfSense registrations while preserving your settings in config.xml.
+This removes all package files, runtime artifacts, saved settings, and pfSense registrations.
 
 ## Building from Source
 
@@ -206,7 +209,7 @@ cd pfsense-dnscrypt-proxy
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `DEPLOY_HOST` | `pf` | SSH hostname for pfSense |
-| `PORTVERSION` | `1.3.0` | Package version to build |
+| `PORTVERSION` | `1.3.1` | Package version to build |
 
 ## Related
 

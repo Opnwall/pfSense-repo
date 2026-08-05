@@ -58,7 +58,6 @@ fi
 
 echo ""
 echo "=== Step 3: Remove package registration from config.xml ==="
-echo "  (Preserving user settings in installedpackages/dnscryptproxy)"
 /usr/local/bin/php -r '
 require_once("config.inc");
 require_once("util.inc");
@@ -109,14 +108,20 @@ foreach ($services as $svc) {
 }
 config_set_path("installedpackages/service", $filtered);
 
+/* Remove saved package settings so Package Manager does not retain an orphan. */
+if (config_get_path("installedpackages/dnscryptproxy", null) !== null) {
+    config_del_path("installedpackages/dnscryptproxy");
+    $changed = true;
+    echo "  Removed installedpackages/dnscryptproxy settings.\n";
+}
+
 if ($changed) {
-    write_config("[dnscrypt-proxy] Removed package, menu, and service registrations for clean reinstall");
+    write_config("[dnscrypt-proxy] Removed package configuration and registrations");
     echo "Config.xml registrations removed.\n";
 } else {
     echo "No registrations found in config.xml.\n";
 }
 '
-echo "User settings preserved."
 
 echo ""
 echo "=== Step 4: Remove installed package files ==="
@@ -132,6 +137,8 @@ rm -f /usr/local/pkg/dnscrypt-proxy-querylog.xml
 rm -f /usr/local/pkg/dnscrypt-proxy-servers.xml
 rm -f /usr/local/share/pfSense-pkg-dnscrypt-proxy/info.xml
 rm -f /usr/local/www/dnscrypt-proxy-querylog.php
+rm -f /usr/local/www/dnscrypt-proxy-config.php
+rm -f /usr/local/www/dnscrypt-proxy.php
 rm -f /usr/local/www/shortcuts/pkg_dnscrypt-proxy.inc
 rm -f /etc/inc/priv/dnscrypt-proxy.priv.inc
 rm -f /usr/local/bin/dnscrypt-proxy-bin/LICENSE
@@ -187,6 +194,8 @@ for f in \
     /usr/local/etc/rc.d/dnscrypt-proxy.sh \
     /usr/local/etc/dnscrypt-proxy/dnscrypt-proxy.toml \
     /usr/local/www/dnscrypt-proxy-querylog.php \
+    /usr/local/www/dnscrypt-proxy-config.php \
+    /usr/local/www/dnscrypt-proxy.php \
     /etc/inc/priv/dnscrypt-proxy.priv.inc \
     /var/run/dnscrypt_proxy.pid; do
     if [ -e "$f" ]; then
@@ -226,8 +235,7 @@ echo "webConfigurator restarted."
 
 echo ""
 echo "=== Config status ==="
-echo "pfSense config.xml settings have been PRESERVED."
-echo "Your saved options will be restored on next install."
+echo "pfSense config.xml settings and registrations have been removed."
 REMOTE
 
 echo ""
