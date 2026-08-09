@@ -53,9 +53,12 @@ function apply_patches() {
 	insert_after($installed, "require_once(\"pkg-utils.inc\");\n",
 	    marker('INCLUDE', "\trequire_once(\"/usr/local/share/pfSense-pkg-community-repo/community_repo.inc\");\n"), 'installed include');
 	insert_after($available, "\t\$pkg_info = get_pkg_info('all', true, false);\n",
-	    marker('NAMES', "\t\$community_packages = community_repo_package_names();\n"), 'available package query');
-	insert_after($available, "\tforeach (\$pkg_info as \$index) {\n",
-	    marker('FILTER', "\t\tif (isset(\$community_packages[\$index['name']])) {\n\t\t\tcontinue;\n\t\t}\n"), 'available package loop');
+	    marker('COMMUNITY_AVAILABLE', "\t\$available_names = array_column((array)\$pkg_info, 'name');\n" .
+	    "\tforeach (community_repo_packages() as \$community_package) {\n" .
+	    "\t\tif (!isset(\$community_package['installed']) && !in_array(\$community_package['name'], \$available_names, true)) {\n" .
+	    "\t\t\t\$pkg_info[] = \$community_package;\n" .
+	    "\t\t}\n" .
+	    "\t}\n"), 'available package query');
 	insert_after($available, "\$tab_array[] = array(gettext(\"Available Packages\"), true, \"pkg_mgr.php\");\n",
 	    marker('TAB', "\t\$tab_array[] = array(community_repo_text('tab'), false, \"pkg_mgr_community.php\");\n"), 'available tabs');
 	insert_after($installed, "\$tab_array[] = array(gettext(\"Available Packages\"), false, \"pkg_mgr.php\");\n",
