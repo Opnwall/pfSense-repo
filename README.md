@@ -57,7 +57,7 @@ pkg install pfSense-pkg-community-repo
 | --- | --- | --- |
 | `pfSense-pkg-adguardhome` | 1.0.3 | AdGuard Home DNS 过滤集成 |
 | `pfSense-pkg-arp` | 1.0.2 | 静态 IP/MAC 绑定 |
-| `pfSense-pkg-community-repo` | 1.1.9 | 社区仓库和插件管理器集成 |
+| `pfSense-pkg-community-repo` | 1.1.10 | 社区仓库和插件管理器集成 |
 | `pfSense-pkg-ddns-go` | 1.0.2 | DDNS-Go 动态 DNS 集成 |
 | `pfSense-pkg-dnscrypt-proxy` | 1.3.2 | DNSCrypt/DoH 加密 DNS |
 | `pfSense-pkg-lang` | 1.0.2 | 中文汉化工具 |

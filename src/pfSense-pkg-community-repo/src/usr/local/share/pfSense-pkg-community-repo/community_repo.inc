@@ -87,7 +87,11 @@ function community_repo_write_config($enabled) {
 	$config = COMMUNITY_REPO_NAME . ": {\n" .
 	    '  url: "' . community_repo_url() . "\",\n" .
 	    '  enabled: ' . ($enabled ? 'yes' : 'no') . ",\n" .
-	    "  priority: 10\n}\n";
+	    "  priority: 10,\n" .
+	    "  env: {\n" .
+	    "    SSL_CA_CERT_FILE: \"/etc/ssl/cert.pem\"\n" .
+	    "  }\n" .
+	    "}\n";
 	$tmpfile = COMMUNITY_REPO_CONF . '.tmp';
 
 	if (file_put_contents($tmpfile, $config, LOCK_EX) === false ||

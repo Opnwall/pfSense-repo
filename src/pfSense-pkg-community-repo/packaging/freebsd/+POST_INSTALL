@@ -7,13 +7,12 @@ chmod 0644 /usr/local/www/pkg_mgr_community.php \
 	/usr/local/share/pfSense-pkg-community-repo/info.xml \
 	/usr/local/pkg/community_repo.xml
 
-if [ ! -f /usr/local/etc/pkg/repos/opnwall.conf ]; then
-	mkdir -p /usr/local/etc/pkg/repos
-	/usr/local/bin/php -r '
-	require_once("/usr/local/share/pfSense-pkg-community-repo/community_repo.inc");
-	exit(community_repo_write_config(true) ? 0 : 1);
-	'
-fi
+mkdir -p /usr/local/etc/pkg/repos
+/usr/local/bin/php -r '
+require_once("/usr/local/share/pfSense-pkg-community-repo/community_repo.inc");
+$enabled = !file_exists(COMMUNITY_REPO_CONF) || community_repo_enabled();
+exit(community_repo_write_config($enabled) ? 0 : 1);
+'
 
 /usr/local/sbin/community-repo-ui --apply
 
