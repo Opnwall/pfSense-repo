@@ -17,8 +17,9 @@ pfSense CE 与 pfSense Plus 社区软件仓库，提供一系列开源、高质�
 
 | 系统 | 版本 | ABI | PHP | 仓库状态 |
 | --- | --- | --- | --- | --- |
-| pfSense CE | 2.8.1 | `FreeBSD:15:amd64` | 8.3 | 已测试 |
-| pfSense Plus | 26.03.1 | `FreeBSD:16:amd64` | 8.5 | 已测试 |
+| pfSense CE | 2.8.1 | `FreeBSD:15:amd64` | 8.3 | 保留旧版仓库 |
+| pfSense CE | 2.9.0 | `FreeBSD:16:amd64` | 8.5 | 已测试 |
+| pfSense Plus | 26.03 / 26.07 | `FreeBSD:16:amd64` | 8.5 | 兼容 / 已测试 |
 
 ## 安装方法
 

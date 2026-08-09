@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-arp}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-arp}"
 COMMENT="${COMMENT:-Static IP and MAC binding integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

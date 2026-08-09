@@ -3,7 +3,7 @@
   <package>
     <name>ttyd</name>
     <descr><![CDATA[ttyd for pfSense.]]></descr>
-    <version>1.0</version>
+    <version>1.0.4</version>
     <configurationfile>ttyd.xml</configurationfile>
   </package>
 </pfsensepkgs>

@@ -15,8 +15,8 @@ sing-box 是一款功能强大、性能优秀的开源网络代理平台，支�
 
 已在以下环境测试通过：
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![](images/proxy.png)
 
@@ -63,11 +63,11 @@ pkg、tar、make、xz、curl 或 fetch
 ```
 二进制压缩文件路径如下：
 ```text
-src/usr/local/bin/bsd-box-reF1nd-freebsd-amd64.xz
+src/usr/local/bin/bsd-box-freebsd-amd64.xz
 ```
 构建脚本会优先使用本地文件。如果本地文件不存在，会从 Github 下载：
 ```text
-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-reF1nd-freebsd-amd64.xz
+https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-freebsd-amd64.xz
 ```
 默认构建 universal amd64 包：
 ```sh

@@ -2,7 +2,7 @@
 <packagegui>
   <name>speedtest</name>
   <title>Diagnostics: Speedtest</title>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <menu>
     <name>Speedtest</name>
     <section>Diagnostics</section>

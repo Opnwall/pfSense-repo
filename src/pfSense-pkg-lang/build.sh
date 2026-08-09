@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-lang}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-sysutils/pfSense-pkg-lang}"
 COMMENT="${COMMENT:-Chinese localization updater for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

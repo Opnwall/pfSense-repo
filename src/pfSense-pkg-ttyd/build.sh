@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-ttyd}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.4}"
 ORIGIN="${ORIGIN:-sysutils/pfSense-pkg-ttyd}"
 COMMENT="${COMMENT:-ttyd for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"
@@ -35,7 +35,6 @@ command -v tar >/dev/null 2>&1 || die "tar command not found."
 
 need_file "src/etc/rc.conf.d/ttyd"
 need_file "src/usr/local/etc/rc.d/ttyd"
-need_file "src/usr/local/share/ttyd-for-pfsense/freebsd15.tar.gz"
 need_file "src/usr/local/share/ttyd-for-pfsense/freebsd16.tar.gz"
 need_file "src/usr/local/pkg/ttyd.inc"
 need_file "src/usr/local/pkg/ttyd.xml"

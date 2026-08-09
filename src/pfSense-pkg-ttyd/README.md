@@ -1,7 +1,7 @@
 # ttyd for pfSense
 
 [![pfSense](https://img.shields.io/badge/pfSense-Package-212121?logo=pfsense&logoColor=white)](https://www.pfsense.org/)
-[![FreeBSD](https://img.shields.io/badge/FreeBSD-15%20%7C%2016-red?logo=freebsd&logoColor=white)](https://www.freebsd.org/)
+[![FreeBSD](https://img.shields.io/badge/FreeBSD-16-red?logo=freebsd&logoColor=white)](https://www.freebsd.org/)
 [![ttyd](https://img.shields.io/badge/ttyd-Web%20Terminal-blue)](https://github.com/tsl0922/ttyd)
 
 This package adds a ttyd browser terminal to the pfSense web interface under:
@@ -16,30 +16,31 @@ The web terminal does not execute commands through PHP. It starts a real TTY thr
 printf "login: "; read -r user; ssh -tt "$user@127.0.0.1"
 ```
 
-Authentication, permissions, auditing, and the shell environment remain controlled by OPNsense OpenSSH. 
+Authentication, permissions, auditing, and the shell environment remain controlled by pfSense OpenSSH.
 
 Tested and verified in the following environments:
 
-- pfSense CE 2.8.1
-- pfSense plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
+
+The plugin page supports English, Simplified Chinese, and Traditional Chinese. It follows the pfSense system language automatically and falls back to English for other locales.
 
 ![](image/ttyd.png)
 
 ## Compatibility
 
-The installer includes offline ttyd runtimes for:
+The installer includes one offline ttyd runtime shared by:
 
-- pfSense CE based on FreeBSD 15
+- pfSense CE based on FreeBSD 16
 - pfSense Plus based on FreeBSD 16
 
-At install time it detects the FreeBSD major version and copies the matching runtime from:
+At install time it verifies FreeBSD 16 and copies the runtime from:
 
 ```text
-src/usr/local/share/ttyd-for-pfsense/freebsd15.tar.gz
 src/usr/local/share/ttyd-for-pfsense/freebsd16.tar.gz
 ```
 
-If no bundled runtime matches the host, the installer falls back to the pfSense package repository and then to compatible FreeBSD packages when possible.
+Older FreeBSD releases are intentionally rejected because CE 2.9.0 and Plus 26.07 now share the FreeBSD 16 base.
 
 The bundled runtime is installed under:
 
@@ -55,7 +56,6 @@ This keeps ttyd and its bundled libraries separate from pfSense system packages.
 - `src/usr/local/pkg/ttyd.inc`: package callbacks and service sync logic.
 - `src/usr/local/pkg/ttyd.xml`: pfSense package GUI registration.
 - `src/usr/local/share/pfSense-pkg-ttyd/info.xml`: package metadata.
-- `src/usr/local/share/ttyd-for-pfsense/freebsd15.tar.gz`: offline FreeBSD 15 runtime.
 - `src/usr/local/share/ttyd-for-pfsense/freebsd16.tar.gz`: offline FreeBSD 16 runtime.
 - `src/usr/local/etc/rc.d/ttyd`: rc.d service script.
 - `src/etc/rc.conf.d/ttyd`: default service configuration.

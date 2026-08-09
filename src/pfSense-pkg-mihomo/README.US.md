@@ -16,8 +16,8 @@ This project packages Mihomo as a pfSense plugin so it can run on pfSense and pr
 
 Tested on:
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![](images/proxy.us.png)
 

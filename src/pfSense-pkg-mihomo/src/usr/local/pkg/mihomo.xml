@@ -2,7 +2,7 @@
 <packagegui>
   <name>mihomo</name>
   <title>VPN: Mihomo</title>
-  <version>1.0</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/mihomo.inc</include_file>
   <aftersaveredirect>/mihomo.php</aftersaveredirect>
   <menu>

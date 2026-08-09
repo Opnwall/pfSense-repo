@@ -16,8 +16,8 @@ Mihomo（原 Clash Meta）是一款高性能、功能丰富的开源代理核心
 
 已在以下环境测试通过：
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![](images/proxy.png)
 

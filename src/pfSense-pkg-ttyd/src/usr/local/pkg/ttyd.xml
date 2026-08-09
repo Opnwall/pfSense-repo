@@ -2,7 +2,7 @@
 <packagegui>
   <name>ttyd</name>
   <title>Diagnostics: ttyd</title>
-  <version>1.0</version>
+  <version>1.0.4</version>
   <include_file>/usr/local/pkg/ttyd.inc</include_file>
   <aftersaveredirect>/diag_ttyd.php</aftersaveredirect>
   <menu>

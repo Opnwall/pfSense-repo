@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-lucky}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-lucky}"
 COMMENT="${COMMENT:-Lucky network toolbox integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

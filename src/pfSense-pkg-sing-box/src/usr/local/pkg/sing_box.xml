@@ -2,7 +2,7 @@
 <packagegui>
   <name>sing_box</name>
   <title>VPN: Sing-Box</title>
-  <version>1.0</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/sing_box.inc</include_file>
   <aftersaveredirect>/sing-box.php</aftersaveredirect>
   <menu>

@@ -2,11 +2,11 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-speedtest}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 TARGET_ABI="${TARGET_ABI:-${ABI:-universal}}"
-ENGINE_VERSION="${ENGINE_VERSION:-1.7.10}"
+ENGINE_VERSION="${ENGINE_VERSION:-1.7.11}"
 ENGINE_ASSET="speedtest-go_${ENGINE_VERSION}_Freebsd_x86_64.tar.gz"
-ENGINE_SHA256="${ENGINE_SHA256:-648ea262297aff61dbe8569f8b719b40f7eb928cc9b17d13927282365a857f80}"
+ENGINE_SHA256="${ENGINE_SHA256:-2585dc330c497b9f6a49fba7e56bcd4a535be2ae7b06569e20aed07f8a7bdda8}"
 ENGINE_URL="https://github.com/showwin/speedtest-go/releases/download/v${ENGINE_VERSION}/${ENGINE_ASSET}"
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 WORKDIR="${WORKDIR:-$SCRIPT_DIR/work/freebsd-pkg}"

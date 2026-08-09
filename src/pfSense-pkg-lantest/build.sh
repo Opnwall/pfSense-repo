@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-lantest}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 TARGET_ABI="${TARGET_ABI:-${ABI:-universal}}"
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 WORKDIR="${WORKDIR:-$SCRIPT_DIR/work/freebsd-pkg}"

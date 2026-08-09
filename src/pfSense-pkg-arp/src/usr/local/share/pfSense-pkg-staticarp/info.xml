@@ -2,7 +2,7 @@
 <pfsensepkgs>
   <package>
     <name>staticarp</name>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <title>Static Binding</title>
     <configurationfile>staticarp.xml</configurationfile>
     <descr>Static IP and MAC binding integration for pfSense.</descr>

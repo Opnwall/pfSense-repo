@@ -1,6 +1,6 @@
 PKG_NAME?=	pfSense-pkg-arp
 OUTPUT_NAME?=	pfSense-pkg-arp.pkg
-VERSION?=	1.0
+VERSION?=	1.0.2
 ABI?=		universal
 
 .PHONY: package clean

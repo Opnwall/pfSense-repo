@@ -3,7 +3,7 @@
   <package>
     <name>lantest</name>
     <descr><![CDATA[LanTest browser-based LAN throughput, latency, and jitter test.]]></descr>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <configurationfile>lanspeedtest.xml</configurationfile>
   </package>
 </pfsensepkgs>

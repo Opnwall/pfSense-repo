@@ -1,4 +1,4 @@
-Mihomo proxy integration for pfSense CE 2.8.1 and pfSense Plus 26.03.
+Mihomo proxy integration for pfSense CE 2.9.0 and pfSense Plus 26.07.
 
 This package installs the mihomo binary, pfSense GUI pages, rc.d service,
 default configuration, dashboard assets, subscription helper, and pfSense

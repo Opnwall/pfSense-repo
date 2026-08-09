@@ -209,7 +209,7 @@ cd pfsense-dnscrypt-proxy
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `DEPLOY_HOST` | `pf` | SSH hostname for pfSense |
-| `PORTVERSION` | `1.3.1` | Package version to build |
+| `PORTVERSION` | `1.3.2` | Package version to build |
 
 ## Related
 

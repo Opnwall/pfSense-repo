@@ -1,12 +1,13 @@
 <?php
 require_once("guiconfig.inc");
+require_once("/usr/local/pkg/adguardhome.inc");
 
 $log_file = "/var/log/adguardhome.log";
 
 header('Content-Type: text/plain; charset=UTF-8');
 
 if (!file_exists($log_file)) {
-    echo gettext("No log file found.") . "\n";
+    echo adguardhome_text("No log file found.") . "\n";
     exit;
 }
 

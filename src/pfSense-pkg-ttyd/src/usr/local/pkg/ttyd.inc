@@ -2,6 +2,38 @@
 
 require_once('service-utils.inc');
 
+function ttyd_text($key, $language = null) {
+	static $translations = [
+		'zh_CN' => [
+			'Diagnostics' => '诊断',
+			'This page opens a full interactive terminal through ttyd. The shell itself is entered through SSH, so pfSense SSH permissions and login policy still apply. The embedded terminal uses the pfSense WebGUI certificate.' => '此页面通过 ttyd 打开完整的交互式终端。终端通过 SSH 登录，因此仍遵循 pfSense 的 SSH 权限和登录策略。嵌入式终端使用 pfSense WebGUI 证书。',
+			'Terminal URL' => '终端地址',
+			'SSH target' => 'SSH 目标',
+			'The terminal service could not be started. Make sure ttyd is installed, the pfSense WebGUI certificate is available, and SSH is enabled in System > Advanced > Admin Access.' => '无法启动终端服务。请确认 ttyd 已安装、pfSense WebGUI 证书可用，并已在“系统 > 高级 > 管理访问”中启用 SSH。',
+		],
+		'zh_TW' => [
+			'Diagnostics' => '診斷',
+			'This page opens a full interactive terminal through ttyd. The shell itself is entered through SSH, so pfSense SSH permissions and login policy still apply. The embedded terminal uses the pfSense WebGUI certificate.' => '此頁面透過 ttyd 開啟完整的互動式終端機。終端機透過 SSH 登入，因此仍遵循 pfSense 的 SSH 權限與登入原則。嵌入式終端機使用 pfSense WebGUI 憑證。',
+			'Terminal URL' => '終端機位址',
+			'SSH target' => 'SSH 目標',
+			'The terminal service could not be started. Make sure ttyd is installed, the pfSense WebGUI certificate is available, and SSH is enabled in System > Advanced > Admin Access.' => '無法啟動終端機服務。請確認 ttyd 已安裝、pfSense WebGUI 憑證可用，並已在「系統 > 進階 > 管理存取」中啟用 SSH。',
+		],
+	];
+
+	if ($language === null) {
+		$language = function_exists('config_get_path') ? (string)config_get_path('system/language', 'en') : 'en';
+	}
+	if (in_array($language, ['zh_CN', 'zh_Hans_CN'], true)) {
+		$language = 'zh_CN';
+	} elseif (in_array($language, ['zh_TW', 'zh_Hant_TW'], true)) {
+		$language = 'zh_TW';
+	} else {
+		return $key;
+	}
+
+	return $translations[$language][$key] ?? $key;
+}
+
 function ttyd_get_config() {
 	$defaults = [
 		'interface' => '0.0.0.0',

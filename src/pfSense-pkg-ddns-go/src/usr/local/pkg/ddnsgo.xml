@@ -2,7 +2,7 @@
 <packagegui>
   <name>ddnsgo</name>
   <title>Services: DDNS-Go</title>
-  <version>1.0</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/ddnsgo.inc</include_file>
   <aftersaveredirect>/services_ddnsgo.php</aftersaveredirect>
   <menu>

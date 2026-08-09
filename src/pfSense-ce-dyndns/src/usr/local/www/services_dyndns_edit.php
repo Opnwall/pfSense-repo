@@ -5,7 +5,7 @@
  * part of pfSense (https://www.pfsense.org)
  * Copyright (c) 2004-2013 BSD Perimeter
  * Copyright (c) 2013-2016 Electric Sheep Fencing
- * Copyright (c) 2014-2025 Rubicon Communications, LLC (Netgate)
+ * Copyright (c) 2014-2026 Rubicon Communications, LLC (Netgate)
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,8 +89,8 @@ if ($_POST['save'] || $_POST['force']) {
 		"aliyun-v6" => array("apex" => true, "wildcard" => false, "username_none" => false),
 		"cloudflare" => array("apex" => false, "wildcard" => false, "username_none" => true),
 		"cloudflare-v6" => array("apex" => false, "wildcard" => false, "username_none" => true),
-		"desec" => array("apex" => false, "wildcard" => false, "username_none" => true),
-		"desec-v6" => array("apex" => false, "wildcard" => false, "username_none" => true),
+		"desec" => array("apex" => false, "wildcard" => true, "username_none" => true),
+		"desec-v6" => array("apex" => false, "wildcard" => true, "username_none" => true),
 		"digitalocean" => array("apex" => true, "wildcard" => true, "username_none" => true),
 		"digitalocean-v6" => array("apex" => true, "wildcard" => true, "username_none" => true),
 		"dnsmadeeasy" => array("apex" => false, "wildcard" => false, "username_none" => true),
@@ -454,7 +454,8 @@ $section->addInput(new Form_Checkbox(
 	'Verbose logging',
 	'Enable verbose logging',
 	$pconfig['verboselog']
-));
+))->setHelp('Note: Make sure to set an appropriate default log level (%s) to see informational messages.',
+		'<a href="/status_logs_settings.php">Status > System Logs > Settings</a>');
 
 $section->addInput(new Form_Checkbox(
 	'curl_ipresolve_v4',
@@ -467,7 +468,7 @@ $section->addInput(new Form_Checkbox(
 	'curl_ssl_verifypeer',
 	'HTTP API SSL/TLS Options',
 	'Verify SSL/TLS Certificate Trust',
-	$pconfig['curl_ssl_verifypeer']
+	$pconfig['curl_ssl_verifypeer'] ?? true
 ))->setHelp('When set, the server must provide a valid SSL/TLS certificate trust chain which can be verified by this firewall.');
 
 $section->addInput(new Form_Input(
@@ -664,7 +665,6 @@ events.push(function() {
 			case 'desec-v6':
 				hideInput('username', true);
 				hideInput('mx', true);
-				hideCheckbox('wildcard', true);
 				break;
 			case "digitalocean":
 			case "digitalocean-v6":

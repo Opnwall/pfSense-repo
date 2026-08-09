@@ -3,12 +3,12 @@
 ABI="$(pkg config ABI 2>/dev/null || true)"
 
 case "$ABI" in
-  FreeBSD:15:amd64|FreeBSD:16:amd64)
+  FreeBSD:16:amd64)
     echo "===> Detected supported pfSense ABI: $ABI"
     ;;
   *)
     echo "===> Unsupported ABI: ${ABI:-unknown}" >&2
-    echo "===> Supported: FreeBSD:15:amd64 (pfSense CE 2.8.1), FreeBSD:16:amd64 (pfSense Plus 26.03)" >&2
+    echo "===> Supported: FreeBSD:16:amd64 (pfSense CE 2.9.0 and Plus 26.07)" >&2
     exit 1
     ;;
 esac

@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-adguardhome}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.3}"
 ORIGIN="${ORIGIN:-dns/pfSense-pkg-adguardhome}"
 COMMENT="${COMMENT:-AdGuard Home DNS filtering integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

@@ -1,6 +1,6 @@
 PKG_NAME?=	pfSense-pkg-lang
 OUTPUT_NAME?=	pfSense-pkg-lang.pkg
-VERSION?=	1.0
+VERSION?=	1.0.2
 ABI?=		universal
 
 .PHONY: package clean

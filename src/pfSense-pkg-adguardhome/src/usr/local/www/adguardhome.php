@@ -1,5 +1,6 @@
 <?php
 require_once("guiconfig.inc");
+require_once("/usr/local/pkg/adguardhome.inc");
 
 $pgtitle = [gettext('Services'), gettext('AdGuard Home')];
 
@@ -58,11 +59,11 @@ function adguardhome_service_action($action, $binary)
 {
     $allowed = ['start', 'stop', 'restart'];
     if (!in_array($action, $allowed, true)) {
-        return ['message' => gettext('Invalid service action.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Invalid service action.'), 'type' => 'danger'];
     }
 
     if (($action === 'start' || $action === 'restart') && !is_executable($binary)) {
-        return ['message' => gettext('AdGuard Home binary is missing or not executable:') . ' ' . $binary, 'type' => 'danger'];
+        return ['message' => adguardhome_text('AdGuard Home binary is missing or not executable:') . ' ' . $binary, 'type' => 'danger'];
     }
 
     $output = [];
@@ -70,7 +71,7 @@ function adguardhome_service_action($action, $binary)
     exec('/usr/sbin/service adguardhome ' . escapeshellarg($action) . ' 2>&1', $output, $return_var);
 
     if ($return_var === 0) {
-        return ['message' => gettext('Service command completed.'), 'type' => 'success'];
+        return ['message' => adguardhome_text('Service command completed.'), 'type' => 'success'];
     }
 
     $detail = trim(implode("\n", $output));
@@ -78,42 +79,42 @@ function adguardhome_service_action($action, $binary)
         $detail = "\n" . $detail;
     }
 
-    return ['message' => gettext('Service command failed.') . $detail, 'type' => 'danger'];
+    return ['message' => adguardhome_text('Service command failed.') . $detail, 'type' => 'danger'];
 }
 
 function adguardhome_save_config($file, $content)
 {
     if (trim($content) === '') {
-        return ['message' => gettext('Configuration cannot be empty.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Configuration cannot be empty.'), 'type' => 'danger'];
     }
 
     $target_dir = dirname($file);
     if (!is_dir($target_dir) && !mkdir($target_dir, 0755, true)) {
-        return ['message' => gettext('Cannot create configuration directory.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Cannot create configuration directory.'), 'type' => 'danger'];
     }
 
     if (!is_writable($target_dir)) {
-        return ['message' => gettext('Configuration directory is not writable.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Configuration directory is not writable.'), 'type' => 'danger'];
     }
 
     $tmp_file = tempnam($target_dir, 'adguardhome_save_');
     if ($tmp_file === false) {
-        return ['message' => gettext('Cannot create temporary configuration file.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Cannot create temporary configuration file.'), 'type' => 'danger'];
     }
 
     if (file_put_contents($tmp_file, $content, LOCK_EX) === false) {
         @unlink($tmp_file);
-        return ['message' => gettext('Cannot write temporary configuration file.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Cannot write temporary configuration file.'), 'type' => 'danger'];
     }
 
     $original_perms = file_exists($file) ? (@fileperms($file) & 0777) : 0600;
     if (!@rename($tmp_file, $file)) {
         @unlink($tmp_file);
-        return ['message' => gettext('Cannot replace configuration file.'), 'type' => 'danger'];
+        return ['message' => adguardhome_text('Cannot replace configuration file.'), 'type' => 'danger'];
     }
 
     @chmod($file, $original_perms);
-    return ['message' => gettext('Configuration saved.'), 'type' => 'success'];
+    return ['message' => adguardhome_text('Configuration saved.'), 'type' => 'success'];
 }
 
 if (($_GET['status'] ?? '') === '1') {
@@ -124,7 +125,7 @@ if (($_GET['status'] ?? '') === '1') {
 
 if ($_POST) {
     if (!adguardhome_csrf_check()) {
-        $result = ['message' => gettext('Request validation failed. Refresh the page and try again.'), 'type' => 'danger'];
+        $result = ['message' => adguardhome_text('Request validation failed. Refresh the page and try again.'), 'type' => 'danger'];
     } else {
         $action = $_POST['action'] ?? '';
         if ($action === 'save_config') {
@@ -141,7 +142,7 @@ if ($_POST) {
 $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
 $host = preg_replace('/:\d+$/', '', $host);
 $web_url = 'http://' . ($host ?: '127.0.0.1') . ':3000/';
-$version = is_executable($adguardhome_bin) ? trim(shell_exec(escapeshellarg($adguardhome_bin) . ' --version 2>&1')) : gettext('AdGuard Home binary is not installed.');
+$version = is_executable($adguardhome_bin) ? trim(shell_exec(escapeshellarg($adguardhome_bin) . ' --version 2>&1')) : adguardhome_text('AdGuard Home binary is not installed.');
 $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents($config_file), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : '';
 
 include("head.inc");
@@ -155,25 +156,25 @@ include("head.inc");
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><?= htmlspecialchars(gettext('Service Status')); ?></h2>
+        <h2 class="panel-title"><?= htmlspecialchars(adguardhome_text('Service Status')); ?></h2>
     </div>
     <div class="panel-body">
         <div id="adguardhome-status" class="alert alert-info">
-            <i class="fa fa-circle-o-notch fa-spin"></i> <?= htmlspecialchars(gettext('Checking...')); ?>
+            <i class="fa fa-circle-o-notch fa-spin"></i> <?= htmlspecialchars(adguardhome_text('Checking...')); ?>
         </div>
         <table class="table table-striped table-condensed">
             <tbody>
                 <tr>
-                    <th style="width: 180px;"><?= htmlspecialchars(gettext('Version')); ?></th>
+                    <th style="width: 180px;"><?= htmlspecialchars(adguardhome_text('Version')); ?></th>
                     <td><pre style="margin:0; white-space:pre-wrap;"><?= htmlspecialchars($version); ?></pre></td>
                 </tr>
                 <tr>
-                    <th><?= htmlspecialchars(gettext('Links')); ?></th>
+                    <th><?= htmlspecialchars(adguardhome_text('Links')); ?></th>
                     <td><a href="<?= htmlspecialchars($web_url); ?>" target="_blank"><?= htmlspecialchars($web_url); ?></a></td>
                 </tr>
                 <tr>
-                    <th><?= htmlspecialchars(gettext('Recommended DNS Flow')); ?></th>
-                    <td><code><?= htmlspecialchars(gettext('Client -> AdGuard Home:53 -> Unbound:5353 -> Upstream DNS')); ?></code></td>
+                    <th><?= htmlspecialchars(adguardhome_text('Recommended DNS Flow')); ?></th>
+                    <td><code><?= htmlspecialchars(adguardhome_text('Client -> AdGuard Home:53 -> Unbound:5353 -> Upstream DNS')); ?></code></td>
                 </tr>
             </tbody>
         </table>
@@ -182,19 +183,19 @@ include("head.inc");
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><?= htmlspecialchars(gettext('Service Control')); ?></h2>
+        <h2 class="panel-title"><?= htmlspecialchars(adguardhome_text('Service Control')); ?></h2>
     </div>
     <div class="panel-body">
         <form method="post" class="form-inline">
             <?php adguardhome_csrf_token_field(); ?>
             <button type="submit" name="action" value="start" class="btn btn-success">
-                <i class="fa fa-play"></i> <?= htmlspecialchars(gettext('Start')); ?>
+                <i class="fa fa-play"></i> <?= htmlspecialchars(adguardhome_text('Start')); ?>
             </button>
             <button type="submit" name="action" value="stop" class="btn btn-danger">
-                <i class="fa fa-stop"></i> <?= htmlspecialchars(gettext('Stop')); ?>
+                <i class="fa fa-stop"></i> <?= htmlspecialchars(adguardhome_text('Stop')); ?>
             </button>
             <button type="submit" name="action" value="restart" class="btn btn-warning">
-                <i class="fa fa-refresh"></i> <?= htmlspecialchars(gettext('Restart')); ?>
+                <i class="fa fa-refresh"></i> <?= htmlspecialchars(adguardhome_text('Restart')); ?>
             </button>
         </form>
     </div>
@@ -202,7 +203,7 @@ include("head.inc");
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><?= htmlspecialchars(gettext('Configuration File')); ?></h2>
+        <h2 class="panel-title"><?= htmlspecialchars(adguardhome_text('Configuration File')); ?></h2>
     </div>
     <div class="panel-body">
         <form method="post">
@@ -210,7 +211,7 @@ include("head.inc");
             <textarea name="config_content" rows="14" class="form-control" style="font-family: monospace;"><?= $config_content; ?></textarea>
             <br>
             <button type="submit" name="action" value="save_config" class="btn btn-primary">
-                <i class="fa fa-save"></i> <?= htmlspecialchars(gettext('Save Configuration')); ?>
+                <i class="fa fa-save"></i> <?= htmlspecialchars(adguardhome_text('Save Configuration')); ?>
             </button>
         </form>
     </div>
@@ -218,7 +219,7 @@ include("head.inc");
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><?= htmlspecialchars(gettext('Log')); ?></h2>
+        <h2 class="panel-title"><?= htmlspecialchars(adguardhome_text('Log')); ?></h2>
     </div>
     <div class="panel-body">
         <textarea id="log-viewer" rows="10" class="form-control" readonly></textarea>
@@ -227,11 +228,11 @@ include("head.inc");
 
 <script>
 const adguardHomeI18n = <?= json_encode([
-    'running' => gettext('AdGuard Home is running'),
-    'stopped' => gettext('AdGuard Home is stopped'),
-    'status_failed' => gettext('Status check failed'),
-    'log_failed' => gettext('Cannot load log.'),
-    'error' => gettext('Error'),
+    'running' => adguardhome_text('AdGuard Home is running'),
+    'stopped' => adguardhome_text('AdGuard Home is stopped'),
+    'status_failed' => adguardhome_text('Status check failed'),
+    'log_failed' => adguardhome_text('Cannot load log.'),
+    'error' => adguardhome_text('Error'),
 ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
 
 function checkAdGuardHomeStatus() {
