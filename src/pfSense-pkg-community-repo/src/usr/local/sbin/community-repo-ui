@@ -60,6 +60,13 @@ function apply_patches() {
 	    marker('TAB', "\t\$tab_array[] = array(community_repo_text('tab'), false, \"pkg_mgr_community.php\");\n"), 'available tabs');
 	insert_after($installed, "\$tab_array[] = array(gettext(\"Available Packages\"), false, \"pkg_mgr.php\");\n",
 	    marker('TAB', "\t\$tab_array[] = array(community_repo_text('tab'), false, \"pkg_mgr_community.php\");\n"), 'installed tabs');
+	insert_after($installed, "\t\$installed_packages = get_pkg_info('all', false, true);\n",
+	    marker('COMMUNITY_INSTALLED', "\t\$installed_names = array_column((array)\$installed_packages, 'name');\n" .
+	    "\tforeach (community_repo_installed_packages() as \$community_package) {\n" .
+	    "\t\tif (!in_array(\$community_package['name'], \$installed_names, true)) {\n" .
+	    "\t\t\t\$installed_packages[] = \$community_package;\n" .
+	    "\t\t}\n" .
+	    "\t}\n"), 'installed package query');
 
 	write_valid_php(AVAILABLE_PAGE, $available);
 	write_valid_php(INSTALLED_PAGE, $installed);

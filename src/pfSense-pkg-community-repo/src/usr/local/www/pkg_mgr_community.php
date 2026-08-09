@@ -139,7 +139,7 @@ function get_pkg_table() {
 		$pkgtbl .= 	'</td>' . "\n";
 		$pkgtbl .= '<td>' . "\n";
 		if (isset($index['installed'])) {
-			$pkgtbl .= '<span class="label label-success"><i class="fa-solid fa-check icon-embed-btn"></i>' . htmlspecialchars(community_repo_text('installed')) . '</span>' . "\n";
+			$pkgtbl .= '<a title="' . sprintf(gettext("Remove package %s"), htmlspecialchars($index['name'])) . '" href="pkg_mgr_install.php?mode=delete&amp;pkg=' . rawurlencode($index['name']) . '" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can icon-embed-btn"></i>' . htmlspecialchars(community_repo_text('uninstall')) . '</a>' . "\n";
 		} else {
 			$pkgtbl .= '<a title="' . gettext("Click to install") . '" href="pkg_mgr_install.php?pkg=' . $index['name'] . '" class="btn btn-success btn-sm"><i class="fa-solid fa-plus icon-embed-btn"></i>' . gettext("Install") . '</a>' . "\n";
 		}

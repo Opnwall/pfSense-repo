@@ -26,7 +26,7 @@ function community_repo_text($key) {
 			'enabled' => 'The community repository has been enabled and its catalog was updated.',
 			'disabled' => 'The community repository has been disabled.',
 			'disabled_help' => 'The community repository is disabled. Enable it above to download and display community packages.',
-			'installed' => 'Installed',
+			'uninstall' => 'Uninstall',
 		],
 		'zh_CN' => [
 			'tab' => '社区插件',
@@ -40,7 +40,7 @@ function community_repo_text($key) {
 			'enabled' => '社区仓库已启用，仓库索引已更新。',
 			'disabled' => '社区仓库已禁用。',
 			'disabled_help' => '社区仓库已禁用。请先启用仓库，才能下载并显示社区插件。',
-			'installed' => '已安装',
+			'uninstall' => '卸载',
 		],
 		'zh_TW' => [
 			'tab' => '社群套件',
@@ -54,7 +54,7 @@ function community_repo_text($key) {
 			'enabled' => '社群套件庫已啟用，套件庫索引已更新。',
 			'disabled' => '社群套件庫已停用。',
 			'disabled_help' => '社群套件庫已停用。請先啟用套件庫，才能下載並顯示社群套件。',
-			'installed' => '已安裝',
+			'uninstall' => '解除安裝',
 		],
 	];
 	if (function_exists('config_get_path')) {
@@ -154,6 +154,7 @@ function community_repo_packages() {
 			'changeloglink' => $www,
 			'pkginfolink' => $www,
 			'deps' => array(),
+			'categories' => array('community'),
 		);
 		if (isset($installed[$name])) {
 			$package['installed'] = true;
@@ -163,4 +164,10 @@ function community_repo_packages() {
 	}
 
 	return $packages;
+}
+
+function community_repo_installed_packages() {
+	return array_values(array_filter(community_repo_packages(), function($package) {
+		return isset($package['installed']);
+	}));
 }
