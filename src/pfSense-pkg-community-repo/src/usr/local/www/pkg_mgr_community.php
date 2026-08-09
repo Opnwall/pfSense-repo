@@ -45,7 +45,11 @@ if (isset($_POST['save_community_repo'])) {
 	} elseif ($enable_repo) {
 		$output = array();
 		$status = 0;
-		exec('/usr/sbin/pkg update -f -r ' . escapeshellarg(COMMUNITY_REPO_NAME) . ' 2>&1', $output, $status);
+		/* pfSense Plus pins pkg(8) to Netgate's private CA through PKG_ENV.
+		 * Override only this public GitHub Pages repository with the system CA
+		 * bundle; CE accepts the same option. */
+		exec('/usr/sbin/pkg -o PKG_ENV.SSL_CA_CERT_FILE=/etc/ssl/cert.pem update -f -r ' .
+		    escapeshellarg(COMMUNITY_REPO_NAME) . ' 2>&1', $output, $status);
 		if ($status !== 0) {
 			$saveerr = community_repo_text('update_error');
 		} else {
