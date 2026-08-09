@@ -55,18 +55,18 @@ pkg install pfSense-pkg-community-repo
 
 | 软件包 | 版本 | 描述 |
 | --- | --- | --- |
-| `pfSense-pkg-adguardhome` | 1.0.1 | AdGuard Home DNS 过滤集成 |
-| `pfSense-pkg-arp` | 1.0.1 | 静态 IP/MAC 绑定 |
-| `pfSense-pkg-community-repo` | 1.1.4 | 社区仓库和插件管理器集成 |
-| `pfSense-pkg-ddns-go` | 1.0.1 | DDNS-Go 动态 DNS 集成 |
-| `pfSense-pkg-dnscrypt-proxy` | 1.3.1 | DNSCrypt/DoH 加密 DNS |
-| `pfSense-pkg-lang` | 1.0.1 | 中文汉化工具 |
-| `pfSense-pkg-lantest` | 1.0.1 | 局域网测速工具 |
-| `pfSense-pkg-lucky` | 1.0.1 | Lucky 网络工具箱 |
-| `pfSense-pkg-mihomo` | 1.0.1 | Mihomo 代理集成 |
-| `pfSense-pkg-sing-box` | 1.0.1 | sing-box 代理集成 |
-| `pfSense-pkg-speedtest` | 1.0.1 | Speedtest 互联网测速工具 |
-| `pfSense-pkg-ttyd` | 1.0.1 | ttyd 网页终端 |
+| `pfSense-pkg-adguardhome` | 1.0.3 | AdGuard Home DNS 过滤集成 |
+| `pfSense-pkg-arp` | 1.0.2 | 静态 IP/MAC 绑定 |
+| `pfSense-pkg-community-repo` | 1.1.6 | 社区仓库和插件管理器集成 |
+| `pfSense-pkg-ddns-go` | 1.0.2 | DDNS-Go 动态 DNS 集成 |
+| `pfSense-pkg-dnscrypt-proxy` | 1.3.2 | DNSCrypt/DoH 加密 DNS |
+| `pfSense-pkg-lang` | 1.0.2 | 中文汉化工具 |
+| `pfSense-pkg-lantest` | 1.0.2 | 局域网测速工具 |
+| `pfSense-pkg-lucky` | 1.0.2 | Lucky 网络工具箱 |
+| `pfSense-pkg-mihomo` | 1.0.2 | Mihomo 代理集成 |
+| `pfSense-pkg-sing-box` | 1.0.2 | sing-box 代理集成 |
+| `pfSense-pkg-speedtest` | 1.0.2 | Speedtest 互联网测速工具 |
+| `pfSense-pkg-ttyd` | 1.0.4 | ttyd 网页终端 |
 
 
 ## 安装插件
