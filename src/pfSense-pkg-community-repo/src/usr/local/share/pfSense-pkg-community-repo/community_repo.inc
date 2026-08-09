@@ -26,6 +26,7 @@ function community_repo_text($key) {
 			'enabled' => 'The community repository has been enabled and its catalog was updated.',
 			'disabled' => 'The community repository has been disabled.',
 			'disabled_help' => 'The community repository is disabled. Enable it above to download and display community packages.',
+			'installed' => 'Installed',
 		],
 		'zh_CN' => [
 			'tab' => '社区插件',
@@ -39,6 +40,7 @@ function community_repo_text($key) {
 			'enabled' => '社区仓库已启用，仓库索引已更新。',
 			'disabled' => '社区仓库已禁用。',
 			'disabled_help' => '社区仓库已禁用。请先启用仓库，才能下载并显示社区插件。',
+			'installed' => '已安装',
 		],
 		'zh_TW' => [
 			'tab' => '社群套件',
@@ -52,6 +54,7 @@ function community_repo_text($key) {
 			'enabled' => '社群套件庫已啟用，套件庫索引已更新。',
 			'disabled' => '社群套件庫已停用。',
 			'disabled_help' => '社群套件庫已停用。請先啟用套件庫，才能下載並顯示社群套件。',
+			'installed' => '已安裝',
 		],
 	];
 	if (function_exists('config_get_path')) {
@@ -100,7 +103,7 @@ function community_repo_package_names() {
 	$names = array();
 	$output = array();
 	$status = 0;
-	exec('/usr/sbin/pkg rquery -r ' . escapeshellarg(COMMUNITY_REPO_NAME) .
+	exec('/usr/sbin/pkg -o REPO_AUTOUPDATE=false rquery -r ' . escapeshellarg(COMMUNITY_REPO_NAME) .
 	    " '%n' 2>/dev/null", $output, $status);
 	if ($status === 0) {
 		foreach ($output as $name) {
@@ -112,4 +115,52 @@ function community_repo_package_names() {
 	}
 
 	return $names;
+}
+
+function community_repo_packages() {
+	$installed = array();
+	$installed_output = array();
+	exec("/usr/sbin/pkg query '%n|%v' 2>/dev/null", $installed_output);
+	foreach ($installed_output as $line) {
+		$parts = explode('|', $line, 2);
+		if (count($parts) === 2) {
+			$installed[$parts[0]] = $parts[1];
+		}
+	}
+
+	$output = array();
+	$status = 0;
+	exec('/usr/sbin/pkg -o REPO_AUTOUPDATE=false rquery -r ' . escapeshellarg(COMMUNITY_REPO_NAME) .
+	    " '%n|%v|%c|%w' 2>/dev/null", $output, $status);
+	if ($status !== 0) {
+		return array();
+	}
+
+	$packages = array();
+	foreach ($output as $line) {
+		$parts = explode('|', $line, 4);
+		if (count($parts) !== 4 || !str_starts_with($parts[0], 'pfSense-pkg-')) {
+			continue;
+		}
+
+		$name = $parts[0];
+		$www = $parts[3] !== '' ? $parts[3] : 'UNKNOWN';
+		$package = array(
+			'name' => $name,
+			'shortname' => substr($name, strlen('pfSense-pkg-')),
+			'version' => $parts[1],
+			'desc' => htmlspecialchars($parts[2]),
+			'www' => $www,
+			'changeloglink' => $www,
+			'pkginfolink' => $www,
+			'deps' => array(),
+		);
+		if (isset($installed[$name])) {
+			$package['installed'] = true;
+			$package['installed_version'] = $installed[$name];
+		}
+		$packages[] = $package;
+	}
+
+	return $packages;
 }

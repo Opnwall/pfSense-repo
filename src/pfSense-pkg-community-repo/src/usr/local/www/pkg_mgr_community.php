@@ -79,8 +79,7 @@ if (($_REQUEST) && ($_REQUEST['ajax'])) {
 // The content for the table of packages is created here and fetched by Ajax. This allows us to draw the page and display
 // any required messages while the table is being downloaded/populated. On very small/slow systems, that can take a while
 function get_pkg_table() {
-	$pkg_info = get_pkg_info('all', true, false);
-	$community_packages = community_repo_package_names();
+	$pkg_info = community_repo_packages();
 
 	if (!$pkg_info) {
 		print("error");
@@ -99,11 +98,8 @@ function get_pkg_table() {
 	$pkgtbl .= 		'<tbody>' . "\n";
 
 	foreach ($pkg_info as $index) {
-		if (!isset($community_packages[$index['name']])) {
-			continue;
-		}
 		//AutoConfigBackup not to be installed >= v 2.4.4
-		if (isset($index['installed']) || ($index['shortname'] == "AutoConfigBackup")) {
+		if ($index['shortname'] == "AutoConfigBackup") {
 			continue;
 		}
 
@@ -142,7 +138,11 @@ function get_pkg_table() {
 
 		$pkgtbl .= 	'</td>' . "\n";
 		$pkgtbl .= '<td>' . "\n";
-		$pkgtbl .= '<a title="' . gettext("Click to install") . '" href="pkg_mgr_install.php?pkg=' . $index['name'] . '" class="btn btn-success btn-sm"><i class="fa-solid fa-plus icon-embed-btn"></i>Install</a>' . "\n";
+		if (isset($index['installed'])) {
+			$pkgtbl .= '<span class="label label-success"><i class="fa-solid fa-check icon-embed-btn"></i>' . htmlspecialchars(community_repo_text('installed')) . '</span>' . "\n";
+		} else {
+			$pkgtbl .= '<a title="' . gettext("Click to install") . '" href="pkg_mgr_install.php?pkg=' . $index['name'] . '" class="btn btn-success btn-sm"><i class="fa-solid fa-plus icon-embed-btn"></i>' . gettext("Install") . '</a>' . "\n";
+		}
 
 		if (!g_get('disablepackageinfo') && $index['pkginfolink'] && $index['pkginfolink'] != $index['www']) {
 			$pkgtbl .= '<a target="_blank" title="' . gettext("View more information") . '" href="' . htmlspecialchars($index['pkginfolink']) . '" class="btn btn-default btn-sm">info</a>' . "\n";
