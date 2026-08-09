@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-mihomo}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-mihomo}"
 COMMENT="${COMMENT:-Mihomo proxy integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

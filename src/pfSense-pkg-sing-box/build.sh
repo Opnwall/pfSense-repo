@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-sing-box}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-sing-box}"
 COMMENT="${COMMENT:-sing-box proxy integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"
@@ -12,7 +12,7 @@ FORMAT="${FORMAT:-tgz}"
 TARGET_ABI="${TARGET_ABI:-${ABI:-universal}}"
 unset ABI || true
 OUTPUT_NAME="${OUTPUT_NAME:-${PKG_NAME}.pkg}"
-SING_BOX_ASSET="${SING_BOX_ASSET:-bsd-box-reF1nd-freebsd-amd64.xz}"
+SING_BOX_ASSET="${SING_BOX_ASSET:-bsd-box-freebsd-amd64.xz}"
 SING_BOX_DOWNLOAD_URL="${SING_BOX_DOWNLOAD_URL:-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/$SING_BOX_ASSET}"
 DOWNLOAD_TIMEOUT="${DOWNLOAD_TIMEOUT:-300}"
 

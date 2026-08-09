@@ -3,7 +3,7 @@
   <package>
     <name>lucky</name>
     <descr><![CDATA[Lucky DDNS, ACME, reverse proxy and network toolbox integration for pfSense.]]></descr>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <configurationfile>lucky.xml</configurationfile>
   </package>
 </pfsensepkgs>

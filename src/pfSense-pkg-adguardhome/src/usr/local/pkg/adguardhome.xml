@@ -2,7 +2,7 @@
 <packagegui>
   <name>adguardhome</name>
   <title>Services: AdGuard Home</title>
-  <version>1.0</version>
+  <version>1.0.3</version>
   <include_file>/usr/local/pkg/adguardhome.inc</include_file>
   <aftersaveredirect>/adguardhome.php</aftersaveredirect>
   <menu>

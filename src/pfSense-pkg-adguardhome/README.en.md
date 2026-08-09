@@ -9,7 +9,7 @@
   English | <a href="README.md">中文</a><br><br>
 </div>
 <p align="center">
-  <img src="https://img.shields.io/badge/pfSense-CE%202.8.1%20%7C%20Plus%2026.03-212121?logo=pfsense&logoColor=white">
+  <img src="https://img.shields.io/badge/pfSense-CE%202.9.0%20%7C%20Plus%2026.07-212121?logo=pfsense&logoColor=white">
   <img src="https://img.shields.io/badge/Platform-amd64-blue?logo=amd">
   <img src="https://img.shields.io/badge/AdGuard%20Home-Supported-67b279?logo=adguard">
 </p>
@@ -20,8 +20,10 @@ This project integrates AdGuard Home with pfSense firewalls. It provides one-ste
 
 Tested on:
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
+
+The package management pages support English, Simplified Chinese, and Traditional Chinese. They follow the pfSense system language automatically and fall back to English for other locales.
 
 ![](image/AdGuardHome.png)
 

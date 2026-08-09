@@ -75,9 +75,15 @@ function services_radvd_configure($blacklist = array()) {
 
 		$racarpif = false;
 		$rasrcaddr = "";
-		/* check if binding to CARP IP */
 		if (!empty($dhcpv6ifconf['rainterface']) && strstr($dhcpv6ifconf['rainterface'], "_vip")) {
-			if (get_carp_interface_status($dhcpv6ifconf['rainterface']) == "MASTER") {
+			/* check if binding to CARP IP */
+			$carpstatus = get_carp_interface_status($dhcpv6ifconf['rainterface']);
+			if ($carpstatus == "") {
+				$rasrcaddr = get_configured_vip_ipv6($dhcpv6ifconf['rainterface']);
+				if (!is_linklocal($rasrcaddr)) {
+					$rasrcaddr = "";
+				}
+			} elseif ($carpstatus == "MASTER") {
 				if (is_linklocal(get_configured_vip_ipv6($dhcpv6ifconf['rainterface']))) {
 					$rasrcaddr = get_configured_vip_ipv6($dhcpv6ifconf['rainterface']);
 				} else {
@@ -361,7 +367,7 @@ function services_radvd_configure($blacklist = array()) {
 		if (!config_path_enabled("interfaces/{$if}")) {
 			continue;
 		}
-		if (config_get_path("dhcpdv6/{$if}/ramode") == "disabled") {
+		if (config_get_path("dhcpdv6/{$if}/ramode", "disabled") == "disabled") {
 			continue;
 		}
 		/* Do not put in the config an interface which is down */
@@ -599,13 +605,21 @@ function services_kea6_configure(bool $with_custom = true) {
 			'persist' => true,
 			'name' => $kea_lease_db
 		],
-		'loggers' => [[
-			'name' => 'kea-dhcp6',
-			'output_options' => [[
-				'output' => 'syslog'
-			]],
-			'severity' => config_get_path('kea6/loglevel', 'WARN')
-		]],
+		'loggers' => [
+			[
+				'name' => 'kea-dhcp6',
+				'output_options' => [[
+					'output' => 'syslog'
+				]],
+				'severity' => config_get_path('kea6/loglevel', 'ERROR')
+			], [
+				'name' => 'kea-dhcp6.leases',
+				'output_options' => [[
+					'output' => 'syslog'
+				]],
+				'severity' => config_get_path('kea6/loglevel_leases', 'INFO')
+			]
+		],
 		'valid-lifetime' => 7200,
 		'max-valid-lifetime' => 86400,
 		'host-reservation-identifiers' => [ /* order of priority */
@@ -779,15 +793,19 @@ case "$1" in
 esac
 EOD;
 
-	/* Compute hash of script file */
-	$run_script_hash = '';
-	if (file_exists($run_script_path)) {
-		$run_script_hash = hash_file('xxh3', $run_script_path);
-	}
-	/* Only need to (re)write script on-disk if it has changed */
-	if (!hash_equals($run_script_hash, hash('xxh3', $run_script))) {
-		file_put_contents($run_script_path, $run_script);
-		chmod($run_script_path, 0755);
+	if (config_path_enabled('unbound')) {
+		/* Compute hash of script file */
+		$run_script_hash = '';
+		if (file_exists($run_script_path)) {
+			$run_script_hash = hash_file('xxh3', $run_script_path);
+		}
+		/* Only need to (re)write script on-disk if it has changed */
+		if (!hash_equals($run_script_hash, hash('xxh3', $run_script))) {
+			file_put_contents($run_script_path, $run_script);
+			chmod($run_script_path, 0755);
+		}
+	} else {
+		unlink_if_exists($run_script_path);
 	}
 
 	// Install kea2fib6 hook
@@ -1422,13 +1440,21 @@ function services_kea4_configure(bool $with_custom = true) {
 			'persist' => true,
 			'name' => $kea_lease_db
 		],
-		'loggers' => [[
-			'name' => 'kea-dhcp4',
-			'output_options' => [[
-				'output' => 'syslog'
-			]],
-			'severity' => config_get_path('kea/loglevel', 'WARN')
-		]],
+		'loggers' => [
+			[
+				'name' => 'kea-dhcp4',
+				'output_options' => [[
+					'output' => 'syslog'
+				]],
+				'severity' => config_get_path('kea/loglevel', 'ERROR')
+			], [
+				'name' => 'kea-dhcp4.leases',
+				'output_options' => [[
+					'output' => 'syslog'
+				]],
+				'severity' => config_get_path('kea/loglevel_leases', 'INFO')
+			]
+		],
 		'valid-lifetime' => 7200,
 		'max-valid-lifetime' => 86400,
 		'ip-reservations-unique' => false,
@@ -1600,15 +1626,19 @@ case "$1" in
 esac
 EOD;
 
-	/* Compute hash of script file */
-	$run_script_hash = null;
-	if (file_exists($run_script_path)) {
-		$run_script_hash = hash_file('xxh3', $run_script_path);
-	}
-	/* Only need to (re)write script on-disk if it has changed */
-	if (hash('xxh3', $run_script) !== $run_script_hash) {
-		file_put_contents($run_script_path, $run_script);
-		chmod($run_script_path, 0755);
+	if (config_path_enabled('unbound')) {
+		/* Compute hash of script file */
+		$run_script_hash = null;
+		if (file_exists($run_script_path)) {
+			$run_script_hash = hash_file('xxh3', $run_script_path);
+		}
+		/* Only need to (re)write script on-disk if it has changed */
+		if (hash('xxh3', $run_script) !== $run_script_hash) {
+			file_put_contents($run_script_path, $run_script);
+			chmod($run_script_path, 0755);
+		}
+	} else {
+		unlink_if_exists($run_script_path);
 	}
 
 	$run_script_main = '/usr/local/share/kea/scripts/kea_run4';
@@ -4601,6 +4631,9 @@ function get_request_source_address($interface, int|null $address_family = null)
 
 	// Get the interface gateway.
 	$interface_gateway = '';
+	// In the case of load-balanced gateway groups with multiple online
+	// gateways, return_gateway_groups_array() will return multiple
+	// members. It may also instead return a single offline member.
 	$gateways_groups = return_gateway_groups_array();
 	if (isset($gateways_groups[$interface])) {
 		// Given interface is a gateway group.
@@ -4615,15 +4648,15 @@ function get_request_source_address($interface, int|null $address_family = null)
 
 	if (!empty($interface_gateway)) {
 		// Bail early if the gateway is down.
-		$gateways_status = return_gateways_status(true);
-		if (array_get_path($gateways_status, "{$interface_gateway}/status", '') != 'online') {
+		list($gateway_status, $gateway_details) = get_gateway_status($interface_gateway);
+		if(!is_online_gateway_status($gateway_status)) {
 			$error = 'gateway not online';
 			return [$source_address, $error];
 		}
 
 		// If the address family hasn't been specified, base it on the gateway.
 		if (!isset($address_family)) {
-			$address_family = is_ipaddrv4(array_get_path($gateways_status, "{$interface_gateway}/srcip", '')) ? AF_INET : AF_INET6;
+			$address_family = (array_get_path($gateway_details, "config/ipprotocol") == 'inet') ? AF_INET : AF_INET6;
 		}
 	}
 
@@ -4732,11 +4765,11 @@ function dyndnsCheckIP($interface, string|null $mode = null, int|null $address_f
 	curl_setopt($ip_ch, CURLOPT_IPRESOLVE, ($use_ipv6 ? CURL_IPRESOLVE_V6 : CURL_IPRESOLVE_V4));
 	curl_setopt($ip_ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 	curl_setopt($ip_ch, CURLOPT_USERPWD, "{$username}:{$password}");
+	curl_setopt($ip_ch, CURLOPT_FORBID_REUSE, true);
 	if ($curl_proxy) {
 		set_curlproxy($ip_ch);
 	}
 	$ip_result_page = curl_exec($ip_ch);
-	curl_close($ip_ch);
 	$matches = [];
 	preg_match($response_pattern, $ip_result_page, $matches);
 	if (isset($matches[1]) && is_ipaddr($matches[1])) {

@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-ddns-go}"
-VERSION="${VERSION:-1.0.1}"
+VERSION="${VERSION:-1.0.2}"
 ORIGIN="${ORIGIN:-dns/pfSense-pkg-ddns-go}"
 COMMENT="${COMMENT:-ddns-go dynamic DNS integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

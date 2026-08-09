@@ -202,7 +202,7 @@ if ($error_message !== '') print_info_box(htmlspecialchars($error_message), 'dan
   <tr><th><?=speedtest_t('isp')?></th><td><?=htmlspecialchars(trim((string)($user['isp'] ?? '') . ' / ' . (string)($user['IP'] ?? $user['ip'] ?? ''), ' /'))?></td></tr>
   <tr><th><?=speedtest_t('test_server')?></th><td><?=htmlspecialchars('[' . ($server_result['id'] ?? '') . '] ' . ($server_result['name'] ?? '') . ' - ' . ($server_result['sponsor'] ?? ''))?></td></tr>
   <tr><th><?=speedtest_t('distance')?></th><td><?=number_format((float)($server_result['distance'] ?? 0), 2)?> km</td></tr>
-  <tr><th><?=speedtest_t('engine')?></th><td>speedtest-go 1.7.10</td></tr>
+  <tr><th><?=speedtest_t('engine')?></th><td>speedtest-go 1.7.11</td></tr>
 </table></div>
 <?php endif; ?>
 <div class="panel panel-default"><div class="panel-heading"><h2 class="panel-title"><?=speedtest_t('settings')?></h2></div><div class="panel-body">

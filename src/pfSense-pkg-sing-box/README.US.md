@@ -16,8 +16,8 @@ This project integrates sing-box into the pfSense WebGUI with transparent proxy 
 
 Tested on:
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![](images/proxy.us.png)
 
@@ -26,13 +26,13 @@ Tested on:
 The project uses the static binary from [Vincent-Loeng](https://github.com/Vincent-Loeng/bsd-box). The default local asset path is:
 
 ```text
-bin/bsd-box-reF1nd-freebsd-amd64.xz
+bin/bsd-box-freebsd-amd64.xz
 ```
 
-The build script prefers the local `bin/bsd-box-reF1nd-freebsd-amd64.xz` file. If it is missing, the script downloads it from GitHub:
+The build script prefers the local `src/usr/local/bin/bsd-box-freebsd-amd64.xz` file. If it is missing, the script downloads it from GitHub:
 
 ```text
-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-reF1nd-freebsd-amd64.xz
+https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-freebsd-amd64.xz
 ```
 
 ## Notes

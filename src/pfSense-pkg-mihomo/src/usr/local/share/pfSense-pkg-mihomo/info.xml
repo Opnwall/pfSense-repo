@@ -3,7 +3,7 @@
   <package>
     <name>mihomo</name>
     <descr><![CDATA[Mihomo proxy integration for pfSense.]]></descr>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <configurationfile>mihomo.xml</configurationfile>
   </package>
 </pfsensepkgs>

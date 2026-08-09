@@ -9,7 +9,7 @@ upload between a client and pfSense without an external speed-test service.
 - Listen interface: LAN
 - TCP port: 3300
 - Test data: generated and discarded in memory
-- Supported systems: pfSense CE 2.8.x and pfSense Plus 26.x on amd64
+- Supported systems: pfSense CE 2.9.0 and pfSense Plus 26.x on amd64
 
 ## Build
 

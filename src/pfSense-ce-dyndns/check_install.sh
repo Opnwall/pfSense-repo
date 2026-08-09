@@ -19,8 +19,8 @@ has_patch() {
 	grep -q "_aliyunRequestURL" /etc/inc/dyndns.class &&
 	grep -q "_tencentCloudDNSPodHeaders" /etc/inc/dyndns.class &&
 	grep -q "DNSPod's Tencent Cloud API endpoint is IPv4-only" /etc/inc/dyndns.class &&
-	grep -q "get_interface_ipv6(\\$dyndns\\['interface'\\])" /usr/local/www/services_dyndns.php &&
-	grep -q "service_tencentcloud\\|tencentcloud" /usr/local/www/services_dyndns_edit.php
+	grep -Fq 'get_interface_ipv6($dyndns' /usr/local/www/services_dyndns.php &&
+	grep -Eq 'service_tencentcloud|tencentcloud' /usr/local/www/services_dyndns_edit.php
 }
 
 if has_patch; then

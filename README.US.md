@@ -16,8 +16,9 @@ An unofficial community package repository for **pfSense CE** and **pfSense Plus
 
 | System | Version | ABI | PHP | Status |
 | --- | --- | --- | --- | --- |
-| pfSense CE | 2.8.1 | `FreeBSD:15:amd64` | 8.3 | Tested |
-| pfSense Plus | 26.03.1 | `FreeBSD:16:amd64` | 8.5 | Tested |
+| pfSense CE | 2.8.1 | `FreeBSD:15:amd64` | 8.3 | Legacy repository retained |
+| pfSense CE | 2.9.0 | `FreeBSD:16:amd64` | 8.5 | Tested |
+| pfSense Plus | 26.03 / 26.07 | `FreeBSD:16:amd64` | 8.5 | Compatible / Tested |
 
 ## Installation
 

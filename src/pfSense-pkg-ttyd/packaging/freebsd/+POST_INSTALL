@@ -56,11 +56,8 @@ detect_bundle_name() {
 	version="$(freebsd-version -u 2>/dev/null || freebsd-version 2>/dev/null || uname -r)"
 	major="$(printf '%s\n' "$version" | awk -F. '{print $1}' | sed 's/[^0-9].*$//')"
 
-	case "$major" in
-		15) echo "freebsd15" ;;
-		16) echo "freebsd16" ;;
-		*) return 1 ;;
-	esac
+	[ "$major" = "16" ] || return 1
+	echo "freebsd16"
 }
 
 install_bundled_ttyd() {

@@ -5,15 +5,15 @@
  */
 
 $allowautocomplete = true;
-$pgtitle = array(gettext("Diagnostics"), gettext("ttyd"));
 require_once("guiconfig.inc");
 require_once("service-utils.inc");
 require_once("/usr/local/pkg/ttyd.inc");
+$pgtitle = array(ttyd_text("Diagnostics"), gettext("ttyd"));
 
-$config = ttyd_get_config();
+$ttyd_config = ttyd_get_config();
 
-$port = isset($config['port']) && is_numeric($config['port']) ? (int)$config['port'] : 7681;
-$listen = !empty($config['interface']) ? $config['interface'] : '0.0.0.0';
+$port = isset($ttyd_config['port']) && is_numeric($ttyd_config['port']) ? (int)$ttyd_config['port'] : 7681;
+$listen = !empty($ttyd_config['interface']) ? $ttyd_config['interface'] : '0.0.0.0';
 $ssh_target = '127.0.0.1:22';
 
 if (!ttyd_is_running()) {
@@ -68,15 +68,15 @@ include("head.inc");
 		<?=gettext("ttyd")?>
 	</div>
 	<div class="panel-body">
-		<?=gettext("This page opens a full interactive terminal through ttyd. The shell itself is entered through SSH, so pfSense SSH permissions and login policy still apply. The embedded terminal uses the pfSense WebGUI certificate.")?>
+		<?=ttyd_text("This page opens a full interactive terminal through ttyd. The shell itself is entered through SSH, so pfSense SSH permissions and login policy still apply. The embedded terminal uses the pfSense WebGUI certificate.")?>
 	</div>
 	<table class="table table-striped table-condensed ttyd-meta">
 		<tr>
-			<td><?=gettext("Terminal URL")?></td>
+			<td><?=ttyd_text("Terminal URL")?></td>
 			<td><a href="<?=htmlspecialchars($terminal_url)?>" target="_blank"><?=htmlspecialchars($terminal_url)?></a></td>
 		</tr>
 		<tr>
-			<td><?=gettext("SSH target")?></td>
+			<td><?=ttyd_text("SSH target")?></td>
 			<td><?=htmlspecialchars($ssh_target)?></td>
 		</tr>
 	</table>
@@ -86,7 +86,7 @@ include("head.inc");
 <iframe class="ttyd-terminal" src="<?=htmlspecialchars($terminal_url)?>"></iframe>
 <?php else: ?>
 <div class="alert alert-warning">
-	<?=gettext("The terminal service could not be started. Make sure ttyd is installed, the pfSense WebGUI certificate is available, and SSH is enabled in System > Advanced > Admin Access.")?>
+	<?=ttyd_text("The terminal service could not be started. Make sure ttyd is installed, the pfSense WebGUI certificate is available, and SSH is enabled in System > Advanced > Admin Access.")?>
 </div>
 <?php endif; ?>
 

@@ -26,7 +26,8 @@ repository with the native pfSense Package Manager.
 | System | Tested version | ABI |
 | --- | --- | --- |
 | pfSense CE | 2.8.1 | `FreeBSD:15:amd64` |
-| pfSense Plus | 26.03.1 | `FreeBSD:16:amd64` |
+| pfSense CE | 2.9.0 | `FreeBSD:16:amd64` |
+| pfSense Plus | 26.03 / 26.07 | `FreeBSD:16:amd64` |
 
 The package itself uses the portable `FreeBSD:*:amd64` ABI.
 
@@ -84,4 +85,3 @@ pkg delete pfSense-pkg-community-repo
 Uninstallation removes the WebGUI page and marked integration blocks. It
 intentionally keeps `opnwall.conf`; remove that file manually only when the
 Opnwall repository is no longer needed.
-

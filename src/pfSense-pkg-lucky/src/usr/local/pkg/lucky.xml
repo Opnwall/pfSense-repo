@@ -2,7 +2,7 @@
 <packagegui>
   <name>lucky</name>
   <title>Services: Lucky</title>
-  <version>1.0</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/lucky.inc</include_file>
   <aftersaveredirect>/lucky.php</aftersaveredirect>
   <menu>

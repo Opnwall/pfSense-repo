@@ -15,8 +15,8 @@ DDNS-GO 是一款开源、轻量级的动态域名解析工具，可自动将公
 这是一个用于 pfSense 的 DDNS-Go 集成包，提供 WebGUI 菜单、服务管理、开机自启和标准 `pkg` 打包支持。
 
 已在以下环境测试通过：
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![](image/ddns-go.png)
 

@@ -2,7 +2,7 @@
 <packagegui>
   <name>staticarp</name>
   <title>Services: Static Binding</title>
-  <version>1.0</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/staticarp.inc</include_file>
   <aftersaveredirect>/services_arp.php</aftersaveredirect>
   <menu>

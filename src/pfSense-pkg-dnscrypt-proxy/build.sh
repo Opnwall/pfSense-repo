@@ -16,7 +16,7 @@ set -e
 
 # --- Configuration ---
 PORTNAME="pfSense-pkg-dnscrypt-proxy"
-PORTVERSION="${PORTVERSION:-1.3.1}"
+PORTVERSION="${PORTVERSION:-1.3.2}"
 PREFIX="/usr/local"
 DATADIR="${PREFIX}/share/${PORTNAME}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -38,7 +38,7 @@ usage() {
     echo ""
     echo "Environment variables:"
     echo "  DEPLOY_HOST    pfSense SSH host (default: pf)"
-    echo "  PORTVERSION    Package version (default: 1.3.1)"
+    echo "  PORTVERSION    Package version (default: 1.3.2)"
 }
 
 clean() {
@@ -127,8 +127,8 @@ generate_manifest() {
     ARCH=$(uname -p)
 
     # UCL manifest for pkg create
-    # Note: We use a wildcard ABI to support both pfSense CE (FreeBSD 15) and
-    # pfSense Plus (FreeBSD 16). This works because dnscrypt-proxy is a
+    # Use a wildcard ABI so pfSense CE 2.9 and Plus 26.07 can share one package.
+    # Both targets run FreeBSD 16/amd64. This works because dnscrypt-proxy is a
     # statically-linked Go binary with no libc dependencies.
     cat > "${BUILD_DIR}/+MANIFEST" <<EOF
 name: "${PORTNAME}"
@@ -137,7 +137,7 @@ origin: "dns/${PORTNAME}"
 comment: "pfSense package for DNSCrypt Proxy encrypted DNS client"
 maintainer: "ports@FreeBSD.org"
 prefix: "${PREFIX}"
-abi: "FreeBSD:*:*"
+abi: "FreeBSD:*:amd64"
 desc: "pfSense package for DNSCrypt Proxy, an encrypted DNS client supporting DNSCrypt v2 and DNS-over-HTTPS protocols."
 www: "https://github.com/DNSCrypt/dnscrypt-proxy"
 licenselogic: "single"

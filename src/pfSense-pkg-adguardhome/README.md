@@ -9,7 +9,7 @@
   中文 | <a href="README.en.md">English</a><br><br>
 </div>
 <p align="center">
-  <img src="https://img.shields.io/badge/pfSense-CE%202.8.1%20%7C%20Plus%2026.03-212121?logo=pfsense&logoColor=white">
+  <img src="https://img.shields.io/badge/pfSense-CE%202.9.0%20%7C%20Plus%2026.07-212121?logo=pfsense&logoColor=white">
   <img src="https://img.shields.io/badge/Platform-amd64-blue?logo=amd">
   <img src="https://img.shields.io/badge/AdGuard%20Home-Supported-67b279?logo=adguard">
 </p>
@@ -20,8 +20,10 @@ AdGuard Home 是一个基于 DNS 的全网广告拦截和隐私保护解决方�
 
 已在以下环境测试通过：
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
+
+插件管理页面支持英文、简体中文和繁体中文，并根据 pfSense 的系统语言自动切换；其他语言回退为英文。
 
 ![](image/AdGuardHome.png)
 

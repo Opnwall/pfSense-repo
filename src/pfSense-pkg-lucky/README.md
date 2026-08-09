@@ -10,8 +10,8 @@ Lucky 是一款面向家庭网络和路由器场景的一体化管理工具，�
 
 已在以下环境测试通过：
 
-- pfSense CE 2.8.1
-- pfSense Plus 26.03.1
+- pfSense CE 2.9.0
+- pfSense Plus 26.07
 
 ![Lucky WebUI](image/Lucky.png)
 

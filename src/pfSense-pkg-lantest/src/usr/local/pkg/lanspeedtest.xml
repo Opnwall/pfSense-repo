@@ -2,7 +2,7 @@
 <packagegui>
   <name>lantest</name>
   <title>Diagnostics: LanTest</title>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <include_file>/usr/local/pkg/lanspeedtest.inc</include_file>
   <aftersaveredirect>/lanspeedtest.php</aftersaveredirect>
   <menu>

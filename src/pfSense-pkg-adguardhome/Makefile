@@ -1,5 +1,5 @@
 PKG_NAME?=pfSense-pkg-adguardhome
-VERSION?=1.0
+VERSION?=1.0.3
 
 .PHONY: package clean
 
