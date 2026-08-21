@@ -42,13 +42,13 @@ src/usr/local/share/pfSense-pkg-zerotier/  pfSense package metadata
 Upload the package to pfSense:
 
 ```shell
-/root/pfSense-pkg-zerotier-1.16.2_2.pkg
+/root/pfSense-pkg-zerotier-1.16.2_3.pkg
 ```
 
 Login to pfSense via SSH and execute:
 
 ```shell
-pkg add pfSense-pkg-zerotier-1.16.2_2.pkg
+pkg add pfSense-pkg-zerotier-1.16.2_3.pkg
 ```
 
 After installation, the following menu will appear in WebGUI:
