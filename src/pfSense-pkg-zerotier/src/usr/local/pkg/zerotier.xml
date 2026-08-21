@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE packagegui SYSTEM "../schema/packages.dtd">
+<?xml-stylesheet type="text/xsl" href="../xsl/package.xsl"?>
+<packagegui>
+	<name>zerotier</name>
+	<title>Zerotier</title>
+	<include_file>/usr/local/pkg/zerotier.inc</include_file>
+	<menu>
+		<name>ZeroTier VPN</name>
+		<section>VPN</section>
+		<url>/zerotier.php</url>
+	</menu>
+	<service>
+		<name>zerotier</name>
+		<rcfile>zerotier.sh</rcfile>
+		<executable>zerotier-one</executable>
+		<description>Zerotier Daemon</description>
+		<starts_on_sync>true</starts_on_sync>
+	</service>
+	<custom_php_global_functions></custom_php_global_functions>
+	<custom_php_install_command>
+		zerotier_install();
+	</custom_php_install_command>
+	<custom_php_deinstall_command>
+		zerotier_deinstall();
+	</custom_php_deinstall_command>
+	<custom_add_php_command></custom_add_php_command>
+	<custom_add_php_command_late></custom_add_php_command_late>
+	<custom_delete_php_command></custom_delete_php_command>
+	<custom_php_resync_config_command>
+		zerotier_sync();
+	</custom_php_resync_config_command>
+	<filter_rules_needed>zerotier_generate_rules</filter_rules_needed>
+	<custom_php_validation_command>
+		if (!function_exists('zerotier_validate_config')) {
+			function zerotier_validate_config() {
+				return array();
+			}
+		}
+		$input_errors = array_merge((array)$input_errors, zerotier_validate_config());
+	</custom_php_validation_command>
+	<start_command>
+		zerotier_start();
+	</start_command>
+	<process_kill_command>
+		zerotier_kill();
+	</process_kill_command>
+</packagegui>

@@ -1,0 +1,38 @@
+#!/bin/sh
+set -eu
+
+ABI="$(pkg config ABI 2>/dev/null || true)"
+case "$ABI" in
+	FreeBSD:15:amd64|FreeBSD:16:amd64) ;;
+	*)
+		echo "Unsupported ABI: ${ABI:-unknown}; expected FreeBSD:15:amd64 or FreeBSD:16:amd64" >&2
+		exit 1
+		;;
+esac
+
+mkdir -p /usr/local/etc/easytier /var/log
+if [ ! -e /usr/local/etc/easytier/config.toml ]; then
+	install -m 0600 /usr/local/share/pfSense-pkg-easytier/config.toml.sample /usr/local/etc/easytier/config.toml
+fi
+chmod 0600 /usr/local/etc/easytier/config.toml
+touch /var/log/easytier.log
+chmod 0600 /var/log/easytier.log
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/pkg-utils.inc ]; then
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+require_once('/etc/inc/pkg-utils.inc');
+foreach (['menu', 'service', 'package'] as $type) {
+	$entries = config_get_path("installedpackages/{$type}", []);
+	$entries = array_values(array_filter($entries, fn($e) =>
+		!(($type === 'menu' && ($e['name'] ?? '') === 'EasyTier') ||
+		  ($type === 'service' && ($e['name'] ?? '') === 'easytier') ||
+		  ($type === 'package' && (($e['internal_name'] ?? '') === 'easytier' || ($e['name'] ?? '') === 'EasyTier')))));
+	config_set_path("installedpackages/{$type}", $entries);
+}
+install_package_xml('easytier');
+PHP
+fi
+
+echo "EasyTier installed. Open VPN > EasyTier to configure and start it."

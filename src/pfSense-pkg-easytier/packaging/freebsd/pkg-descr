@@ -1,0 +1,3 @@
+EasyTier mesh VPN integration for pfSense. Includes the EasyTier core and CLI,
+an rc.d service, VPN menu registration, configuration editor, service control,
+peer status table, and redacted log viewer.

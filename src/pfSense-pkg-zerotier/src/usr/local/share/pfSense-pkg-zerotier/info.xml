@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+	<package>
+		<name>zerotier</name>
+		<internal_name>zerotier</internal_name>
+		<descr><![CDATA[ZeroTier virtual networking integration for pfSense.]]></descr>
+		<version>1.16.2_2</version>
+		<configurationfile>zerotier.xml</configurationfile>
+	</package>
+</pfsensepkgs>

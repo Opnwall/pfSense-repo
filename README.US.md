@@ -71,6 +71,7 @@ automatically reapplied at boot after pfSense upgrades.
 | `pfSense-pkg-community-repo` | 1.1.10 | Community repository and Package Manager integration |
 | `pfSense-pkg-ddns-go` | 1.0.2 | DDNS-Go integration |
 | `pfSense-pkg-dnscrypt-proxy` | 1.3.2 | DNSCrypt/DoH encrypted DNS with a trilingual WebGUI |
+| `pfSense-pkg-easytier` | 1.0.4 | EasyTier mesh VPN with runtime firewall rules for dynamic interfaces |
 | `pfSense-pkg-lang` | 1.0.2 | Chinese localization |
 | `pfSense-pkg-lantest` | 1.0.2 | LAN speed test |
 | `pfSense-pkg-lucky` | 1.0.2 | Lucky network toolbox |
@@ -78,6 +79,7 @@ automatically reapplied at boot after pfSense upgrades.
 | `pfSense-pkg-sing-box` | 1.0.2 | sing-box integration |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest internet speed test |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd web terminal |
+| `pfSense-pkg-zerotier` | 1.16.2_2 | ZeroTier mesh VPN with dynamic-interface handling for FreeBSD 15/16 |
 
 ## Installing Packages
 

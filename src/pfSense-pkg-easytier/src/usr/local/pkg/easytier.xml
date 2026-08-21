@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE packagegui SYSTEM "../schema/packages.dtd">
+<?xml-stylesheet type="text/xsl" href="../xsl/package.xsl"?>
+<packagegui>
+	<name>easytier</name>
+	<title>EasyTier</title>
+	<version>1.0.4</version>
+	<include_file>/usr/local/pkg/easytier.inc</include_file>
+	<menu>
+		<name>EasyTier</name>
+		<section>VPN</section>
+		<url>/vpn_easytier.php</url>
+	</menu>
+	<service>
+		<name>easytier</name>
+		<rcfile>easytier</rcfile>
+		<custom_php_service_status_command>mwexec(&quot;/usr/local/etc/rc.d/easytier status&quot;) == 0;</custom_php_service_status_command>
+		<description>EasyTier mesh VPN</description>
+	</service>
+	<custom_php_install_command>easytier_php_install_command();</custom_php_install_command>
+	<custom_php_deinstall_command>easytier_php_deinstall_command();</custom_php_deinstall_command>
+	<custom_php_resync_config_command>easytier_resync_config();</custom_php_resync_config_command>
+	<filter_rules_needed>easytier_generate_rules</filter_rules_needed>
+</packagegui>

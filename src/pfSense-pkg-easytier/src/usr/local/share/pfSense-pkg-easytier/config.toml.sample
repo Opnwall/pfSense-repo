@@ -1,0 +1,44 @@
+# EasyTier configuration for pfSense.
+
+instance_name = "pfsense"
+hostname = "pfsense"
+ipv4 = "10.125.0.1/24"
+dhcp = false
+
+listeners = [
+    "tcp://0.0.0.0:11010",
+    "udp://0.0.0.0:11010",
+    "ws://0.0.0.0:11011/",
+    "wss://0.0.0.0:11012/",
+    "wg://0.0.0.0:11011",
+]
+
+# Keep the management interface local to pfSense.
+rpc_portal = "127.0.0.1:15888"
+
+[[peer]]
+uri = "tcp://88.88.88.88:11010"
+
+# Export the pfSense LAN to the EasyTier network.
+[[proxy_network]]
+cidr = "192.168.10.0/24"
+
+[network_identity]
+network_name = "office"
+network_secret = "88888888888888888888"
+
+[flags]
+dev_name = "easytier0"
+default_protocol = "tcp"
+enable_encryption = true
+enable_ipv6 = false
+mtu = 1300
+private_mode = true
+multi_thread = true
+multi_thread_count = 2
+no_tun = false
+use_smoltcp = false
+proxy_forward_by_system = false
+disable_p2p = false
+disable_udp_hole_punching = false
+disable_tcp_hole_punching = false

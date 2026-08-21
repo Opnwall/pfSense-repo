@@ -60,6 +60,7 @@ pkg install pfSense-pkg-community-repo
 | `pfSense-pkg-community-repo` | 1.1.10 | 社区仓库和插件管理器集成 |
 | `pfSense-pkg-ddns-go` | 1.0.2 | DDNS-Go 动态 DNS 集成 |
 | `pfSense-pkg-dnscrypt-proxy` | 1.3.2 | DNSCrypt/DoH 加密 DNS |
+| `pfSense-pkg-easytier` | 1.0.4 | EasyTier 组网 VPN，支持动态接口防火墙规则 |
 | `pfSense-pkg-lang` | 1.0.2 | 中文汉化工具 |
 | `pfSense-pkg-lantest` | 1.0.2 | 局域网测速工具 |
 | `pfSense-pkg-lucky` | 1.0.2 | Lucky 网络工具箱 |
@@ -67,6 +68,7 @@ pkg install pfSense-pkg-community-repo
 | `pfSense-pkg-sing-box` | 1.0.2 | sing-box 代理集成 |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest 互联网测速工具 |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd 网页终端 |
+| `pfSense-pkg-zerotier` | 1.16.2_2 | ZeroTier 组网 VPN，支持动态接口和 FreeBSD 15/16 |
 
 
 ## 安装插件
