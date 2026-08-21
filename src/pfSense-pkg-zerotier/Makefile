@@ -1,5 +1,5 @@
 PKG_NAME?=pfSense-pkg-zerotier
-VERSION?=1.16.2_2
+VERSION?=1.16.2_3
 
 .PHONY: package clean
 

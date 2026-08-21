@@ -3,7 +3,7 @@
 set -eu
 
 VERSION="1.16.2"
-PKG_VERSION="${VERSION}_2"
+PKG_VERSION="${VERSION}_3"
 NAME="pfSense-pkg-zerotier"
 ORIGIN="pfSense-pkg/zerotier"
 ROOT_DIR=$(CDPATH='' cd "$(dirname "$0")" && pwd)
@@ -238,6 +238,24 @@ exit 0
 pre_deinstall = r'''#!/bin/sh
 service zerotier stop >/dev/null 2>&1 || true
 pkill -f zerotier-one >/dev/null 2>&1 || true
+
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+    php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+foreach (array('menu', 'service', 'package') as $type) {
+    $entries = config_get_path("installedpackages/{$type}", array());
+    $entries = array_values(array_filter($entries, function ($entry) use ($type) {
+        return !(($type === 'menu' && in_array(($entry['name'] ?? ''), array('Zerotier', 'ZeroTier VPN'), true)) ||
+            ($type === 'service' && ($entry['name'] ?? '') === 'zerotier') ||
+            ($type === 'package' && (($entry['internal_name'] ?? '') === 'zerotier' ||
+                in_array(($entry['name'] ?? ''), array('zerotier', 'Zerotier', 'ZeroTier VPN'), true))));
+    }));
+    config_set_path("installedpackages/{$type}", $entries);
+}
+write_config('Removed ZeroTier package metadata.');
+PHP
+fi
 exit 0
 '''
 

@@ -4,7 +4,7 @@
 		<name>zerotier</name>
 		<internal_name>zerotier</internal_name>
 		<descr><![CDATA[ZeroTier virtual networking integration for pfSense.]]></descr>
-		<version>1.16.2_2</version>
+		<version>1.16.2_3</version>
 		<configurationfile>zerotier.xml</configurationfile>
 	</package>
 </pfsensepkgs>
