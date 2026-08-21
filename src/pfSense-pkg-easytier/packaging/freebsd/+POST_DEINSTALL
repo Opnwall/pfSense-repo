@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rm -f /var/run/easytier.pid
+echo "EasyTier was removed. Configuration and logs were preserved."

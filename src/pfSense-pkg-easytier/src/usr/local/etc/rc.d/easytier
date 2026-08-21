@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# PROVIDE: easytier
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="easytier"
+rcvar="easytier_enable"
+command="/usr/sbin/daemon"
+procname="/usr/local/sbin/easytier-core"
+pidfile="/var/run/easytier.pid"
+command_args="-p ${pidfile} -o /var/log/easytier.log -t easytier ${procname} --config-file /usr/local/etc/easytier/config.toml"
+start_precmd="easytier_precmd"
+start_postcmd="easytier_poststart"
+stop_postcmd="easytier_poststop"
+
+easytier_precmd()
+{
+	if [ ! -s /usr/local/etc/easytier/config.toml ]; then
+		echo "EasyTier configuration is empty: /usr/local/etc/easytier/config.toml"
+		return 1
+	fi
+	touch /var/log/easytier.log
+	chmod 600 /var/log/easytier.log
+}
+
+easytier_reload_filter()
+{
+	[ -x /etc/rc.filter_configure ] && /etc/rc.filter_configure >/dev/null 2>&1 || true
+}
+
+easytier_poststart()
+{
+	count=0
+	while ! /sbin/ifconfig easytier0 >/dev/null 2>&1 && [ "$count" -lt 10 ]; do
+		sleep 1
+		count=$((count + 1))
+	done
+	easytier_reload_filter
+}
+
+easytier_poststop()
+{
+	easytier_reload_filter
+}
+
+: ${easytier_enable:="YES"}
+load_rc_config "${name}"
+run_rc_command "$1"

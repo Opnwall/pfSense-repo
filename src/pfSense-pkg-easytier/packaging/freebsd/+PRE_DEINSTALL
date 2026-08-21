@@ -1,0 +1,18 @@
+#!/bin/sh
+
+/usr/local/etc/rc.d/easytier stop >/dev/null 2>&1 || true
+if command -v php >/dev/null 2>&1 && [ -f /etc/inc/config.inc ]; then
+	php <<'PHP'
+<?php
+require_once('/etc/inc/config.inc');
+foreach (['menu', 'service', 'package'] as $type) {
+	$entries = config_get_path("installedpackages/{$type}", []);
+	$entries = array_values(array_filter($entries, fn($e) =>
+		!(($type === 'menu' && ($e['name'] ?? '') === 'EasyTier') ||
+		  ($type === 'service' && ($e['name'] ?? '') === 'easytier') ||
+		  ($type === 'package' && (($e['internal_name'] ?? '') === 'easytier' || ($e['name'] ?? '') === 'EasyTier')))));
+	config_set_path("installedpackages/{$type}", $entries);
+}
+write_config('Removed EasyTier package metadata');
+PHP
+fi

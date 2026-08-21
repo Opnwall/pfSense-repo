@@ -1,0 +1,14 @@
+name: "@PKG_NAME@"
+origin: "@ORIGIN@"
+categories: [ "net" ]
+version: "@VERSION@"
+comment: "@COMMENT@"
+maintainer: "@MAINTAINER@"
+www: "@WWW@"
+abi: "@ABI@"
+arch: "@ARCH@"
+prefix: "@PREFIX@"
+flatsize: @FLATSIZE@
+desc: <<EOD
+@DESC@
+EOD

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pfsensepkgs>
+	<package>
+		<name>easytier</name>
+		<internal_name>easytier</internal_name>
+		<descr><![CDATA[EasyTier mesh VPN integration for pfSense.]]></descr>
+		<version>1.0.4</version>
+		<configurationfile>easytier.xml</configurationfile>
+	</package>
+</pfsensepkgs>
