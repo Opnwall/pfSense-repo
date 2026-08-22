@@ -26,17 +26,22 @@ pfSense CE 与 pfSense Plus 社区软件仓库，提供一系列开源、高质�
 ### pfSense CE：
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf \https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
 pkg update -f
 ```
 
 ### pfSense Plus：
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf \https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
 pkg update -f
+```
+
+### 补丁安装
+
+pfSense 默认只在官方仓库中查询 pfSense-pkg-*，并隐藏来源不是官方仓库的已安装插件。执行以下命令，让“可用软件包”和“已安装的软件包”同时显示所有已启用仓库中的插件：
+```sh
+fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 ```
 
 使用 `pkg search pfSense-pkg-` 查看插件，使用 `pkg install <软件包名>` 安装。
