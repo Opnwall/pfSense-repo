@@ -28,6 +28,25 @@ if [ ! -d "${SRC_DIR}" ]; then
 	exit 1
 fi
 
+check_platform() {
+	system_version=$(cat /etc/version 2>/dev/null || true)
+	freebsd_version=$(freebsd-version -u 2>/dev/null || uname -r)
+	case "${system_version}" in
+		2.9.0*) ;;
+		*)
+			echo "此补丁仅适用于 pfSense CE 2.9.0，当前版本：${system_version:-未知}"
+			exit 1
+			;;
+	esac
+	case "${freebsd_version}" in
+		16.*) ;;
+		*)
+			echo "pfSense CE 2.9.0 应运行在 FreeBSD 16，当前版本：${freebsd_version:-未知}"
+			exit 1
+			;;
+	esac
+}
+
 check_structure() {
 	if [ ! -f /etc/inc/services.inc ] ||
 	    ! grep -q "DYNDNS_PROVIDER_VALUES" /etc/inc/services.inc ||
@@ -59,6 +78,17 @@ check_structure() {
 	fi
 }
 
+check_source_syntax() {
+	for file in ${FILES}; do
+		src="${SRC_DIR}${file}"
+		if [ ! -f "${src}" ]; then
+			echo "缺少补丁文件：${src}"
+			exit 1
+		fi
+		php -l "${src}" >/dev/null
+	done
+}
+
 already_patched() {
 	grep -q "aliyun" /etc/inc/services.inc &&
 	grep -q "tencentcloud" /etc/inc/services.inc &&
@@ -75,7 +105,7 @@ install_runtime_copy() {
 		mkdir -p "${INSTALL_DIR}"
 		cp -Rp "${BASE_DIR}/src" "${INSTALL_DIR}/"
 		cp -p "${BASE_DIR}/install.sh" "${BASE_DIR}/uninstall.sh" "${BASE_DIR}/check_install.sh" "${INSTALL_DIR}/"
-		[ -f "${BASE_DIR}/readme.me" ] && cp -p "${BASE_DIR}/readme.me" "${INSTALL_DIR}/"
+		[ -f "${BASE_DIR}/readme.md" ] && cp -p "${BASE_DIR}/readme.md" "${INSTALL_DIR}/"
 		chmod +x "${INSTALL_DIR}/install.sh" "${INSTALL_DIR}/uninstall.sh" "${INSTALL_DIR}/check_install.sh"
 	fi
 }
@@ -98,7 +128,9 @@ EOF
 	chmod +x "${RC_SCRIPT}"
 }
 
+check_platform
 check_structure
+check_source_syntax
 
 if already_patched; then
 	echo "检测到补丁已存在，本次不创建系统文件备份。"

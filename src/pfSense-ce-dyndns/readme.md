@@ -2,6 +2,14 @@
 
 本补丁为 pfSense CE 的 Dynamic DNS 页面增加阿里云 DNS 和腾讯云 DNSPod 支持。
 
+## 支持平台
+
+| pfSense | FreeBSD | PHP | 状态 |
+| --- | --- | --- | --- |
+| pfSense CE 2.9.0 | 16.0-CURRENT | 8.5 | 已适配并测试 |
+
+安装器会核对 `/etc/version` 和 FreeBSD 主版本，不会把 CE 补丁安装到 pfSense Plus 或旧版系统。
+
 ## 支持的服务
 
 - Aliyun DNS
@@ -123,6 +131,7 @@ dnspod.tencentcloudapi.com
 ## 注意事项
 
 - 安装脚本必须在 pfSense 主机上以 root 用户运行。
+- 当前版本仅适用于 pfSense CE 2.9.0 / FreeBSD 16。
 - pfSense 升级可能覆盖这些文件，升级后需要重新安装补丁。
 - 已安装自愈脚本时，开机后会自动检测并尝试恢复补丁。
 - API 密钥需要具备对应 DNS 记录的查询、新增和修改权限。
