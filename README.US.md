@@ -79,7 +79,7 @@ automatically reapplied at boot after pfSense upgrades.
 | `pfSense-pkg-sing-box` | 1.0.2 | sing-box integration |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest internet speed test |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd web terminal |
-| `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier mesh VPN with dynamic-interface handling for FreeBSD 15/16 |
+| `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier mesh VPN |
 
 ## Installing Packages
 
