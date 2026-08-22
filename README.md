@@ -26,14 +26,14 @@ pfSense CE 与 pfSense Plus 社区软件仓库，提供一系列开源、高质�
 ### pfSense CE：
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
 pkg update -f
 ```
 
 ### pfSense Plus：
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
 pkg update -f
 ```
 
