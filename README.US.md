@@ -25,16 +25,14 @@ An unofficial community package repository for **pfSense CE** and **pfSense Plus
 ### pfSense CE
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
 pkg update -f
 ```
 
 ### pfSense Plus
 
 ```sh
-fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-  https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
 pkg update -f
 ```
 
