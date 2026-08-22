@@ -68,7 +68,7 @@ pkg install pfSense-pkg-community-repo
 | `pfSense-pkg-sing-box` | 1.0.2 | sing-box 代理集成 |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest 互联网测速工具 |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd 网页终端 |
-| `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier 组网 VPN，支持动态接口和 FreeBSD 15/16 |
+| `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier 组网 VPN |
 
 
 ## 安装插件
