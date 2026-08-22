@@ -78,9 +78,7 @@ fetch -qo - https://opnwall.github.io/pfSense-repo/enable-opnwall-gui.sh | sh
 根据主机 FreeBSD 版本下载对应软件包，然后执行：
 
 ```sh
-pkg add -f pfSense-pkg-easytier-freebsd15.pkg
-# 或
-pkg add -f pfSense-pkg-easytier-freebsd16.pkg
+pkg add -f pfSense-pkg-easytier.pkg
 ```
 
 安装完成后刷新 WebGUI，进入 **VPN > EasyTier**。
