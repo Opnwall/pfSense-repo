@@ -201,15 +201,14 @@
 </header>
 <main class="wrap">
 <div class="active" data-lang="zh">
-<section class="card"><h2>支持平台</h2><p>保留 pfSense CE 2.8.1（FreeBSD 15）旧版仓库；新仓库已在 pfSense CE 2.9.0 和 pfSense Plus 26.07（FreeBSD 16）amd64 主机上测试，并兼容 pfSense Plus 26.03。</p></section>
+<section class="card"><h2>支持平台</h2><p>保留 pfSense CE 2.8.1（FreeBSD 15）旧版仓库，新仓库已适配 pfSense CE 2.9.0 和 pfSense Plus 26.07（FreeBSD 16）amd64。</p></section>
 <section class="card">
 <h2>安装方法</h2>
 <h3>pfSense CE</h3>
 <pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-ce-opnwall.conf
 pkg update -f</pre>
 <h3>pfSense Plus</h3>
-<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf \
-https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
+<pre>fetch -o /usr/local/etc/pkg/repos/opnwall.conf https://opnwall.github.io/pfSense-repo/pfsense-plus-opnwall.conf
 pkg update -f</pre>
 <h3>安装社区仓库插件</h3>
 <pre>pkg install pfSense-pkg-community-repo</pre>
@@ -230,7 +229,7 @@ pkg update -f</pre>
 <div data-lang="en">
 <section class="card">
 <h2>Platforms</h2>
-<p>The legacy <strong>pfSense CE 2.8.1</strong> (FreeBSD 15) repository is retained. The FreeBSD 16 repository is verified on <strong>pfSense CE 2.9.0</strong> and <strong>pfSense Plus 26.07</strong>, and remains compatible with <strong>pfSense Plus 26.03</strong>.</p>
+<p>The legacy <strong>pfSense CE 2.8.1</strong> (FreeBSD 15) repository is retained, Verified on <strong>pfSense CE 2.9.0</strong> and <strong>pfSense Plus 26.07</strong>.</p>
 </section>
 <section class="card">
 <h2>Installation</h2>
