@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/Opnwall/freebsd-sing-box",
+  "tag": "v1.14.4-freebsd-amd64-6b46731",
+  "url": "https://github.com/Opnwall/freebsd-sing-box/releases/download/v1.14.4-freebsd-amd64-6b46731/bsd-box-freebsd-amd64.xz",
+  "sha256": "a9ff18bd4f86e2f4c059fb74d7c67a2c31f03ed6d9a042a8f50675a1af96c152",
+  "upstream_version": "1.14.4"
+}

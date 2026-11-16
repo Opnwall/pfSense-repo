@@ -23,7 +23,7 @@ Tested on:
 
 ## Binary
 
-The project uses the static binary from [Vincent-Loeng](https://github.com/Vincent-Loeng/bsd-box). The default local asset path is:
+The project uses the static binary from [Opnwall](https://github.com/Opnwall/freebsd-sing-box). The default local asset path is:
 
 ```text
 bin/bsd-box-freebsd-amd64.xz
@@ -32,7 +32,7 @@ bin/bsd-box-freebsd-amd64.xz
 The build script prefers the local `src/usr/local/bin/bsd-box-freebsd-amd64.xz` file. If it is missing, the script downloads it from GitHub:
 
 ```text
-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-freebsd-amd64.xz
+https://github.com/Opnwall/freebsd-sing-box/releases/latest/download/bsd-box-freebsd-amd64.xz
 ```
 
 ## Notes

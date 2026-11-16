@@ -22,7 +22,7 @@ sing-box 是一款功能强大、性能优秀的开源网络代理平台，支�
 
 ## 项目程序
 
-项目使用 [Vincent-Loeng](https://github.com/Vincent-Loeng/bsd-box) 静态二进制程序。
+项目使用 [Opnwall](https://github.com/Opnwall/freebsd-sing-box) 静态二进制程序。
 
 ## 注意事项
 
@@ -34,7 +34,16 @@ sing-box 是一款功能强大、性能优秀的开源网络代理平台，支�
 6. 默认配置会开启 Clash API，可通过 `http://LAN_IP:9090/ui` 访问仪表盘查看代理连接信息。
 7. 修改配置不要改动config.json文件tun接口名称（tun_singbox），否则会影响安装程序生成的默认防火墙规则。
 
+## 开机启动与 EasyTier 路由
+
+从插件 1.0.3 开始，sing-box 启动前会先启动已启用的 EasyTier 服务，兼容 pfSense 不遵循 `rcorder` 的 Shellcmd 启动流程。未安装或未启用 EasyTier 时，sing-box 可独立运行。重复执行启动命令不会重复创建进程。
+
+配合 EasyTier 插件 1.0.5，TUN 启动后会将 `easytier0` 上实际存在的 IPv4 网段路由同步到 sing-box 的 FIB 2022；EasyTier 单独重启时也会恢复这些路由。冷启动期间尚未创建 FIB 2022 时先跳过，待 sing-box 启动后再恢复，无需固定节点地址或网段。
+
+两个插件均需升级到上述版本以保留完整修复。安装脚本会保留其他软件包的开机命令。启动脚本备份应放在 `/root/` 等目录，不要放入 `/usr/local/etc/rc.d/`，以免被开机流程执行。
+
 ## 安装命令
+
 将安装包上传到 pfSense 后执行：
 ```sh
 pkg add pfSense-pkg-sing-box.pkg
@@ -67,7 +76,7 @@ src/usr/local/bin/bsd-box-freebsd-amd64.xz
 ```
 构建脚本会优先使用本地文件。如果本地文件不存在，会从 Github 下载：
 ```text
-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-freebsd-amd64.xz
+https://github.com/Opnwall/freebsd-sing-box/releases/latest/download/bsd-box-freebsd-amd64.xz
 ```
 默认构建 universal amd64 包：
 ```sh

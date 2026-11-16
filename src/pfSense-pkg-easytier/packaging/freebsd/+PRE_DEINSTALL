@@ -13,6 +13,26 @@ foreach (['menu', 'service', 'package'] as $type) {
 		  ($type === 'package' && (($e['internal_name'] ?? '') === 'easytier' || ($e['name'] ?? '') === 'EasyTier')))));
 	config_set_path("installedpackages/{$type}", $entries);
 }
+$cmd = 'service easytier start';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+if (!is_array($shellcmds)) {
+	$shellcmds = [];
+}
+$shellcmds = array_values(array_filter($shellcmds, fn($e) =>
+	!is_array($e) || ($e['cmd'] ?? '') !== $cmd));
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+	require_once('/usr/local/pkg/shellcmd.inc');
+	if (function_exists('shellcmd_sync_package')) {
+		shellcmd_sync_package();
+	}
+} else {
+	$system_shellcmds = config_get_path('system/shellcmd', []);
+	if (!is_array($system_shellcmds)) {
+		$system_shellcmds = [];
+	}
+	config_set_path('system/shellcmd', array_values(array_filter($system_shellcmds, fn($e) => $e !== $cmd)));
+}
 write_config('Removed EasyTier package metadata');
 PHP
 fi

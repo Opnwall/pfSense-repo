@@ -188,6 +188,14 @@ TARGET_ABI=FreeBSD:16:amd64 OUTPUT_NAME=pfSense-pkg-easytier-freebsd16.pkg sh bu
 - 如果只能访问远端路由器而无法访问其后方客户端，请检查代理网段、系统转发、客户端默认网关和主机防火墙。
 - 本项目为非官方社区插件，不受 Netgate 或 pfSense 官方支持，使用者应自行评估风险。
 
+## 开机启动与 sing-box 路由恢复（1.0.5）
+
+安装脚本会幂等注册 EasyTier 开机启动命令，保留其他插件的开机命令，卸载时仅移除本插件的条目。无需手工添加重复的 Shellcmd。
+
+插件提供 `/usr/local/sbin/easytier-sing-box-routes`，由 EasyTier 启动后及 sing-box 插件 1.0.3 的 TUN 启动后调用。该脚本读取主路由表中 `easytier0` 的 IPv4 网段，将它们恢复到 FIB 2022，不固定本机地址或网段。冷启动时 FIB 2022 尚未创建会正常跳过；EasyTier 重启后已有 FIB 的路由会重新添加。路由恢复失败会返回错误并记录系统日志。
+
+启动脚本备份应保存在 `/root/` 等目录，不要放入 `/usr/local/etc/rc.d/`，避免重复执行。
+
 ## 相关项目
 
 - [EasyTier](https://github.com/EasyTier/EasyTier)

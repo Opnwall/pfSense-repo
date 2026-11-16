@@ -32,6 +32,33 @@ foreach (['menu', 'service', 'package'] as $type) {
 	config_set_path("installedpackages/{$type}", $entries);
 }
 install_package_xml('easytier');
+
+// pfSense may launch packages through shellcmd rather than rcorder.
+// Register one entry and preserve the startup commands of other packages.
+$cmd = 'service easytier start';
+$shellcmds = config_get_path('installedpackages/shellcmdsettings/config', []);
+if (!is_array($shellcmds)) {
+	$shellcmds = [];
+}
+$shellcmds = array_values(array_filter($shellcmds, fn($e) =>
+	!is_array($e) || ($e['cmd'] ?? '') !== $cmd));
+$shellcmds[] = ['cmd' => $cmd, 'cmdtype' => 'shellcmd', 'description' => 'Start EasyTier on boot'];
+config_set_path('installedpackages/shellcmdsettings/config', $shellcmds);
+if (file_exists('/usr/local/pkg/shellcmd.inc')) {
+	require_once('/usr/local/pkg/shellcmd.inc');
+	if (function_exists('shellcmd_sync_package')) {
+		shellcmd_sync_package();
+	}
+} else {
+	$system_shellcmds = config_get_path('system/shellcmd', []);
+	if (!is_array($system_shellcmds)) {
+		$system_shellcmds = [];
+	}
+	$system_shellcmds = array_values(array_filter($system_shellcmds, fn($e) => $e !== $cmd));
+	$system_shellcmds[] = $cmd;
+	config_set_path('system/shellcmd', $system_shellcmds);
+}
+write_config('Register EasyTier startup shellcmd');
 PHP
 fi
 

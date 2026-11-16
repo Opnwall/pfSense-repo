@@ -23,7 +23,7 @@ sing-box это мощная и производительная открыта�
 
 ## Бинарный файл
 
-Проект использует статический бинарный файл от [Vincent-Loeng](https://github.com/Vincent-Loeng/bsd-box). Стандартный путь к локальному файлу:
+Проект использует статический бинарный файл от [Opnwall](https://github.com/Opnwall/freebsd-sing-box). Стандартный путь к локальному файлу:
 
 ```text
 bin/bsd-box-freebsd-amd64.xz
@@ -32,7 +32,7 @@ bin/bsd-box-freebsd-amd64.xz
 Скрипт сборки сначала использует локальный файл `src/usr/local/bin/bsd-box-freebsd-amd64.xz`. Если файл отсутствует, он скачивает его с GitHub:
 
 ```text
-https://github.com/Vincent-Loeng/bsd-box/releases/latest/download/bsd-box-freebsd-amd64.xz
+https://github.com/Opnwall/freebsd-sing-box/releases/latest/download/bsd-box-freebsd-amd64.xz
 ```
 
 ## Примечания

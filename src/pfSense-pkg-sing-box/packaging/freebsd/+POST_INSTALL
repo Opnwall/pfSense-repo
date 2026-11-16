@@ -103,7 +103,15 @@ if (file_exists('/usr/local/pkg/shellcmd.inc')) {
         shellcmd_sync_package();
     }
 } else {
-    config_set_path('system/shellcmd', [$cmd]);
+    $system_shellcmds = config_get_path('system/shellcmd', []);
+    if (!is_array($system_shellcmds)) {
+        $system_shellcmds = [];
+    }
+    $system_shellcmds = array_values(array_filter($system_shellcmds, function($entry) use ($cmd, $old_cmd) {
+        return $entry !== $cmd && $entry !== $old_cmd;
+    }));
+    $system_shellcmds[] = $cmd;
+    config_set_path('system/shellcmd', $system_shellcmds);
 }
 
 write_config('Register sing-box startup shellcmd');

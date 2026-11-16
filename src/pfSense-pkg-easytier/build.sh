@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-easytier}"
-VERSION="${VERSION:-1.0.4}"
+VERSION="${VERSION:-1.0.5}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-easytier}"
 COMMENT="${COMMENT:-EasyTier mesh VPN integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"
@@ -38,6 +38,7 @@ for file in \
 	src/usr/local/pkg/easytier.xml \
 	src/usr/local/sbin/easytier-core \
 	src/usr/local/sbin/easytier-cli \
+	src/usr/local/sbin/easytier-sing-box-routes \
 	src/usr/local/share/pfSense-pkg-easytier/config.toml.sample \
 	src/usr/local/share/pfSense-pkg-easytier/info.xml \
 	src/usr/local/share/locale/zh_CN/LC_MESSAGES/pfSense-pkg-easytier.mo \
@@ -53,6 +54,7 @@ chmod 0644 "$STAGEDIR/etc/rc.conf.d/easytier"
 chmod 0755 "$STAGEDIR/usr/local/etc/rc.d/easytier" \
 	"$STAGEDIR/usr/local/sbin/easytier-core" \
 	"$STAGEDIR/usr/local/sbin/easytier-cli"
+chmod 0755 "$STAGEDIR/usr/local/sbin/easytier-sing-box-routes"
 
 find "$STAGEDIR" -type f | sed "s#^$STAGEDIR##" | sort > "$PLIST"
 FLATSIZE=0
