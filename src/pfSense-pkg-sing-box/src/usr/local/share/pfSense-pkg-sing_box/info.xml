@@ -3,7 +3,7 @@
   <package>
     <name>sing_box</name>
     <descr><![CDATA[sing-box proxy integration for pfSense.]]></descr>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <configurationfile>sing_box.xml</configurationfile>
   </package>
 </pfsensepkgs>

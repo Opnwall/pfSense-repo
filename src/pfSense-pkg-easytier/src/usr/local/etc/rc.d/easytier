@@ -38,12 +38,6 @@ easytier_poststart()
 		sleep 1
 		count=$((count + 1))
 	done
-	# On cold boot sing-box's bypass FIB may not exist yet. The helper skips it
-	# until sing-box starts, and also restores it after an EasyTier restart.
-	if ! /usr/local/sbin/easytier-sing-box-routes; then
-		easytier_reload_filter
-		return 1
-	fi
 	easytier_reload_filter
 }
 

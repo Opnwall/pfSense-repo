@@ -2,7 +2,7 @@
 set -eu
 
 PKG_NAME="${PKG_NAME:-pfSense-pkg-sing-box}"
-VERSION="${VERSION:-1.0.3}"
+VERSION="${VERSION:-1.0.4}"
 ORIGIN="${ORIGIN:-net/pfSense-pkg-sing-box}"
 COMMENT="${COMMENT:-sing-box proxy integration for pfSense}"
 MAINTAINER="${MAINTAINER:-https://github.com/Opnwall/}"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # PROVIDE: sing_box
-# REQUIRE: NETWORKING routing easytier
+# REQUIRE: NETWORKING routing
 # KEYWORD: shutdown
 
 . /etc/rc.subr
@@ -70,17 +70,6 @@ sing_box_prestart()
         log_message "sing-box config check failed before startup: ${sing_box_config}"
         return 1
     fi
-
-    # pfSense shellcmd startup does not necessarily follow rcorder.
-    # EasyTier remains optional; do not start a disabled service.
-    if /usr/sbin/service -e | grep -qx '/usr/local/etc/rc.d/easytier'; then
-        if ! /usr/sbin/service easytier status >/dev/null 2>&1; then
-            if ! /usr/sbin/service easytier start >> "$log_file" 2>&1; then
-                log_message "Failed to start EasyTier before sing-box."
-                return 1
-            fi
-        fi
-    fi
 }
 
 sing_box_status()
@@ -119,15 +108,6 @@ sing_box_start()
     fi
 
     if sing_box_wait_for_tun; then
-        # The bypass FIB is created by sing-box; restore routes after TUN startup.
-        if /sbin/ifconfig easytier0 >/dev/null 2>&1 &&
-            [ -x /usr/local/sbin/easytier-sing-box-routes ]; then
-            if ! /usr/local/sbin/easytier-sing-box-routes; then
-                log_message "Failed to restore EasyTier routes in the sing-box bypass FIB."
-                sing_box_reload_filter
-                return 1
-            fi
-        fi
         log_message "tun_singbox detected, reloading filter rules."
         sing_box_reload_filter
     else

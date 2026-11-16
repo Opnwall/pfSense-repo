@@ -1,5 +1,5 @@
 PKG_NAME?=pfSense-pkg-easytier
-VERSION?=1.0.5
+VERSION?=1.0.6
 
 .PHONY: package clean
 
