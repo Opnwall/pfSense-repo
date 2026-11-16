@@ -63,7 +63,7 @@ pkg install pfSense-pkg-community-repo
 | `pfSense-pkg-lantest` | 1.0.2 | 局域网测速工具 |
 | `pfSense-pkg-lucky` | 1.0.2 | Lucky 网络工具箱 |
 | `pfSense-pkg-mihomo` | 1.0.2 | Mihomo 代理集成 |
-| `pfSense-pkg-sing-box` | 1.0.4 | sing-box 代理集成 |
+| `pfSense-pkg-sing-box` | 1.0.5 | sing-box 代理集成 |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest 互联网测速工具 |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd 网页终端 |
 | `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier 组网 VPN |

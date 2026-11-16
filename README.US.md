@@ -74,7 +74,7 @@ automatically reapplied at boot after pfSense upgrades.
 | `pfSense-pkg-lantest` | 1.0.2 | LAN speed test |
 | `pfSense-pkg-lucky` | 1.0.2 | Lucky network toolbox |
 | `pfSense-pkg-mihomo` | 1.0.2 | Mihomo integration |
-| `pfSense-pkg-sing-box` | 1.0.4 | sing-box integration |
+| `pfSense-pkg-sing-box` | 1.0.5 | sing-box integration |
 | `pfSense-pkg-speedtest` | 1.0.2 | Speedtest internet speed test |
 | `pfSense-pkg-ttyd` | 1.0.4 | ttyd web terminal |
 | `pfSense-pkg-zerotier` | 1.16.2_3 | ZeroTier mesh VPN |

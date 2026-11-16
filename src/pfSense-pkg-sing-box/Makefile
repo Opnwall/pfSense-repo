@@ -1,5 +1,5 @@
 PKG_NAME?=	pfSense-pkg-sing-box
-VERSION?=	1.0.4
+VERSION?=	1.0.5
 ABI?=		universal
 
 .PHONY: package clean
